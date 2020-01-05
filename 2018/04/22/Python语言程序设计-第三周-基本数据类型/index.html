@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+    <meta name="keywords" content="Hexo,John Doe">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>[Python语言程序设计]第三周 基本数据类型 · LINCHUAN的小站</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LINCHUAN的小站.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">[Python语言程序设计]第三周 基本数据类型</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LINCHUAN的小站.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(https://source.unsplash.com/1600x900/?code,computer,life)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            [Python语言程序设计]第三周 基本数据类型
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">2k</span>Reading time: <span class="post-count reading-time">8 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/04/22</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="辅学内容"><a href="#辅学内容" class="headerlink" title="辅学内容"></a>辅学内容</h2><h3 id="前课复习"><a href="#前课复习" class="headerlink" title="前课复习"></a>前课复习</h3><h4 id="Python基本语法元素"><a href="#Python基本语法元素" class="headerlink" title="Python基本语法元素"></a>Python基本语法元素</h4><ul>
+<li>缩进、注释、命名、变量、保留字</li>
+<li>数据类型、字符串、整数、浮点数、列表</li>
+<li>赋值语句、分支语句、函数</li>
+<li><code>input()</code>、<code>print()</code>、<code>eval()</code>、<code>print()</code>格式化</li>
+</ul>
+<h4 id="Python基本图形绘制"><a href="#Python基本图形绘制" class="headerlink" title="Python基本图形绘制"></a>Python基本图形绘制</h4><ul>
+<li>从计算机技术演进角度看待Python语言</li>
+<li>海龟绘图体系及<code>import</code>保留字用法</li>
+<li><code>penup()</code>、<code>pendown()</code>、<code>pensize()</code>、<code>pencolor()</code></li>
+<li><code>fd()</code>、<code>circle()</code>、<code>seth()</code></li>
+<li>循环语句：<code>for</code>和<code>in</code>、<code>range()</code>函数</li>
+</ul>
+<h4 id="保留字"><a href="#保留字" class="headerlink" title="保留字"></a>保留字</h4><table>
+<thead>
+<tr>
+<th align="center">保留字</th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">and</td>
+<td align="center">elif</td>
+<td align="center">import</td>
+<td align="center"><strong>raise</strong></td>
+<td align="center">global</td>
+</tr>
+<tr>
+<td align="center">as</td>
+<td align="center">else</td>
+<td align="center">in</td>
+<td align="center">return</td>
+<td align="center"><strong>nonlocal</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>assert</strong></td>
+<td align="center">except</td>
+<td align="center"><strong>is</strong></td>
+<td align="center">try</td>
+<td align="center">True</td>
+</tr>
+<tr>
+<td align="center">break</td>
+<td align="center">finally</td>
+<td align="center">lambda</td>
+<td align="center">while</td>
+<td align="center">False</td>
+</tr>
+<tr>
+<td align="center"><strong>class</strong></td>
+<td align="center">for</td>
+<td align="center">not</td>
+<td align="center"><strong>with</strong></td>
+<td align="center">None</td>
+</tr>
+<tr>
+<td align="center">continue</td>
+<td align="center">from</td>
+<td align="center">or</td>
+<td align="center"><strong>yield</strong></td>
+<td align="center">def</td>
+</tr>
+<tr>
+<td align="center">if</td>
+<td align="center">pass</td>
+<td align="center">del</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>* <em>其中<strong>加粗字体</strong>为课程不涉及保留字</em></p>
+<blockquote>
+<p>从上面看Python的保留字还比较多，而且课程需要记忆（26/32）个保留字，短时间着实有点困难。但是仔细观察后我们可以发现，其实Python保留字和C的主要关键字差不多，可以按照分类方法进行记忆：</p>
+<ul>
+<li>引入、声明：<code>import</code>、<code>from</code>、<code>def</code>、<code>global</code></li>
+<li>条件判断：<code>if</code>、<code>else</code>、<code>elif</code>、<code>for</code>、<code>while</code>、<code>break</code>、<code>continue</code></li>
+<li>布尔判断：<code>and</code>、<code>or</code>、<code>not</code>、<code>None</code>、<code>True</code>、<code>False</code></li>
+<li>异常捕获：<code>try</code>、<code>finally</code>、<code>except</code></li>
+<li>其他：<code>print</code>、<code>return</code>、<code>as</code>、<code>in</code>、<code>del</code>、<code>lambda</code><br>这样就可以很轻松记住所有的保留字了~</li>
+</ul>
+<p>另外，如果保留字忘了怎么办？别担心，在python命令行中输入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="keyword">import</span> keyword</span><br><span class="line">&gt;keyword.kwlist</span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">&gt;*参考：http:&#x2F;&#x2F;www.51testing.com&#x2F;html&#x2F;72&#x2F;502872-3709423.html* </span><br><span class="line"> </span><br><span class="line">#### 实例：温度转换</span><br><span class="line"></span><br><span class="line">#### 实例：蟒蛇绘制</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 本课概要</span><br><span class="line">#### 基本数据类型</span><br><span class="line">- 3.1 数字类型及操作</span><br><span class="line">- 3.2 实例3: 天天向上的力量</span><br><span class="line">- 3.3 字符串类型及操作</span><br><span class="line">- 3.4 模块2: time库的使用</span><br><span class="line">- 3.5 实例4: 文本进度条</span><br><span class="line"></span><br><span class="line">#### 方法论</span><br><span class="line">- Python语言数字及字符串类型</span><br><span class="line"></span><br><span class="line">#### 实践能力</span><br><span class="line">- 初步学会编程进行字符类操作</span><br><span class="line"></span><br><span class="line">### 练习与作业</span><br><span class="line">- 练习 (可选)</span><br><span class="line">	- 5道编程题 @Python123</span><br><span class="line">- 作业</span><br><span class="line">	- 15道单选题 @Python123</span><br><span class="line"></span><br><span class="line">## 数字类型及操作</span><br><span class="line">### 整数类型</span><br><span class="line">- 可正可负，没有取值范围限制</span><br><span class="line">- &#96;pow(x,y)&#96;函数：计算x&lt;sup&gt;y&lt;&#x2F;sup&gt;，想算多大算多大</span><br><span class="line">- 4种进制</span><br><span class="line">	- 十进制</span><br><span class="line">	- 二进制（&#96;0b&#96;或&#96;0B&#96;开头）</span><br><span class="line">	- 八进制（&#96;0o&#96;或&#96;0O&#96;开头）</span><br><span class="line">	- 十六进制（&#96;0x&#96;或&#96;OX&#96;开头）</span><br><span class="line"></span><br><span class="line">### 浮点数类型</span><br><span class="line">- 浮点数取值范围和小数精度都存在限制，但常规计算可忽略</span><br><span class="line">- 取值范围数据量级约-10&lt;sup&gt;308&lt;&#x2F;sup&gt;至10&lt;sup&gt;308&lt;&#x2F;sup&gt;，精度数据量级10&lt;sup&gt;-16&lt;&#x2F;sup&gt; </span><br><span class="line">- &#96;round(x,d)&#96;函数：对&#96;x&#96;四舍五入，&#96;d&#96;为小数截取位数</span><br><span class="line">	- 浮点数间运算比较用&#96;round()&#96;函数辅助</span><br><span class="line">	- 不确定尾数一般发生在10&lt;sup&gt;-16&lt;&#x2F;sup&gt;左右，&#96;round()&#96;十分有效</span><br><span class="line">- 用&#96;e&#96;或&#96;E&#96;作为幂的符号，以10为基数&#96;&lt;a&gt;e&lt;b&gt;&#96;，表示a\*10&lt;sup&gt;b&lt;&#x2F;sup&gt;</span><br><span class="line">**浮点数间运算存在不确定尾数，并不是BUG！**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 复数类型</span><br><span class="line">- &#96;a+bj&#96;称为复数，其中&#96;a&#96;是实部，&#96;b&#96;是虚部</span><br><span class="line"></span><br><span class="line">### 数值运算操作符</span><br><span class="line">- 基本操作有&#96;+&#96;、&#96;-&#96;、&#96;*&#96;、&#96;&#x2F;&#96;、&#96;&#x2F;&#x2F;&#96;（整数除）、&#96;%&#96;、&#96;**&#96;（幂运算）</span><br><span class="line">- 其他另有增强型运算，即x &#96;op&#96; &#x3D; y</span><br><span class="line">&gt;这里注意&#96;&#x2F;&#96;，与C语言（或其他语言）不同，Pyhton里的除并不意味着整除，当除不尽的时候，Python会依旧除下去并保留有小数点后的内容</span><br><span class="line"></span><br><span class="line">#### 数字类型的关系</span><br><span class="line">- 类型之间可以进行混合运算，结果生成为“最宽”类型</span><br><span class="line">	- 整型&lt;浮点型&lt;复数</span><br><span class="line"></span><br><span class="line">### 数值运算函数</span><br><span class="line">- &#96;abs(x)&#96;：绝对值</span><br><span class="line">- &#96;divmod(x,y)&#96;：商余（&#96;x&#x2F;&#x2F;y&#96;，&#96;x%y&#96;），同时输出商和余数</span><br><span class="line">- &#96;pow(x,y[, z])&#96;：幂余，x&lt;sup&gt;y&lt;&#x2F;sup&gt;%z</span><br><span class="line">- &#96;round(x[, d])&#96;：四舍五入，其中&#96;d&#96;是保留小数位数</span><br><span class="line">- &#96;max(x1,x2,...,xn)&#96;：最大值</span><br><span class="line">- &#96;min(x1,x2,...,xn)&#96;：最小值</span><br><span class="line">- &#96;int(x)&#96;：将&#96;x&#96;变成整数</span><br><span class="line">- &#96;float(x)&#96;：将&#96;x&#96;变成浮点数</span><br><span class="line">- &#96;complex(x)&#96;：将&#96;x&#96;变成复数，并增加虚数部分</span><br><span class="line"></span><br><span class="line">## 实例：天天向上</span><br><span class="line">### 1. 1‰的力量</span><br></pre></td></tr></table></figure>
+<p>#DayDayUpQ1.py<br>dayup = pow(1.001,365)<br>daydown = pow(0.999,365)<br>print(“向上:{:.2f}，向下：{:.2f}”.format(dayup,daydown))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![运行结果](http:&#x2F;&#x2F;wx3.sinaimg.cn&#x2F;mw690&#x2F;83f4f5acgy1fqlmcj1kwqj20m90bodgv.jpg)</span><br><span class="line"></span><br><span class="line">### 2. 5‰的力量</span><br></pre></td></tr></table></figure>
+<p>#DayDayUpQ2.py<br>dayfactor = 0.005<br>dayup = pow(1 + dayfactor, 365)<br>daydown = pow(1 - dayfactor,365)<br>print(“向上：{:.2f}，向下：{:.2f}”.format(dayup,daydown))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![运行结果](http:&#x2F;&#x2F;wx4.sinaimg.cn&#x2F;mw690&#x2F;83f4f5acgy1fqlmigmw20j20m90bowel.jpg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 3. 工作日的力量</span><br></pre></td></tr></table></figure>
+<p>#DayDayUpQ3.py<br>dayup = 1.0<br>dayfactor = 0.01<br>for i in range(365):<br>    if i % 7 in [6,0]:<br>        dayup = dayup<em>(1-dayfactor)<br>    else:<br>        dayup = dayup</em>(1+dayfactor)<br>print(“工作日的力量：{:.2f} “.format(dayup))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">## time库的使用</span><br><span class="line"></span><br><span class="line">time库是Python中处理时间的标准库，主要用于时间表达、提供获取系统时间并格式化输出的功能、系统级精确计时功能（用于程序性能分析）等。</span><br><span class="line"></span><br><span class="line">### 获取时间</span><br><span class="line"></span><br><span class="line">| 函数 | 描述 | 例子 | 结果 | 备注 |</span><br><span class="line">|:-:|:-:|:-:|:-:|:-:|</span><br><span class="line">| time() | 获取当前时间戳，即计算机内部时间值（浮点数） | time.time() | 1525005465.686246 |  |</span><br><span class="line">| ctime() | 获取当前时间并以易读方式表示（字符串） | time.ctime() | &#39;Sun Apr 29 20:39:50 2018&#39;| 程序员易理解 |</span><br><span class="line">| gmtime() | 获取当前时间，表示为计算机可处理的时间格式 | time.gmtime() | time.struct_time(tm_year&#x3D;2018, tm_mon&#x3D;4, tm_mday&#x3D;29, tm_hour&#x3D;12, tm_min&#x3D;41, tm_sec&#x3D;43, tm_wday&#x3D;6, tm_yday&#x3D;119, tm_isdst&#x3D;0) | 程序之间易用的格式 |</span><br><span class="line"></span><br><span class="line">### 时间格式化</span><br><span class="line">|函数|描述|例子|结果|备注|</span><br><span class="line">|:-:|:-:|:-:|:-|:-:|</span><br><span class="line">| strftime(tpl,ts) | tpl是格式化模板字符串，用来定义输出结果 &lt;br &#x2F;&gt; 	 ts是计算机内部时间类型变量 | t &#x3D; time.gmtime()  &lt;br &#x2F;&gt; time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;,t) | &#39;2018-04-29 12:46:34&#39; ||</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">| 格式化字符串| 日期&#x2F;事件说明|值范围和实例|</span><br><span class="line">|:-:|:-:|:-:|</span><br><span class="line">|%Y|年份|0000~9999，如：2018|</span><br><span class="line">|%m|月份|01~12，如：10|</span><br><span class="line">|%B|月份名称|January~December，例如：April|</span><br><span class="line">|%b|月份缩写|Jan~Dec，例如：Apr|</span><br><span class="line">|%d|日期|01~31，例如：25|</span><br><span class="line">|%A|星期|Monday~Sunday，例如：Wednesday|</span><br><span class="line">|%a|星期缩写|Mon~Sun，例如：Wed|</span><br><span class="line">|%H|小时(24时制)|00~23，例如:17|</span><br><span class="line">|%h|小时(12时制)|01~12，例如：05|</span><br><span class="line">|%p|上&#x2F;下午|AM&#x2F;PM|</span><br><span class="line">|%M|分钟|00~59，例如：26|</span><br><span class="line">|%S|秒钟|00~59，例如：23|</span><br><span class="line"></span><br><span class="line">### 程序计时应用</span><br><span class="line">程序计时主要包括测量时间&#96;perf_counter()&#96;和产生时间&#96;sleep()&#96;</span><br><span class="line"></span><br><span class="line">|函数|描述|例子|</span><br><span class="line">|:-:|:-:|:-:|</span><br><span class="line">|perf_counter()|返回一个CPU级别的精确时间计数值，由于计数起点不确定，所以连续使用差值才有意义|start&#x3D;perf_counter(); &lt;br &#x2F;&gt; end&#x3D;perf_counter(); &lt;br &#x2F;&gt; dur&#x3D;end-start;|</span><br><span class="line">|sleep(s)|s是拟休眠时间，单位秒|sleep(0.1)|</span><br><span class="line"></span><br><span class="line">## 实例4：文本进度条</span><br><span class="line"></span><br><span class="line">### 简单开始</span><br></pre></td></tr></table></figure>
+<h1 id="TextProBarV1-py"><a href="#TextProBarV1-py" class="headerlink" title="TextProBarV1.py"></a>TextProBarV1.py</h1><p>import time</p>
+<p>scale = 10<br>print(“——执行开始——“)    # 这步显得有些繁琐，可以进行简化<br>for i in range(scale + 1):    # 从0~11循环展示进度条内容<br>    a = ‘*’ * i<br>    b = ‘.’ * (scale - i)<br>    c = (i / scale) * 100<br>    print(“\r{:^5.0f}%[{}-&gt;{}]”.format(c, a, b))    # 字符串相关格式（居中，5个字符宽度）<br>    time.sleep(0.1)    # 代码休眠0.1秒<br>print(“——执行结束——“)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">执行结果：</span><br></pre></td></tr></table></figure>
+<p>——执行开始——<br>  0  %[-&gt;……….]<br> 10  %[<em>-&gt;………]<br> 20  %[*</em>-&gt;……..]<br> 30  %[<strong><em>-&gt;…….]<br> 40  %[*</em></strong>-&gt;……]<br> 50  %[<strong><strong><em>-&gt;…..]<br> 60  %[*</em></strong></strong>-&gt;….]<br> 70  %[<strong>***</strong>-&gt;…]<br> 80  %[<strong>****</strong>-&gt;..]<br> 90  %[<strong>*****</strong>-&gt;.]<br> 100 %[<strong><strong>**</strong></strong>-&gt;]<br>——执行结束——</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### 完整效果</span><br></pre></td></tr></table></figure>
+<h1 id="3-5-TextProBarV3-py"><a href="#3-5-TextProBarV3-py" class="headerlink" title="3.5_TextProBarV3.py"></a>3.5_TextProBarV3.py</h1><p>import time</p>
+<p>scale = 50<br>print(“执行开始”.center(scale // 2, “-“))    # 使用字符串.center()方法<br>start = time.perf_counter()    # 增加计时效果<br>for i in range(scale + 1):<br>    a = ‘*’ * i<br>    b = ‘.’ * (scale - i)<br>    c = (i / scale) * 100<br>    dur = time.perf_counter() - start     # 需要打印的计时时间<br>    print(“\r{:^3.0f}%[{}-&gt;{}]{:.2f}s”.format(c, a, b, dur), end=’’)    # 字符串各种处理<br>    time.sleep(0.1)<br>print(“\n” + “执行结束”.center(scale // 2, ‘-‘))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">执行结果（最终结果）：</span><br></pre></td></tr></table></figure>
+<p>———–执行开始———-<br>100%[<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>**</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>-&gt;]5.02s<br>———–执行结束———-</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;最终的这段代码包含了字符串、时间处理的各种操作和方法，需要熟练掌握</span><br></pre></td></tr></table></figure>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author：<a href="http://yoursite.com">John Doe</a>
+            <p>原文链接：<a href="http://yoursite.com/2018/04/22/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%B8%89%E5%91%A8-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">http://yoursite.com/2018/04/22/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%B8%89%E5%91%A8-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</a>
+            <p>发表日期：<a href="http://yoursite.com/2018/04/22/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%B8%89%E5%91%A8-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">April 22nd 2018, 12:13:45 pm</a>
+            <p>更新日期：<a href="http://yoursite.com/2018/04/22/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%B8%89%E5%91%A8-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">June 6th 2019, 8:05:26 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/04/29/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E5%9B%9B%E5%91%A8-%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84/" title= "[Python语言程序设计]第四周 程序的控制结构">
+                    <div class="nextTitle">[Python语言程序设计]第四周 程序的控制结构</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/04/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F-%E4%B8%8A-3-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title= "[数据库系统(上)]3 关系模型之基本概念">
+                    <div class="prevTitle">[数据库系统(上)]3 关系模型之基本概念</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "rcTae3HDjSoU8X1RxEqcQrth-gzGzoHsz",
+        appKey: "MFmtjlCFH50j13w9X4SUPBVE",
+        placeholder: "",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:llc_1995@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#辅学内容"><span class="toc-number">1.</span> <span class="toc-text">辅学内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前课复习"><span class="toc-number">1.1.</span> <span class="toc-text">前课复习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Python基本语法元素"><span class="toc-number">1.1.1.</span> <span class="toc-text">Python基本语法元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python基本图形绘制"><span class="toc-number">1.1.2.</span> <span class="toc-text">Python基本图形绘制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#保留字"><span class="toc-number">1.1.3.</span> <span class="toc-text">保留字</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TextProBarV1-py"><span class="toc-number"></span> <span class="toc-text">TextProBarV1.py</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-5-TextProBarV3-py"><span class="toc-number"></span> <span class="toc-text">3.5_TextProBarV3.py</span></a>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 75
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/05</span><a class="archive-post-title" href= "/2020/01/05/Pandas-API-DataFrame-%E7%94%A8%E6%B3%95/" >Pandas-API-DataFrame-用法</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2019/07/13/Anaconda%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83/" >Anaconda下配置多版本环境</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2019/07/13/Linux%E4%B8%8B%E5%AE%89%E8%A3%85oh-my-zsh/" >Linux下安装oh-my-zsh</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span><a class="archive-post-title" href= "/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/" >理解NLP中的卷积神经网络(CNN)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span><a class="archive-post-title" href= "/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/" >[TensorFlow API]tf.placeholder()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/gensim-API-word2vec%E7%94%A8%E6%B3%95/" >[gensim API]word2vec用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/Pandas-API-replace-%E7%94%A8%E6%B3%95/" >[Pandas API]replace()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/Python-API-split-%E7%94%A8%E6%B3%95/" >[Python API]split()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/Python-API-strip-%E7%94%A8%E6%B3%95/" >[Python API]strip()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href= "/2019/06/09/NLP%E5%88%9D%E5%AD%A6%E8%80%85%E5%A6%82%E4%BD%95%E6%9F%A5%E9%98%85%E5%AD%A6%E6%9C%AF%E8%B5%84%E6%96%99/" >NLP初学者如何查阅学术资料</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/" >论文的粗略想法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2019/01/14/%E6%9E%97%E8%BD%A9%E7%94%B0-%E7%AC%AC%E4%B8%80%E5%91%A8/" >[林轩田]第一周</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2018/10/10/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC3%E7%AB%A0-%E5%9F%BA%E6%9C%AC%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" >[Python3网络爬虫开发实战]第3章 基本库的使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2018/10/09/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC2%E7%AB%A0-%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/" >[Python3网络爬虫开发实战]第2章 爬虫基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E4%BD%A0%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%97%AE%E9%A2%98/" >如何定义你的机器学习问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2018/09/28/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AB%A0%E8%8A%821%EF%BC%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" >[Python3网络爬虫开发实战]章节1：环境配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2018/09/28/MongoDB%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" >MongoDB安装及配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2018/09/28/Redis%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" >Redis安装及配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/%E4%B8%BAHexo%E6%B7%BB%E5%8A%A0Latex%E6%94%AF%E6%8C%81/" >为Hexo添加Latex支持</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B-%E6%8E%A8%E5%AF%BC%E7%AC%94%E8%AE%B0/" >[机器学习]第三章 线性模型-推导笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2018/07/12/Coursera-CS229-week02-Notes/" >[Coursera CS229]week02 Notes</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2018/07/11/Python-Crash-Course-%E9%A1%B9%E7%9B%AE3%EF%BC%9AWeb%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" >[Python Crash Course]项目3：Web应用程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2018/07/11/CS229-Lecture-Notes-Support-Vector-Machines-1/" >[CS229]Lecture Notes: Support Vector Machines</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/10</span><a class="archive-post-title" href= "/2018/07/10/Quickstart-document-about-Python-Matplotlib-module/" >Quickstart document about Python Matplotlib module</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/05</span><a class="archive-post-title" href= "/2018/07/05/Qiuckstart-document-about-Python-Pygal-module/" >Qiuckstart document about Python Pygal module</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span><a class="archive-post-title" href= "/2018/07/04/Quickstart-document-about-Python-requests-module/" >Quickstart document about Python requests module</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2018/07/02/CS229-Lecture-Notes-Support-Vector-Machines/" >[CS229]Lecture Notes: Support Vector Machines</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span><a class="archive-post-title" href= "/2018/06/25/MATLAB%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-%E7%AC%AC%E4%B8%80%E7%AB%A0-MATLAB%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" >[MATLAB数学建模]第一章 MATLAB基础知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/03</span><a class="archive-post-title" href= "/2018/06/03/Machine-Learning-Week-02/" >[Machine Learning]Week 02</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/03</span><a class="archive-post-title" href= "/2018/06/03/Matlab%E6%95%99%E5%AD%A6-02-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B8%8E%E7%9F%A9%E9%98%B5%E8%BE%93%E5%85%A5/" >[Matlab教学]02 基本操作与矩阵输入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2018/05/29/LaTeX-%E7%AC%AC2%E7%AB%A0-%E7%BB%84%E7%BB%87%E4%BD%A0%E7%9A%84%E6%96%87%E6%9C%AC/" >[LaTeX]第2章 组织你的文本</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2018/05/28/CS229-Lecture-Notes-Supervised-Learning/" >[CS229]Lecture Notes: Supervised Learning</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/LaTeX-%E7%AC%AC1%E7%AB%A0-%E7%86%9F%E6%82%89LaTeX/" >[LaTeX]第1章 熟悉LaTeX</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/LaTeX%E5%85%A5%E9%97%A8-%E5%89%8D%E8%A8%80/" >[LaTeX]前言</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/CS229-Problem-Set-1-Supervised-Learning/" >[CS229]Problem Set #1: Supervised Learning</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2018/05/01/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%94%E5%91%A8-%E5%87%BD%E6%95%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%94%A8/" >[Python语言程序设计]第五周 函数和代码复用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href= "/2018/04/29/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E5%9B%9B%E5%91%A8-%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84/" >[Python语言程序设计]第四周 程序的控制结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2018/04/22/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%B8%89%E5%91%A8-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" >[Python语言程序设计]第三周 基本数据类型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span><a class="archive-post-title" href= "/2018/04/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F-%E4%B8%8A-3-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" >[数据库系统(上)]3 关系模型之基本概念</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span><a class="archive-post-title" href= "/2018/04/13/Linux-Ubuntu%E9%95%BF%E6%9C%9F%E6%B1%87%E6%80%BB%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" >[Linux]Ubuntu长期汇总问题及解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2018/04/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84%E6%8A%BD%E8%B1%A1%E4%B8%8E%E6%BC%94%E5%8F%98/" >数据库系统的结构抽象与演变</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2018/04/07/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A-23-%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/" >SQL必知必会-23.使用存储过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E9%9D%A2%E8%AF%95%E7%9A%84%E6%B5%81%E7%A8%8B/" >第一章 面试的流程</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2017/10/16/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9411%E7%BB%9F%E8%AE%A1%E5%AD%97%E7%AC%A6/" >[考研]东大C语言编程题——11统计字符</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href= "/2017/09/20/%E8%80%83%E7%A0%94-2018%E5%A4%A7%E7%BA%B2%E8%A7%A3%E6%9E%90%E6%B1%87%E6%80%BB/" >[考研]2018大纲解析汇总</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9405%E5%BC%B9%E7%90%83%E9%AB%98%E5%BA%A6/" >[考研]东大C语言编程题——05弹球高度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9406%E6%AF%94%E8%B5%9B%E5%90%8D%E5%8D%95/" >[考研]东大C语言编程题——06比赛名单</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9401%E5%88%A4%E6%96%AD%E7%B4%A0%E6%95%B0/" >[考研]东大C语言编程题——01判断素数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9403%E6%B0%B4%E4%BB%99%E8%8A%B1%E6%95%B0/" >[考研]东大C语言编程题——03水仙花数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9402%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/" >[考研]东大C语言编程题——02最大公约数和最小公倍数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9404%E5%AE%8C%E6%95%B0/" >[考研]东大C语言编程题——04完数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2017/02/14/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-2%E6%9C%8814%E6%97%A5%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/" >[毕设项目]2月14日记录日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2017/02/09/grub2%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC/" >grub2修复引导</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2017/02/07/%E5%85%B3%E4%BA%8EGit%E8%AE%BE%E7%BD%AEssh-key%E7%9A%84%E6%AD%A5%E9%AA%A4/" >关于Git设置ssh key的步骤</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2017/01/22/5%E3%80%81Javascript%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89-JS%E8%AF%AD%E6%B3%95%E3%80%81%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E3%80%81BOM%E6%A8%A1%E5%9E%8B%E3%80%81DOM%E6%A8%A1%E5%9E%8B%E3%80%81%E4%BA%8B%E4%BB%B6%E7%BC%96%E7%A8%8B/" >5、Javascript（重点） JS语法、内置对象、BOM模型、DOM模型、事件编程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2017/01/12/ThinkPHP-ThinkPHP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" >[ThinkPHP]ThinkPHP 学习笔记（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2017/01/11/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E4%BD%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E4%BA%9BVagrant%E5%91%BD%E4%BB%A4/" >[毕设项目]你所需要知道的一些Vagrant命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2017/01/11/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-Windows%E4%B8%8ALaravel-Homestead%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" >[毕设项目]Windows上Laravel Homestead的安装与配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href= "/2017/01/09/1%E3%80%81HTML%EF%BC%88%E6%8E%8C%E6%8F%A1%EF%BC%89web%E7%AE%80%E4%BB%8B%E3%80%81HTML%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3/" >1、HTML（掌握）web简介、HTML标签详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2017/01/04/%E9%A5%A5%E8%8D%92-How-to-setup-dedicated-server-on-Linux/" >[饥荒]How to setup dedicated server on Linux?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2017/01/03/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%A4%A9%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" >[毕设项目]第三天工作记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/02</span><a class="archive-post-title" href= "/2017/01/02/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%80%E5%A4%A9%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" >[毕设项目]第一天工作记录</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2016/07/14/%E5%85%B3%E4%BA%8EEclipse%E9%85%8D%E7%BD%AEJava-Web%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" >关于Eclipse配置Java Web相关操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2016/07/12/PAT%E7%94%B2%E7%BA%A7-1008-Elevator-20-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1008. Elevator (20)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2016/07/11/PAT%E7%94%B2%E7%BA%A7-1006-Sign-In-and-Sign-Out-25-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1006. Sign In and Sign Out (25)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2016/07/11/PAT%E7%94%B2%E7%BA%A7-1005-Spell-It-Right-20-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1005. Spell It Right (20)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href= "/2016/07/09/PAT%E7%94%B2%E7%BA%A7-1001-A-B-Format-20-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1001. A+B Format (20)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2016/07/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC2%E7%AB%A0-%E7%BA%BF%E6%80%A7%E8%A1%A8/" >[数据结构高分笔记]第2章 线性表</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2016/07/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC3%E7%AB%A0-%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%95%B0%E7%BB%84/" >[数据结构高分笔记]第3章 栈、队列和数组</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2016/07/01/Linux%E9%A9%B1%E5%8A%A8%E7%BC%96%E7%A8%8B-%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%B8%80%EF%BC%89/" >[Linux驱动编程]实验（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2016/07/01/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E5%85%B3%E4%BA%8EFA%E7%9A%84%E9%87%8D%E7%82%B9%E8%A7%A3%E6%9E%90/" >词法分析——关于FA的重点解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2016/05/30/2016-5-30%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/" >2016.5.30记录日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2016/05/30/Laravel%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" >Laravel安装与配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2016/05/01/VM%E5%AE%89%E8%A3%85Mac-10-11/" >VM安装Mac 10.11</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2016/03/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC1%E7%AB%A0-%E7%BB%AA%E8%AE%BA/" >[数据结构高分笔记]第1章 绪论</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="anaconda"><span class="iconfont-archer">&#xe606;</span>anaconda</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="api"><span class="iconfont-archer">&#xe606;</span>api</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="网页入门"><span class="iconfont-archer">&#xe60a;</span>网页入门</span>
+    
+        <span class="sidebar-category-name" data-categories="Python3网络爬虫开发实战"><span class="iconfont-archer">&#xe60a;</span>Python3网络爬虫开发实战</span>
+    
+        <span class="sidebar-category-name" data-categories="Python语言程序设计"><span class="iconfont-archer">&#xe60a;</span>Python语言程序设计</span>
+    
+        <span class="sidebar-category-name" data-categories="毕业设计"><span class="iconfont-archer">&#xe60a;</span>毕业设计</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "John Doe"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

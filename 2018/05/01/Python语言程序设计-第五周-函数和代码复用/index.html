@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+    <meta name="keywords" content="Hexo,John Doe">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>[Python语言程序设计]第五周 函数和代码复用 · LINCHUAN的小站</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >LINCHUAN的小站.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">[Python语言程序设计]第五周 函数和代码复用</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>LINCHUAN的小站.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(https://source.unsplash.com/1600x900/?code,computer,life)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            [Python语言程序设计]第五周 函数和代码复用
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">2.3k</span>Reading time: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/05/01</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="辅学内容"><a href="#辅学内容" class="headerlink" title="辅学内容"></a>辅学内容</h2><h3 id="前课提要"><a href="#前课提要" class="headerlink" title="前课提要"></a>前课提要</h3><ol>
+<li>数字类型及操作</li>
+</ol>
+<ul>
+<li>整数类型的无限范围及4种进制表示</li>
+<li>浮点数类型的近似无限范围、小尾数及科学计数法</li>
+<li>+、-、*、/、//、%、**、二元增强赋值操作符</li>
+<li>abs()、divmod()、pow()、round()、max()、min()</li>
+<li>int()、float()、complex()</li>
+<li>实例：天天向上的力量</li>
+</ul>
+<ol start="2">
+<li>字符串类型及操作<br>正向递增序号、反向递减序号、&lt;字符串&gt;[M:N:K]</li>
+</ol>
+<ul>
+<li>+、*、len()、str()、hex()、oct()、ord()、chr()</li>
+<li>.lower()、.upper()、.split()、.count()、.replace()</li>
+<li>.center()、.strip()、.join(）、.format()格式化</li>
+<li>实例：文本进度条</li>
+</ul>
+<ol start="3">
+<li>程序的分支结构</li>
+</ol>
+<ul>
+<li>单分支 if 二分支 if-else 及紧凑形式</li>
+<li>多分支 if-elif-else 及条件之间关系</li>
+<li>not and or &gt; &gt;= == &lt;= &lt; !=</li>
+<li>异常处理 try-except-else-finally</li>
+<li>实例：BMI指数</li>
+</ul>
+<ol start="4">
+<li>程序的循环结构</li>
+</ol>
+<ul>
+<li>for…in 遍历循环: 计数、字符串、列表、文件…</li>
+<li>while无限循环</li>
+<li>continue和break保留字: 退出当前循环层次</li>
+<li>循环else的高级用法: 与break有关</li>
+<li>实例：Π的求值方法</li>
+</ul>
+<h3 id="本课概要"><a href="#本课概要" class="headerlink" title="本课概要"></a>本课概要</h3><ul>
+<li>5.1 函数的定义与使用</li>
+<li>5.2 实例7: 七段数码管绘制</li>
+<li>5.3 代码复用与函数递归</li>
+<li>5.4 模块4: PyInstaller库的使用</li>
+<li>5.5 实例8: 科赫雪花小包裹</li>
+</ul>
+<h2 id="函数的定义与使用"><a href="#函数的定义与使用" class="headerlink" title="函数的定义与使用"></a>函数的定义与使用</h2><h3 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h3><p>函数是一段代码的表示</p>
+<ul>
+<li>一段具有特定功能的、可重用的语句组</li>
+<li>一种功能的抽象、一般函数表达特定功能</li>
+<li>两个作用：<ul>
+<li>降低编程难度</li>
+<li>代码复用</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def &lt;函数名&gt;(&lt;非可选参数,可选参数&gt;):</span><br><span class="line">	&lt;函数体&gt;</span><br><span class="line">	return &lt;返回值&gt;</span><br></pre></td></tr></table></figure>
+
+<p>IPO模型</p>
+<ul>
+<li>函数定义时，所指定的参数是一种占位符</li>
+<li>函数顶以后，如果不经过调用，就不会被执行</li>
+<li>函数定义时，参数是输入、函数体是处理、姐u共是输出</li>
+</ul>
+<h3 id="函数的调用"><a href="#函数的调用" class="headerlink" title="函数的调用"></a>函数的调用</h3><h3 id="参数个数"><a href="#参数个数" class="headerlink" title="参数个数"></a>参数个数</h3><p>函数参数可以有无数个，但是括号必须有，并且非可选参数必须要在可选参数之前。</p>
+<h3 id="可变参数传递"><a href="#可变参数传递" class="headerlink" title="可变参数传递"></a>可变参数传递</h3><p>计算n!乘数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def fact(n, *b):	# b为可选参数</span><br><span class="line">	s&#x3D;1</span><br><span class="line">	for i in range(1,n+1):</span><br><span class="line">		s *&#x3D; i </span><br><span class="line">	for item in b:</span><br><span class="line">		s *&#x3D; item</span><br><span class="line">	return s</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数传递的两种方式"><a href="#参数传递的两种方式" class="headerlink" title="参数传递的两种方式"></a>参数传递的两种方式</h3><p>函数调用时，参数可以按照位置或名称方式传递</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def fact(n,m-1):</span><br><span class="line">	s &#x3D; 1</span><br><span class="line">	for i in range(1,n+1):</span><br><span class="line">		s *&#x3D; i</span><br><span class="line">	return s&#x2F;&#x2F;m</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;fact(10,5) # 位置传递</span><br><span class="line">&gt;&gt;&gt;fact(n&#x3D;10,m&#x3D;5)	# 名称传递</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数的返回值"><a href="#函数的返回值" class="headerlink" title="函数的返回值"></a>函数的返回值</h3><p>函数可以放回0个或多个返回值</p>
+<ul>
+<li>return保留字用来传递返回值</li>
+<li>函数可以有返回值，也可以没有</li>
+<li>可以有return，也可以没有</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def fact(n,m&#x3D;1)：</span><br><span class="line">	s &#x3D; 1</span><br><span class="line">	for i in range(1, n+1):</span><br><span class="line">		s *&#x3D;i</span><br><span class="line">	return s&#x2F;&#x2F;m,n,m</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;fact(10,5) # 返回元组类型</span><br></pre></td></tr></table></figure>
+
+<h3 id="局部变量和全局变量"><a href="#局部变量和全局变量" class="headerlink" title="局部变量和全局变量"></a>局部变量和全局变量</h3><ol>
+<li>局部变量和全局变量是不同的变量</li>
+</ol>
+<ul>
+<li>局部变量是函数内部的占位符，与全局变量可能重名但不同</li>
+<li>函数运算结束后，局部变量被释放</li>
+<li>可以使用<code>global</code>保留字在函数内部使用全局变量</li>
+</ul>
+<ol start="2">
+<li>局部变量为组合数据类型且未创建，等同于全局变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ls&#x3D;[&quot;F&quot;,&quot;f&quot;]</span><br><span class="line">def func(a):</span><br><span class="line">	ls.append(a)</span><br><span class="line">	return</span><br><span class="line">func(&quot;C&quot;)</span><br><span class="line">print(ls)		# 打印结果：[&quot;F&quot;,&quot;f&quot;,&quot;C&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ls&#x3D;[&quot;F&quot;,&quot;f&quot;]</span><br><span class="line">def func(a):</span><br><span class="line">	ls &#x3D; []</span><br><span class="line">	ls.append(a)</span><br><span class="line">	return</span><br><span class="line">func(&quot;C&quot;)</span><br><span class="line">print(ls)	# 打印结果：[&quot;F&quot;,&quot;f&quot;]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>*<em>简单理解，python中使用的是指针指向并改变局部变量的</em></p>
+<h3 id="lambda函数"><a href="#lambda函数" class="headerlink" title="lambda函数"></a>lambda函数</h3><p>lambda函数返回函数名作为结果</p>
+<ul>
+<li>lambda函数是一种匿名函数，即没有名字的函数</li>
+<li>使用<code>lambda</code>保留字定义，函数名是返回结果</li>
+<li>lambda函数用于定义简单的、能够一行内表示的函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;函数名&gt; &#x3D; lambda &lt;参数&gt;：&lt;表达式&gt;</span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def &lt;函数名&gt;(&lt;参数&gt;):</span><br><span class="line">	&lt;函数体&gt;</span><br><span class="line">	return &lt;返回值&gt;</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f &#x3D; lambda x,y : x+y</span><br><span class="line">f(10,15)	# 结果为25</span><br></pre></td></tr></table></figure>
+
+<p><em>谨慎使用lambda函数</em></p>
+<ul>
+<li>lambda函数主要用作一些特定函数或方法的参数</li>
+<li>lambda函数有一些固定使用方式，建议逐步掌握</li>
+<li>一般情况下建议使用<code>def</code>定义的普通函数</li>
+</ul>
+<h2 id="实例7：七段数码管绘制"><a href="#实例7：七段数码管绘制" class="headerlink" title="实例7：七段数码管绘制"></a>实例7：七段数码管绘制</h2><h3 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h3><ol>
+<li>绘制单个数字对应的数码管</li>
+<li>获得一串数字，绘制对应的数码管</li>
+<li>获得当前时间，绘制对应的数码管</li>
+</ol>
+<p>以下是代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">import turtle</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 绘制数码管间隔</span><br><span class="line">def drawGap():</span><br><span class="line">    turtle.penup()</span><br><span class="line">    turtle.fd(5)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 绘制单段数码管</span><br><span class="line">def drawLine(draw):</span><br><span class="line">    drawGap()</span><br><span class="line">    turtle.pendown() if draw else turtle.penup()</span><br><span class="line">    turtle.fd(40)</span><br><span class="line">    turtle.right(90)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 根据数字绘制数码管</span><br><span class="line">def drawDigit(digit):</span><br><span class="line">    drawGap()</span><br><span class="line">    drawLine(True) if digit in [2, 3, 4, 5, 6, 8, 9] else drawLine(False)</span><br><span class="line">    drawLine(True) if digit in [0, 1, 3, 4, 5, 6, 7, 8, 9] else drawLine(False)</span><br><span class="line">    drawLine(True) if digit in [0, 2, 3, 5, 6, 8, 9] else drawLine(False)</span><br><span class="line">    drawLine(True) if digit in [0, 2, 6, 8] else drawLine(False)</span><br><span class="line">    turtle.left(90)</span><br><span class="line">    drawLine(True) if digit in [0, 4, 5, 6, 8, 9] else drawLine(False)</span><br><span class="line">    drawLine(True) if digit in [0, 2, 3, 5, 6, 7, 8, 9] else drawLine(False)</span><br><span class="line">    drawLine(True) if digit in [0, 1, 2, 3, 4, 7, 8, 9] else drawLine(False)</span><br><span class="line">    turtle.left(180)</span><br><span class="line">    turtle.penup()</span><br><span class="line">    turtle.fd(20)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def drawDate(date):</span><br><span class="line">    turtle.pencolor(&quot;red&quot;)</span><br><span class="line">    for i in date:</span><br><span class="line">        if i &#x3D;&#x3D; &#39;-&#39;:</span><br><span class="line">            turtle.write(&quot;年&quot;, font&#x3D;(&#39;Arial&#39;, 18, &#39;normal&#39;))</span><br><span class="line">            turtle.pencolor(&quot;green&quot;)</span><br><span class="line">            turtle.fd(40)</span><br><span class="line">        elif i &#x3D;&#x3D; &#39;&#x3D;&#39;:</span><br><span class="line">            turtle.write(&quot;月&quot;, font&#x3D;(&#39;Arial&#39;, 18, &#39;normal&#39;))</span><br><span class="line">            turtle.pencolor(&quot;blue&quot;)</span><br><span class="line">            turtle.fd(40)</span><br><span class="line">        elif i &#x3D;&#x3D; &#39;+&#39;:</span><br><span class="line">            turtle.write(&quot;日&quot;, font&#x3D;(&#39;Arial&#39;, 18, &#39;normal&#39;))</span><br><span class="line">        else:</span><br><span class="line">            drawDigit(eval(i))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    turtle.setup(800, 350, 200, 200)</span><br><span class="line">    turtle.penup()</span><br><span class="line">    turtle.fd(-300)</span><br><span class="line">    turtle.pensize(5)</span><br><span class="line">    drawDate(time.strftime(&quot;%Y-%m&#x3D;%d+&quot;, time.gmtime()))</span><br><span class="line">    turtle.hideturtle()</span><br><span class="line">    turtle.done()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>理解思维方法</p>
+<ul>
+<li>模块化思维：确定模块接口，封装功能</li>
+<li>规则化思维：抽象过程为规则，计算机自当执行</li>
+<li>化繁为简：将大功能转换为小功能组合，降低代码编写难度</li>
+</ul>
+<h2 id="代码复用与函数递归"><a href="#代码复用与函数递归" class="headerlink" title="代码复用与函数递归"></a>代码复用与函数递归</h2><p><strong>函数</strong>和<strong>对象</strong>是代码复用的两种主要形式</p>
+<ul>
+<li><em>分而治之</em>：通过函数或对象封装将程序划分为模块及模块间的表达，具体包括主程序、子程序和子程序之间的关系</li>
+<li>分而治之是一种分层抽象、体系化的设计思想</li>
+<li><em>紧耦合</em>：两个部分之间交流很多，无法独立存在</li>
+<li><em>松耦合</em>：两个部分之间交流较少，可以独立存在</li>
+<li>模块之间松耦合，模块内部紧耦合</li>
+</ul>
+<h3 id="递归的定义"><a href="#递归的定义" class="headerlink" title="递归的定义"></a>递归的定义</h3><h4 id="两个关键特征"><a href="#两个关键特征" class="headerlink" title="两个关键特征"></a>两个关键特征</h4><ul>
+<li>链条：计算过程存在递归链条</li>
+<li>基例：L:cunzai一个或多个再次递归的基例</li>
+</ul>
+<blockquote>
+<p>类似于数学归纳法</p>
+</blockquote>
+<h3 id="递归的实现"><a href="#递归的实现" class="headerlink" title="递归的实现"></a>递归的实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def fact(n):</span><br><span class="line">	if n &#x3D;&#x3D; 0:</span><br><span class="line">		return 1</span><br><span class="line">	else:</span><br><span class="line">		return n * fact(n-1)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>递归本身就是一个函数，需要函数定义方式描述</li>
+<li>函数内部，采用分支语句对输入参数进行判断</li>
+<li>基例和链条，分别编写对应代码</li>
+</ul>
+<h3 id="例子：字符串反转"><a href="#例子：字符串反转" class="headerlink" title="例子：字符串反转"></a>例子：字符串反转</h3><blockquote>
+<p>将字符串s反转后输出</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def rvs(s):</span><br><span class="line">	if s &#x3D;&#x3D; &quot;&quot;:</span><br><span class="line">		return s</span><br><span class="line">	else:</span><br><span class="line">		return rvs(s[1:])+s[0]</span><br></pre></td></tr></table></figure>
+
+<h3 id="例子：斐波那契数列"><a href="#例子：斐波那契数列" class="headerlink" title="例子：斐波那契数列"></a>例子：斐波那契数列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def f(n):</span><br><span class="line">	if n &#x3D;&#x3D; 1 or n &#x3D;&#x3D; 2:</span><br><span class="line">		return 1</span><br><span class="line">	else:</span><br><span class="line">		return f(n-1) + f(n-2)</span><br></pre></td></tr></table></figure>
+
+<h3 id="例子：汉诺塔"><a href="#例子：汉诺塔" class="headerlink" title="例子：汉诺塔"></a>例子：汉诺塔</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">count &#x3D; 0</span><br><span class="line">def hanoi(n,src,dst,mid):</span><br><span class="line">	global count</span><br><span class="line">	if n &#x3D;&#x3D; 1:</span><br><span class="line">		print(&quot;&#123;&#125;:&#123;&#125;-&gt;&#123;&#125;&quot;.format(1,src,dst))</span><br><span class="line">		count +&#x3D; 1</span><br><span class="line">	else:</span><br><span class="line">		hanoi(n-1,src,mid,dst)</span><br><span class="line">		print(&quot;&#123;&#125;:&#123;&#125;-&gt;&#123;&#125;&quot;.format(n,src,dst))</span><br><span class="line">		count +&#x3D; 1</span><br><span class="line">		hanoi(n-1,mid,dst,src)</span><br></pre></td></tr></table></figure>
+
+<h2 id="PyInstaller库的使用"><a href="#PyInstaller库的使用" class="headerlink" title="PyInstaller库的使用"></a>PyInstaller库的使用</h2><p>PyInstaller库是第三方库，主要是将<code>.py</code>文件转换为可执行文件。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyinstaller</span><br></pre></td></tr></table></figure>
+
+<h3 id="简单的使用"><a href="#简单的使用" class="headerlink" title="简单的使用"></a>简单的使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -F &lt;文件名.py&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-h</td>
+<td align="center">查看帮助</td>
+</tr>
+<tr>
+<td align="center">–clean</td>
+<td align="center">清理打包过程中的临时文件</td>
+</tr>
+<tr>
+<td align="center">-D,–onedir</td>
+<td align="center">默认值，生成dist文件夹</td>
+</tr>
+<tr>
+<td align="center">-F,–onefile</td>
+<td align="center">在dist文件夹中只生成独立的打包文件</td>
+</tr>
+<tr>
+<td align="center">-i &lt;图标文件名.ico&gt;</td>
+<td align="center">指定打包程序使用的图标文件</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -i curve.ico -F SevenDigitsDrawV2.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例8：科赫雪花小包裹"><a href="#实例8：科赫雪花小包裹" class="headerlink" title="实例8：科赫雪花小包裹"></a>实例8：科赫雪花小包裹</h2><p>高大上的分形几何是一种迭代的集合图形，广泛存在于自然界之中。而科赫曲线，也叫雪花曲线。</p>
+<h3 id="绘制科赫曲线"><a href="#绘制科赫曲线" class="headerlink" title="绘制科赫曲线"></a>绘制科赫曲线</h3><ul>
+<li>递归思想：函数+分支</li>
+<li>递归链条：线段的组合</li>
+<li>递归基例：初始线段</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 5.5_KochDrawV1.py</span><br><span class="line"></span><br><span class="line">import turtle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def koch(size, n):</span><br><span class="line">    if n &#x3D;&#x3D; 0:</span><br><span class="line">        turtle.fd(size)</span><br><span class="line">    else:</span><br><span class="line">        for angle in [0, 60, -120, 60]:</span><br><span class="line">            turtle.left(angle)</span><br><span class="line">            koch(size &#x2F; 3, n - 1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    turtle.setup(800, 400)</span><br><span class="line">    turtle.penup()</span><br><span class="line">    turtle.goto(-300, -50)</span><br><span class="line">    turtle.pendown()</span><br><span class="line">    turtle.pensize(2)</span><br><span class="line">    koch(600, 3)  # 3阶科赫曲线</span><br><span class="line">    turtle.hideturtle()</span><br><span class="line">    turtle.done()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h3 id="绘制科赫雪花"><a href="#绘制科赫雪花" class="headerlink" title="绘制科赫雪花"></a>绘制科赫雪花</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 5.5_KochDrawV1.py</span><br><span class="line"></span><br><span class="line">import turtle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def koch(size, n):</span><br><span class="line">    if n &#x3D;&#x3D; 0:</span><br><span class="line">        turtle.fd(size)</span><br><span class="line">    else:</span><br><span class="line">        for angle in [0, 60, -120, 60]:</span><br><span class="line">            turtle.left(angle)</span><br><span class="line">            koch(size &#x2F; 3, n - 1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    turtle.setup(600, 600)</span><br><span class="line">    turtle.penup()</span><br><span class="line">    turtle.goto(-200, 100)</span><br><span class="line">    turtle.pendown()</span><br><span class="line">    turtle.pensize(2)</span><br><span class="line">    level &#x3D; 3  # 3阶科赫雪花，阶数</span><br><span class="line">    koch(400, level)</span><br><span class="line">    turtle.right(120)</span><br><span class="line">    koch(400, level)</span><br><span class="line">    turtle.right(120)</span><br><span class="line">    koch(400, level)</span><br><span class="line">    turtle.hideturtle()</span><br><span class="line">    turtle.done()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<h3 id="程序打包"><a href="#程序打包" class="headerlink" title="程序打包"></a>程序打包</h3><blockquote>
+<p>此步骤略过</p>
+</blockquote>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Author：<a href="http://yoursite.com">John Doe</a>
+            <p>原文链接：<a href="http://yoursite.com/2018/05/01/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%94%E5%91%A8-%E5%87%BD%E6%95%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%94%A8/">http://yoursite.com/2018/05/01/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%94%E5%91%A8-%E5%87%BD%E6%95%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%94%A8/</a>
+            <p>发表日期：<a href="http://yoursite.com/2018/05/01/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%94%E5%91%A8-%E5%87%BD%E6%95%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%94%A8/">May 1st 2018, 9:46:38 am</a>
+            <p>更新日期：<a href="http://yoursite.com/2018/05/01/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%94%E5%91%A8-%E5%87%BD%E6%95%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%94%A8/">June 6th 2019, 8:05:31 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/05/25/CS229-Problem-Set-1-Supervised-Learning/" title= "[CS229]Problem Set #1: Supervised Learning">
+                    <div class="nextTitle">[CS229]Problem Set #1: Supervised Learning</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/04/29/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E5%9B%9B%E5%91%A8-%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84/" title= "[Python语言程序设计]第四周 程序的控制结构">
+                    <div class="prevTitle">[Python语言程序设计]第四周 程序的控制结构</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "rcTae3HDjSoU8X1RxEqcQrth-gzGzoHsz",
+        appKey: "MFmtjlCFH50j13w9X4SUPBVE",
+        placeholder: "",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:llc_1995@163.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title=rss></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#辅学内容"><span class="toc-number">1.</span> <span class="toc-text">辅学内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前课提要"><span class="toc-number">1.1.</span> <span class="toc-text">前课提要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本课概要"><span class="toc-number">1.2.</span> <span class="toc-text">本课概要</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数的定义与使用"><span class="toc-number">2.</span> <span class="toc-text">函数的定义与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的定义"><span class="toc-number">2.1.</span> <span class="toc-text">函数的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的调用"><span class="toc-number">2.2.</span> <span class="toc-text">函数的调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数个数"><span class="toc-number">2.3.</span> <span class="toc-text">参数个数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可变参数传递"><span class="toc-number">2.4.</span> <span class="toc-text">可变参数传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数传递的两种方式"><span class="toc-number">2.5.</span> <span class="toc-text">参数传递的两种方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的返回值"><span class="toc-number">2.6.</span> <span class="toc-text">函数的返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#局部变量和全局变量"><span class="toc-number">2.7.</span> <span class="toc-text">局部变量和全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda函数"><span class="toc-number">2.8.</span> <span class="toc-text">lambda函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例7：七段数码管绘制"><span class="toc-number">3.</span> <span class="toc-text">实例7：七段数码管绘制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本思路"><span class="toc-number">3.1.</span> <span class="toc-text">基本思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.2.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码复用与函数递归"><span class="toc-number">4.</span> <span class="toc-text">代码复用与函数递归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#递归的定义"><span class="toc-number">4.1.</span> <span class="toc-text">递归的定义</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#两个关键特征"><span class="toc-number">4.1.1.</span> <span class="toc-text">两个关键特征</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归的实现"><span class="toc-number">4.2.</span> <span class="toc-text">递归的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子：字符串反转"><span class="toc-number">4.3.</span> <span class="toc-text">例子：字符串反转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子：斐波那契数列"><span class="toc-number">4.4.</span> <span class="toc-text">例子：斐波那契数列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子：汉诺塔"><span class="toc-number">4.5.</span> <span class="toc-text">例子：汉诺塔</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PyInstaller库的使用"><span class="toc-number">5.</span> <span class="toc-text">PyInstaller库的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单的使用"><span class="toc-number">5.1.</span> <span class="toc-text">简单的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用参数"><span class="toc-number">5.2.</span> <span class="toc-text">常用参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例8：科赫雪花小包裹"><span class="toc-number">6.</span> <span class="toc-text">实例8：科赫雪花小包裹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#绘制科赫曲线"><span class="toc-number">6.1.</span> <span class="toc-text">绘制科赫曲线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#绘制科赫雪花"><span class="toc-number">6.2.</span> <span class="toc-text">绘制科赫雪花</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#程序打包"><span class="toc-number">6.3.</span> <span class="toc-text">程序打包</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 75
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/05</span><a class="archive-post-title" href= "/2020/01/05/Pandas-API-DataFrame-%E7%94%A8%E6%B3%95/" >Pandas-API-DataFrame-用法</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2019/07/13/Anaconda%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83/" >Anaconda下配置多版本环境</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/13</span><a class="archive-post-title" href= "/2019/07/13/Linux%E4%B8%8B%E5%AE%89%E8%A3%85oh-my-zsh/" >Linux下安装oh-my-zsh</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span><a class="archive-post-title" href= "/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/" >理解NLP中的卷积神经网络(CNN)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span><a class="archive-post-title" href= "/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/" >[TensorFlow API]tf.placeholder()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/gensim-API-word2vec%E7%94%A8%E6%B3%95/" >[gensim API]word2vec用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/Pandas-API-replace-%E7%94%A8%E6%B3%95/" >[Pandas API]replace()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/Python-API-split-%E7%94%A8%E6%B3%95/" >[Python API]split()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2019/07/02/Python-API-strip-%E7%94%A8%E6%B3%95/" >[Python API]strip()用法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/09</span><a class="archive-post-title" href= "/2019/06/09/NLP%E5%88%9D%E5%AD%A6%E8%80%85%E5%A6%82%E4%BD%95%E6%9F%A5%E9%98%85%E5%AD%A6%E6%9C%AF%E8%B5%84%E6%96%99/" >NLP初学者如何查阅学术资料</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/" >论文的粗略想法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2019/01/14/%E6%9E%97%E8%BD%A9%E7%94%B0-%E7%AC%AC%E4%B8%80%E5%91%A8/" >[林轩田]第一周</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2018/10/10/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC3%E7%AB%A0-%E5%9F%BA%E6%9C%AC%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" >[Python3网络爬虫开发实战]第3章 基本库的使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/09</span><a class="archive-post-title" href= "/2018/10/09/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC2%E7%AB%A0-%E7%88%AC%E8%99%AB%E5%9F%BA%E7%A1%80/" >[Python3网络爬虫开发实战]第2章 爬虫基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E4%BD%A0%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%97%AE%E9%A2%98/" >如何定义你的机器学习问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2018/09/28/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AB%A0%E8%8A%821%EF%BC%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" >[Python3网络爬虫开发实战]章节1：环境配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2018/09/28/MongoDB%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" >MongoDB安装及配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2018/09/28/Redis%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE/" >Redis安装及配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/%E4%B8%BAHexo%E6%B7%BB%E5%8A%A0Latex%E6%94%AF%E6%8C%81/" >为Hexo添加Latex支持</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2018/09/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B-%E6%8E%A8%E5%AF%BC%E7%AC%94%E8%AE%B0/" >[机器学习]第三章 线性模型-推导笔记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2018/07/12/Coursera-CS229-week02-Notes/" >[Coursera CS229]week02 Notes</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2018/07/11/Python-Crash-Course-%E9%A1%B9%E7%9B%AE3%EF%BC%9AWeb%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/" >[Python Crash Course]项目3：Web应用程序</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2018/07/11/CS229-Lecture-Notes-Support-Vector-Machines-1/" >[CS229]Lecture Notes: Support Vector Machines</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/10</span><a class="archive-post-title" href= "/2018/07/10/Quickstart-document-about-Python-Matplotlib-module/" >Quickstart document about Python Matplotlib module</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/05</span><a class="archive-post-title" href= "/2018/07/05/Qiuckstart-document-about-Python-Pygal-module/" >Qiuckstart document about Python Pygal module</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span><a class="archive-post-title" href= "/2018/07/04/Quickstart-document-about-Python-requests-module/" >Quickstart document about Python requests module</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/02</span><a class="archive-post-title" href= "/2018/07/02/CS229-Lecture-Notes-Support-Vector-Machines/" >[CS229]Lecture Notes: Support Vector Machines</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span><a class="archive-post-title" href= "/2018/06/25/MATLAB%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-%E7%AC%AC%E4%B8%80%E7%AB%A0-MATLAB%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" >[MATLAB数学建模]第一章 MATLAB基础知识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/03</span><a class="archive-post-title" href= "/2018/06/03/Machine-Learning-Week-02/" >[Machine Learning]Week 02</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/03</span><a class="archive-post-title" href= "/2018/06/03/Matlab%E6%95%99%E5%AD%A6-02-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%B8%8E%E7%9F%A9%E9%98%B5%E8%BE%93%E5%85%A5/" >[Matlab教学]02 基本操作与矩阵输入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/2018/05/29/LaTeX-%E7%AC%AC2%E7%AB%A0-%E7%BB%84%E7%BB%87%E4%BD%A0%E7%9A%84%E6%96%87%E6%9C%AC/" >[LaTeX]第2章 组织你的文本</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2018/05/28/CS229-Lecture-Notes-Supervised-Learning/" >[CS229]Lecture Notes: Supervised Learning</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/LaTeX-%E7%AC%AC1%E7%AB%A0-%E7%86%9F%E6%82%89LaTeX/" >[LaTeX]第1章 熟悉LaTeX</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/LaTeX%E5%85%A5%E9%97%A8-%E5%89%8D%E8%A8%80/" >[LaTeX]前言</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/CS229-Problem-Set-1-Supervised-Learning/" >[CS229]Problem Set #1: Supervised Learning</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2018/05/01/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%BA%94%E5%91%A8-%E5%87%BD%E6%95%B0%E5%92%8C%E4%BB%A3%E7%A0%81%E5%A4%8D%E7%94%A8/" >[Python语言程序设计]第五周 函数和代码复用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href= "/2018/04/29/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E5%9B%9B%E5%91%A8-%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84/" >[Python语言程序设计]第四周 程序的控制结构</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2018/04/22/Python%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E7%AC%AC%E4%B8%89%E5%91%A8-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" >[Python语言程序设计]第三周 基本数据类型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span><a class="archive-post-title" href= "/2018/04/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F-%E4%B8%8A-3-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" >[数据库系统(上)]3 关系模型之基本概念</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span><a class="archive-post-title" href= "/2018/04/13/Linux-Ubuntu%E9%95%BF%E6%9C%9F%E6%B1%87%E6%80%BB%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" >[Linux]Ubuntu长期汇总问题及解决方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href= "/2018/04/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84%E6%8A%BD%E8%B1%A1%E4%B8%8E%E6%BC%94%E5%8F%98/" >数据库系统的结构抽象与演变</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2018/04/07/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A-23-%E4%BD%BF%E7%94%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/" >SQL必知必会-23.使用存储过程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/05</span><a class="archive-post-title" href= "/2018/04/05/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E9%9D%A2%E8%AF%95%E7%9A%84%E6%B5%81%E7%A8%8B/" >第一章 面试的流程</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/16</span><a class="archive-post-title" href= "/2017/10/16/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9411%E7%BB%9F%E8%AE%A1%E5%AD%97%E7%AC%A6/" >[考研]东大C语言编程题——11统计字符</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href= "/2017/09/20/%E8%80%83%E7%A0%94-2018%E5%A4%A7%E7%BA%B2%E8%A7%A3%E6%9E%90%E6%B1%87%E6%80%BB/" >[考研]2018大纲解析汇总</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9405%E5%BC%B9%E7%90%83%E9%AB%98%E5%BA%A6/" >[考研]东大C语言编程题——05弹球高度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9406%E6%AF%94%E8%B5%9B%E5%90%8D%E5%8D%95/" >[考研]东大C语言编程题——06比赛名单</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9401%E5%88%A4%E6%96%AD%E7%B4%A0%E6%95%B0/" >[考研]东大C语言编程题——01判断素数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9403%E6%B0%B4%E4%BB%99%E8%8A%B1%E6%95%B0/" >[考研]东大C语言编程题——03水仙花数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9402%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/" >[考研]东大C语言编程题——02最大公约数和最小公倍数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9404%E5%AE%8C%E6%95%B0/" >[考研]东大C语言编程题——04完数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2017/02/14/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-2%E6%9C%8814%E6%97%A5%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/" >[毕设项目]2月14日记录日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2017/02/09/grub2%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC/" >grub2修复引导</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2017/02/07/%E5%85%B3%E4%BA%8EGit%E8%AE%BE%E7%BD%AEssh-key%E7%9A%84%E6%AD%A5%E9%AA%A4/" >关于Git设置ssh key的步骤</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2017/01/22/5%E3%80%81Javascript%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89-JS%E8%AF%AD%E6%B3%95%E3%80%81%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E3%80%81BOM%E6%A8%A1%E5%9E%8B%E3%80%81DOM%E6%A8%A1%E5%9E%8B%E3%80%81%E4%BA%8B%E4%BB%B6%E7%BC%96%E7%A8%8B/" >5、Javascript（重点） JS语法、内置对象、BOM模型、DOM模型、事件编程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2017/01/12/ThinkPHP-ThinkPHP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" >[ThinkPHP]ThinkPHP 学习笔记（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2017/01/11/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E4%BD%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E4%BA%9BVagrant%E5%91%BD%E4%BB%A4/" >[毕设项目]你所需要知道的一些Vagrant命令</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2017/01/11/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-Windows%E4%B8%8ALaravel-Homestead%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" >[毕设项目]Windows上Laravel Homestead的安装与配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/09</span><a class="archive-post-title" href= "/2017/01/09/1%E3%80%81HTML%EF%BC%88%E6%8E%8C%E6%8F%A1%EF%BC%89web%E7%AE%80%E4%BB%8B%E3%80%81HTML%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3/" >1、HTML（掌握）web简介、HTML标签详解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/04</span><a class="archive-post-title" href= "/2017/01/04/%E9%A5%A5%E8%8D%92-How-to-setup-dedicated-server-on-Linux/" >[饥荒]How to setup dedicated server on Linux?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/03</span><a class="archive-post-title" href= "/2017/01/03/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%89%E5%A4%A9%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" >[毕设项目]第三天工作记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/02</span><a class="archive-post-title" href= "/2017/01/02/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E7%AC%AC%E4%B8%80%E5%A4%A9%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" >[毕设项目]第一天工作记录</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2016 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2016/07/14/%E5%85%B3%E4%BA%8EEclipse%E9%85%8D%E7%BD%AEJava-Web%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/" >关于Eclipse配置Java Web相关操作</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/12</span><a class="archive-post-title" href= "/2016/07/12/PAT%E7%94%B2%E7%BA%A7-1008-Elevator-20-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1008. Elevator (20)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2016/07/11/PAT%E7%94%B2%E7%BA%A7-1006-Sign-In-and-Sign-Out-25-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1006. Sign In and Sign Out (25)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2016/07/11/PAT%E7%94%B2%E7%BA%A7-1005-Spell-It-Right-20-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1005. Spell It Right (20)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span><a class="archive-post-title" href= "/2016/07/09/PAT%E7%94%B2%E7%BA%A7-1001-A-B-Format-20-%E9%A2%98%E8%A7%A3/" >[PAT甲级]1001. A+B Format (20)题解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2016/07/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC2%E7%AB%A0-%E7%BA%BF%E6%80%A7%E8%A1%A8/" >[数据结构高分笔记]第2章 线性表</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2016/07/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC3%E7%AB%A0-%E6%A0%88%E3%80%81%E9%98%9F%E5%88%97%E5%92%8C%E6%95%B0%E7%BB%84/" >[数据结构高分笔记]第3章 栈、队列和数组</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2016/07/01/Linux%E9%A9%B1%E5%8A%A8%E7%BC%96%E7%A8%8B-%E5%AE%9E%E9%AA%8C%EF%BC%88%E4%B8%80%EF%BC%89/" >[Linux驱动编程]实验（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/2016/07/01/%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E5%85%B3%E4%BA%8EFA%E7%9A%84%E9%87%8D%E7%82%B9%E8%A7%A3%E6%9E%90/" >词法分析——关于FA的重点解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2016/05/30/2016-5-30%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97/" >2016.5.30记录日志</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/30</span><a class="archive-post-title" href= "/2016/05/30/Laravel%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" >Laravel安装与配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/2016/05/01/VM%E5%AE%89%E8%A3%85Mac-10-11/" >VM安装Mac 10.11</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2016/03/16/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC1%E7%AB%A0-%E7%BB%AA%E8%AE%BA/" >[数据结构高分笔记]第1章 绪论</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="anaconda"><span class="iconfont-archer">&#xe606;</span>anaconda</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="api"><span class="iconfont-archer">&#xe606;</span>api</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="网页入门"><span class="iconfont-archer">&#xe60a;</span>网页入门</span>
+    
+        <span class="sidebar-category-name" data-categories="Python3网络爬虫开发实战"><span class="iconfont-archer">&#xe60a;</span>Python3网络爬虫开发实战</span>
+    
+        <span class="sidebar-category-name" data-categories="Python语言程序设计"><span class="iconfont-archer">&#xe60a;</span>Python语言程序设计</span>
+    
+        <span class="sidebar-category-name" data-categories="毕业设计"><span class="iconfont-archer">&#xe60a;</span>毕业设计</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "John Doe"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
