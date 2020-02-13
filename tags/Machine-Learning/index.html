@@ -351,7 +351,12 @@
                 <span>Task01:线性回归；Softmax与分类模型、多层感知机</span>
         </a>
         <div class="abstract-content">
-            Softmax和分类模型Softmax基本概念抛砖引玉，对于一个简单的图像分类问题，假设输入图像的high和width均为2个像素，忽略色彩方面因素（原文设置为灰度），则图像的4个像素可以设置为$x_1$，$x_2$，$x_3$，$x_4$。假如此时，有3个真实标签$y_1=1$，$y_2=2$，$y_3=3$分别代表鸡、狗、猪，则我们以此得到有关的权重矢量关系式：$$\begin{aligned}    o_1 &amp;= x_1 w_{11} + x_2 w_{21} + x_3 w_{31} + x_4 w_{41} + b_1\end{aligned}$$$$\begin{al...
+            Softmax和分类模型Softmax基本概念抛砖引玉，对于一个简单的图像分类问题，假设输入图像的high和width均为2个像素，忽略色彩方面因素（原文设置为灰度），则图像的4个像素可以设置为$x_1$，$x_2$，$x_3$，$x_4$。假如此时，有3个真实标签$y_1=1$，$y_2=2$，$y_3=3$分别代表鸡、狗、猪，则我们以此得到有关的权重矢量关系式：
+
+\begin{aligned}
+    o_1 &= x_1 w_{11} + x_2 w_{21} + x_3 w_{31} + x_4 w_{41} + b_1
+\end{aligned}
+\begin{aligned...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -2215,7 +2220,24 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
 </html>
 
 
