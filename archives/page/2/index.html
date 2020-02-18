@@ -347,6 +347,45 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/07/13/Linux%E4%B8%8B%E5%AE%89%E8%A3%85oh-my-zsh/" >
+            
+                <span>Linux下安装oh-my-zsh</span>
+        </a>
+        <div class="abstract-content">
+            注意：安装前先备份/etc/passwd
+安装123sudo apt install zshchsh -s /bin/zsh # 注意，不要使用sudosudo vim /etc/passwd
+
+修改第一行的/bin/bash变成/bin/zsh：
+
+把最后一行/bin/bash改为/bin/zsh：
+
+然后根据官网提供的命令自动安装oh-my-zsh：
+1sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+然后重启电脑后就能看到oh-my-zsh安装好了...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/13</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/" >
             
                 <span>理解NLP中的卷积神经网络(CNN)</span>
@@ -617,33 +656,6 @@ chars: 移除字符串头尾指定的字符序列
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/14</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/10/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC3%E7%AB%A0-%E5%9F%BA%E6%9C%AC%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" >
-            
-                <span>[Python3网络爬虫开发实战]第3章 基本库的使用</span>
-        </a>
-        <div class="abstract-content">
-            3.1 使用urllibPython2中有urllib和urllib2两个库来实现请求的发送。而在Python3中，urllib2这个库已经不存在了，统一为urllib，其官方网站为：https://docs.python.org/3/library/urllib.html 。
-urllib是Python内置的HTTP请求库，它收集了几个用于处理URL的模块：
-
-最基本的HTTP请求模块：urllib.requestfor opening and reading URLs
-异常处理模块：urllib.error containing the exceptions raised by ur...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/10</span>
             </div>
             <!-- tags  -->
             
@@ -1993,9 +2005,42 @@ urllib是Python内置的HTTP请求库，它收集了几个用于处理URL的模�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 82
+        Total : 83
         </div>
         <!-- search  -->
         
@@ -2008,6 +2053,11 @@ urllib是Python内置的HTTP请求库，它收集了几个用于处理URL的模�
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span><a class="archive-post-title" href= "/2020/02/18/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task04/" >动手学深度学习-Task04</a>
+        </li>
     
     
         <li class="archive-post-item">
