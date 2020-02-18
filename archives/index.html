@@ -200,7 +200,8 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
 
     
     
@@ -346,9 +347,71 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/02/13/Task01-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%EF%BC%9BSoftmax%E4%B8%8E%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E3%80%81%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/" >
+        <a class="abstract-title" href = "/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task03/" >
             
-                <span>Task01:线性回归；Softmax与分类模型、多层感知机</span>
+                <span>动手学深度学习-Task03</span>
+        </a>
+        <div class="abstract-content">
+            
+任务03：过拟合、欠拟合及其解决方案；梯度消失、梯度爆炸；循环神经网络进阶（1天）
+
+过拟合、欠拟合及其解决方案梯度消失、梯度爆炸这节主要了解梯度消失、梯度爆炸两个概念，并且对这两个问题在实际应用中的发生和解决进行讲解。
+梯度消失深度模型有关数值稳定性的典型问题是消失（vanishing）和爆炸（explosion）。
+消失和爆炸当神经网络的层数较多时，模型的数值稳定性容易变差。
+假设一个层数为$L$的多层感知机的第$l$层$\boldsymbol{H}^{(l)}$的权重参数为$\boldsymbol{W}^{(l)}$，输出层$\boldsymbol{H}^{(L)}$的权重参数为...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Pytorch">Pytorch</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "DataWhale">DataWhale</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Deep Learning">Deep Learning</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/14/Task02%EF%BC%9A%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%9B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" >
+            
+                <span>Task02：文本预处理；语言模型；循环神经网络基础</span>
+        </a>
+        <div class="abstract-content">
+            
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/14</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/13/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task01/" >
+            
+                <span>动手学深度学习-Task01</span>
         </a>
         <div class="abstract-content">
             Softmax和分类模型Softmax基本概念抛砖引玉，对于一个简单的图像分类问题，假设输入图像的high和width均为2个像素，忽略色彩方面因素（原文设置为灰度），则图像的4个像素可以设置为$x_1$，$x_2$，$x_3$，$x_4$。假如此时，有3个真实标签$y_1=1$，$y_2=2$，$y_3=3$分别代表鸡、狗、猪，则我们以此得到有关的权重矢量关系式：
@@ -369,7 +432,9 @@
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Pytorch">Pytorch</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Machine Learning">Machine Learning</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "DataWhale">DataWhale</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Deep Learning">Deep Learning</a>
     
 </div>
             
@@ -613,63 +678,10 @@ API地址：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Da
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/" >
-            
-                <span>理解NLP中的卷积神经网络(CNN)</span>
-        </a>
-        <div class="abstract-content">
-            
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/04</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/" >
-            
-                <span>[TensorFlow API]tf.placeholder()用法</span>
-        </a>
-        <div class="abstract-content">
-            API地址：
-描述 TensorFlow的设计理念称之为计算流图，在编写程序时，首先构筑整个系统的graph，代码并不会直接生效，这一点和python的其他数值计算库（如Numpy等）不同，graph为静态的，类似于docker中的镜像。然后，在实际的运行时，启动一个session，程序才会真正的运行。这样做的好处就是：避免反复地切换底层程序实际运行的上下文，TensorFlow帮你优化整个系统的代码。我们知道，很多python程序的底层为C语言或者其他语言，执行一行脚本，就要切换一次，是有成本的，TensorFlow通过计算流图的方式，帮你优化整个session需要执行的代码，还是很有...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "api">api</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &amp;#62;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &amp;#62;</a>
     </nav>
     
 </main>
@@ -1969,9 +1981,49 @@ API地址：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Da
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 80
+        Total : 82
         </div>
         <!-- search  -->
         
@@ -1987,7 +2039,17 @@ API地址：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Da
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2020/02/13/Task01-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%EF%BC%9BSoftmax%E4%B8%8E%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E3%80%81%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/" >Task01:线性回归；Softmax与分类模型、多层感知机</a>
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task03/" >动手学深度学习-Task03</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2020/02/14/Task02%EF%BC%9A%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%9B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" >Task02：文本预处理；语言模型；循环神经网络基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2020/02/13/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task01/" >动手学深度学习-Task01</a>
         </li>
     
     
@@ -2438,7 +2500,9 @@ API地址：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Da
     
         <span class="sidebar-tag-name" data-tags="Pytorch"><span class="iconfont-archer">&#xe606;</span>Pytorch</span>
     
-        <span class="sidebar-tag-name" data-tags="Machine Learning"><span class="iconfont-archer">&#xe606;</span>Machine Learning</span>
+        <span class="sidebar-tag-name" data-tags="DataWhale"><span class="iconfont-archer">&#xe606;</span>DataWhale</span>
+    
+        <span class="sidebar-tag-name" data-tags="Deep Learning"><span class="iconfont-archer">&#xe606;</span>Deep Learning</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -2514,24 +2578,7 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-</body>
+    </body>
 </html>
 
 

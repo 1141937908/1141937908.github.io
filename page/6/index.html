@@ -198,7 +198,8 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
 
     
         <body class="home-body">
@@ -352,6 +353,72 @@ height:100vh;
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
             <main class="main index-page">
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/10/16/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9411%E7%BB%9F%E8%AE%A1%E5%AD%97%E7%AC%A6/" >
+            
+                <span>[考研]东大C语言编程题——11统计字符</span>
+        </a>
+        <div class="abstract-content">
+            题目标记：⭐⭐题目描述一片文章共有3行文字，每行有80个字符。要求分别统计出其中的大写字母、小写字母、数字、空格，以及其他字符的个数。
+解题思路
+对不同字符分别计数，通过ASCII区间大小来判断。注意：这里不需要知道字符的ASCII值是多少，直接通过比较就可以得到区间了，例如’P’字符在A~Z之间，A&lt;P&lt;Z这样判断即可。
+除特定字符需要统计，剩下的即为其他字符
+判断字符结束依据为是否等于\0
+
+代码1234567891011121314151617181920212223#include &lt;stdio.h&gt;int main()&#123;    int i=0,...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/10/16</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/09/20/%E8%80%83%E7%A0%94-2018%E5%A4%A7%E7%BA%B2%E8%A7%A3%E6%9E%90%E6%B1%87%E6%80%BB/" >
+            
+                <span>[考研]2018大纲解析汇总</span>
+        </a>
+        <div class="abstract-content">
+            这里是总结2018年考试大纲视频的文章，其实用几句话就可以概括：
+
+数学：09年以后大纲就没变化
+英语：还没看
+政治：按照肖老的话来说变化不大，该有的都有了，后期补个十九大就可以了
+
+下面就贴大纲解析视频，提示：电脑上视频可以x2.0倍
+【新东方】2018年考研数学-张宇、朱杰、高昆轮PS：看完前一分钟大概就能跳过了
+【新东方】2018年考研英语-唐迟等PS：全程广告……
+【新东方】2018年考研政治-阮晔（马原）
+【新东方】2018年考研政治-徐涛（毛中特）
+【新东方】2018年考研政治-张云天（思修）
+【新东方】2018年考研计算机408-白龙飞从头到尾没变过~
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/09/20</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
     
     
     
@@ -559,70 +626,10 @@ Element 和 Bootstrap 的抉择其实也说不上什么抉择吧，实质上还�
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/02/07/%E5%85%B3%E4%BA%8EGit%E8%AE%BE%E7%BD%AEssh-key%E7%9A%84%E6%AD%A5%E9%AA%A4/" >
-            
-                <span>关于Git设置ssh key的步骤</span>
-        </a>
-        <div class="abstract-content">
-            一共就三句话，老是忘记最后一句……没办法，只能自己记录下了。
-
-如果是Windows平台的话，注意要把C:\Program Files\Git\usr\bin加到PATH变量中，不然ssh-keygen命令会报错
-
-设置ssh信息12$ git config --global user.name &quot;[username]&quot;$ git config --global user.email &quot;[useremail]&quot;
-
-生成ssh密钥
-检查~/.ssh是否存在，存在表明已经生成密钥了，如果需要重新生成，那么删了文件目录即可
-生成ssh密钥1$ ssh-k...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/07</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/01/22/5%E3%80%81Javascript%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89-JS%E8%AF%AD%E6%B3%95%E3%80%81%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E3%80%81BOM%E6%A8%A1%E5%9E%8B%E3%80%81DOM%E6%A8%A1%E5%9E%8B%E3%80%81%E4%BA%8B%E4%BB%B6%E7%BC%96%E7%A8%8B/" >
-            
-                <span>5、Javascript（重点） JS语法、内置对象、BOM模型、DOM模型、事件编程</span>
-        </a>
-        <div class="abstract-content">
-            基本语法主要了解语法、语句块、注释，基本内容同C 没有太大分别，所以这部分略去不讲。
-数据类型和变量所有语言基本都一样，只是表述方面不太一样而已，Javascript 这里只分为Number、字符串、布尔值、比较运算符、null和undefined几类，这里的Number则包括了一切数字类型，比如整型和浮点型。
-
-现代语言都在渐渐弱化数字类型，并不需要过多去考虑数字具体的类型。
-
-另外，除了以上几种，常见的概念还有数组、对象和变量。由于上面的几种类型较为简单，所以这里重点讲数组、对象和变量。
-数组数组是一组按顺序排列的集合，集合的每个值称为元素。JavaScript 的数组可以包括任意数...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/22</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/5/">&amp;#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">NEXT &amp;#62;</a>
+        <a class="extend prev" rel="prev" href="/page/5/">&amp;#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">NEXT &amp;#62;</a>
     </nav>
     
 </main>
@@ -1997,9 +2004,49 @@ Element 和 Bootstrap 的抉择其实也说不上什么抉择吧，实质上还�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 80
+        Total : 82
         </div>
         <!-- search  -->
         
@@ -2015,7 +2062,17 @@ Element 和 Bootstrap 的抉择其实也说不上什么抉择吧，实质上还�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2020/02/13/Task01-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%EF%BC%9BSoftmax%E4%B8%8E%E5%88%86%E7%B1%BB%E6%A8%A1%E5%9E%8B%E3%80%81%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/" >Task01:线性回归；Softmax与分类模型、多层感知机</a>
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task03/" >动手学深度学习-Task03</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2020/02/14/Task02%EF%BC%9A%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%9B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" >Task02：文本预处理；语言模型；循环神经网络基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2020/02/13/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task01/" >动手学深度学习-Task01</a>
         </li>
     
     
@@ -2466,7 +2523,9 @@ Element 和 Bootstrap 的抉择其实也说不上什么抉择吧，实质上还�
     
         <span class="sidebar-tag-name" data-tags="Pytorch"><span class="iconfont-archer">&#xe606;</span>Pytorch</span>
     
-        <span class="sidebar-tag-name" data-tags="Machine Learning"><span class="iconfont-archer">&#xe606;</span>Machine Learning</span>
+        <span class="sidebar-tag-name" data-tags="DataWhale"><span class="iconfont-archer">&#xe606;</span>DataWhale</span>
+    
+        <span class="sidebar-tag-name" data-tags="Deep Learning"><span class="iconfont-archer">&#xe606;</span>Deep Learning</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -2542,24 +2601,7 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-</body>
+    </body>
 </html>
 
 

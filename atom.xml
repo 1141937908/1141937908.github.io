@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hexo</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://www.secret114.com/"/>
+  <updated>2020-02-18T05:45:49.545Z</updated>
+  <id>http://www.secret114.com/</id>
+  
+  <author>
+    <name>LINCHUAN</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>动手学深度学习-Task03</title>
+    <link href="http://www.secret114.com/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task03/"/>
+    <id>http://www.secret114.com/2020/02/15/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task03/</id>
+    <published>2020-02-15T12:53:32.000Z</published>
+    <updated>2020-02-18T05:45:49.545Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>任务03：过拟合、欠拟合及其解决方案；梯度消失、梯度爆炸；循环神经网络进阶（1天）</p></blockquote><h2 id="过拟合、欠拟合及其解决方案"><a href="#过拟合、欠拟合及其解决方案" class="headerlink" title="过拟合、欠拟合及其解决方案"></a>过拟合、欠拟合及其解决方案</h2><h2 id="梯度消失、梯度爆炸"><a href="#梯度消失、梯度爆炸" class="headerlink" title="梯度消失、梯度爆炸"></a>梯度消失、梯度爆炸</h2><p>这节主要了解梯度消失、梯度爆炸两个概念，并且对这两个问题在实际应用中的发生和解决进行讲解。</p><h3 id="梯度消失"><a href="#梯度消失" class="headerlink" title="梯度消失"></a>梯度消失</h3><p>深度模型有关数值稳定性的典型问题是消失（vanishing）和爆炸（explosion）。</p><h4 id="消失和爆炸"><a href="#消失和爆炸" class="headerlink" title="消失和爆炸"></a>消失和爆炸</h4><p><strong>当神经网络的层数较多时，模型的数值稳定性容易变差。</strong></p><p>假设一个层数为$L$的多层感知机的第$l$层$\boldsymbol{H}^{(l)}$的权重参数为$\boldsymbol{W}^{(l)}$，输出层$\boldsymbol{H}^{(L)}$的权重参数为$\boldsymbol{W}^{(L)}$。为了便于讨论，不考虑偏差参数，且设所有隐藏层的激活函数为恒等映射（identity mapping）$\phi(x) = x$。给定输入$\boldsymbol{X}$，多层感知机的第$l$层的输出$\boldsymbol{H}^{(l)} = \boldsymbol{X} \boldsymbol{W}^{(1)} \boldsymbol{W}^{(2)} \ldots \boldsymbol{W}^{(l)}$。此时，如果层数$l$较大，$\boldsymbol{H}^{(l)}$的计算可能会出现衰减或爆炸。举个例子：</p><blockquote><p>假设输入和所有层的权重参数都是标量，如权重参数为0.2和5，多层感知机的第30层输出为输入$\boldsymbol{X}$分别与$0.2^{30} \approx 1 \times 10^{-21}$（消失）和$5^{30} \approx 9 \times 10^{20}$（爆炸）的乘积。</p></blockquote><p>类似的，当层数较多时，梯度的计算也容易出现消失或爆炸。</p><h4 id="随机初始化模型参数"><a href="#随机初始化模型参数" class="headerlink" title="随机初始化模型参数"></a>随机初始化模型参数</h4><p>在神经网络中，通常需要随机初始化模型参数。回顾<a href=""><s>多层感知机(占字符位)</s></a>一节描述的多层感知机。为了方便解释，假设</p><blockquote><ul><li>输出层只保留一个输出单元$o_1$（删去$o_2$和$o_3$以及指向它们的箭头）</li><li>隐藏层使用相同的激活函数</li></ul><p>可以看到如下图的变化：<br><img src="https://i.loli.net/2020/02/18/GZ79OPcjw1aoIJB.png" alt="假设模型"></p><p>如果将每个隐藏单元的参数都初始化为相等的值，那么在正向传播时每个隐藏单元将根据相同的输入计算出相同的值，并传递至输出层。在反向传播中，每个隐藏单元的参数梯度值相等。因此，这些参数在使用基于梯度的优化算法迭代后值依然相等。之后的迭代也是如此。</p></blockquote><p>在这种情况下，无论隐藏单元有多少，隐藏层<strong>本质上只有1个隐藏单元在发挥作用</strong>。因此，正如在前面的实验中所做的那样，我们通常将神经网络的模型参数，特别是权重参数，进行随机初始化。</p><h4 id="Pytorch的默认随机初始化"><a href="#Pytorch的默认随机初始化" class="headerlink" title="Pytorch的默认随机初始化"></a>Pytorch的默认随机初始化</h4><p>随机初始化模型参数的方法有很多。在<a href="">线性回归的简洁实现</a>中，我们使用<code>torch.nn.init.normal_()</code>使模型<code>net</code>的权重参数采用正态分布的随机初始化方式。</p><blockquote><p>PyTorch中<code>nn.Module</code>的模块参数都采取了较为合理的初始化策略（不同类型的layer具体采样的哪一种初始化方法的可参考<a href="https://github.com/pytorch/pytorch/tree/master/torch/nn/modules" target="_blank" rel="noopener">源代码</a>），因此一般不用我们考虑。</p></blockquote><h4 id="Xavier随机初始化"><a href="#Xavier随机初始化" class="headerlink" title="Xavier随机初始化"></a>Xavier随机初始化</h4><p>还有一种比较常用的随机初始化方法叫作Xavier随机初始化。<br>假设某全连接层的输入个数为$a$，输出个数为$b$，Xavier随机初始化将使该层中权重参数的每个元素都随机采样于均匀分布</p><script type="math/tex; mode=display">U\left(-\sqrt{\frac{6}{a+b}}, \sqrt{\frac{6}{a+b}}\right).</script><p>它的设计主要考虑到，模型参数初始化后，每层输出的方差不该受该层输入个数影响，且每层梯度的方差也不该受该层输出个数影响。</p><h3 id="考虑环境因素"><a href="#考虑环境因素" class="headerlink" title="考虑环境因素"></a>考虑环境因素</h3><h4 id="协变量偏移"><a href="#协变量偏移" class="headerlink" title="协变量偏移"></a>协变量偏移</h4><p>这里我们假设，虽然输入的分布可能随时间而改变，但是标记函数，即条件分布$P\left( y∣x \right)$不会改变。虽然这个问题容易理解，但在实践中也容易忽视。</p><p>想想区分猫和狗的一个例子。我们的训练数据使用的是猫和狗的真实的照片，但是在测试时，我们被要求对猫和狗的卡通图片进行分类。</p><ul><li>训练数据</li></ul><div class="table-container"><table><thead><tr><th style="text-align:center">cat</th><th style="text-align:center">cat</th><th style="text-align:center">dog</th><th style="text-align:center">dog</th></tr></thead><tbody><tr><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/tvnQlmC2cJBKdX5.jpg" alt="cat" style="zoom:15%;" /></td><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/T9pdasx4AymvkDL.jpg" alt="cat" style="zoom:15%;" /></td><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/R9pLxyzbsUQ4tGM.jpg" alt="q5jg9tqs4s.jpg" style="zoom:15%;" /></td><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/uiESAmbYQU12XDZ.jpg" alt="q5jga6mnsk.jpg" style="zoom:15%;" /></td></tr></tbody></table></div><ul><li>测试数据</li></ul><div class="table-container"><table><thead><tr><th style="text-align:center">cat</th><th style="text-align:center">cat</th><th style="text-align:center">dog</th><th style="text-align:center">dog</th></tr></thead><tbody><tr><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/HWxviMCyZNd7z34.png" alt="cat" style="zoom:15%;" /></td><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/4OcuKG1CqwStBvA.png" alt="cat" style="zoom:15%;" /></td><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/e2nARVqKpzTs5Uu.png" alt="q5jg9tqs4s.jpg" style="zoom:15%;" /></td><td style="text-align:center"><img src="https://i.loli.net/2020/02/17/mfeNkuJGZKL2EIc.png" alt="q5jga6mnsk.jpg" style="zoom:15%;" /></td></tr></tbody></table></div><p>显然，这不太可能奏效。训练集由照片组成，而测试集只包含卡通。在一个看起来与测试集有着本质不同的数据集上进行训练，而不考虑如何适应新的情况，这是不是一个好主意。不幸的是，这是一个非常常见的陷阱。</p><p>统计学家称这种协变量变化是因为问题的根源在于特征分布的变化（即协变量的变化）。数学上，我们可以说$P（x）$改变了，但$P（y∣x）$保持不变。尽管它的有用性并不局限于此，当我们认为$x$导致$y$时，协变量移位通常是正确的假设。</p><h4 id="标签偏移"><a href="#标签偏移" class="headerlink" title="标签偏移"></a>标签偏移</h4><p>当我们认为导致偏移的是标签$P（y）$上的边缘分布的变化，但类条件分布是不变的$P（x∣y）$时，就会出现相反的问题。当我们认为$y$导致$x$时，标签偏移是一个合理的假设。例如，通常我们希望根据其表现来预测诊断结果。在这种情况下，我们认为诊断引起的表现，即疾病引起的症状。有时标签偏移和协变量移位假设可以同时成立。例如，当真正的标签函数是确定的和不变的，那么协变量偏移将始终保持，包括如果标签偏移也保持。有趣的是，当我们期望标签偏移和协变量偏移保持时，使用来自标签偏移假设的方法通常是有利的。这是因为这些方法倾向于操作看起来像标签的对象，这（在深度学习中）与处理看起来像输入的对象（在深度学习中）相比相对容易一些。</p><p>病因（要预测的诊断结果）导致 症状（观察到的结果）。  </p><p>训练数据集，数据很少只包含流感$p(y)$的样本。  </p><p>而测试数据集有流感$p(y)$和流感$q(y)$，其中不变的是流感症状$p(x|y)$。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;任务03：过拟合、欠拟合及其解决方案；梯度消失、梯度爆炸；循环神经网络进阶（1天）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;过拟合、欠拟合及其解决方案&quot;&gt;&lt;a href=&quot;#过拟合、欠拟合及其解决方案&quot; class=&quot;headerlin
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Pytorch" scheme="http://www.secret114.com/tags/Pytorch/"/>
+    
+      <category term="DataWhale" scheme="http://www.secret114.com/tags/DataWhale/"/>
+    
+      <category term="Deep Learning" scheme="http://www.secret114.com/tags/Deep-Learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Task02：文本预处理；语言模型；循环神经网络基础</title>
+    <link href="http://www.secret114.com/2020/02/14/Task02%EF%BC%9A%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%9B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
+    <id>http://www.secret114.com/2020/02/14/Task02%EF%BC%9A%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%EF%BC%9B%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/</id>
+    <published>2020-02-14T11:21:58.000Z</published>
+    <updated>2020-02-14T11:21:58.178Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>动手学深度学习-Task01</title>
+    <link href="http://www.secret114.com/2020/02/13/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task01/"/>
+    <id>http://www.secret114.com/2020/02/13/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task01/</id>
+    <published>2020-02-13T03:08:06.000Z</published>
+    <updated>2020-02-15T12:58:56.900Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Softmax和分类模型"><a href="#Softmax和分类模型" class="headerlink" title="Softmax和分类模型"></a>Softmax和分类模型</h2><h3 id="Softmax基本概念"><a href="#Softmax基本概念" class="headerlink" title="Softmax基本概念"></a>Softmax基本概念</h3><p>抛砖引玉，对于一个简单的图像分类问题，假设输入图像的high和width均为2个像素，忽略色彩方面因素（原文设置为灰度），则图像的4个像素可以设置为$x_1$，$x_2$，$x_3$，$x_4$。假如此时，有3个真实标签$y_1=1$，$y_2=2$，$y_3=3$分别代表鸡、狗、猪，则我们以此得到有关的权重矢量关系式：</p><script type="math/tex; mode=display">\begin{aligned}    o_1 &= x_1 w_{11} + x_2 w_{21} + x_3 w_{31} + x_4 w_{41} + b_1\end{aligned}</script><script type="math/tex; mode=display">\begin{aligned}    o_2 &= x_1 w_{12} + x_2 w_{22} + x_3 w_{32} + x_4 w_{42} + b_2\end{aligned}</script><script type="math/tex; mode=display"> \begin{aligned} o_3 &= x_1 w_{13} + x_2 w_{23} + x_3 w_{33} + x_4 w_{43} + b_3 \end{aligned}</script><p>用神经网络绘制上面的计算：<br><img src="https://cdn.kesci.com/upload/image/q5hmymezog.png" alt="Image Name"><br>Softmax回归同线性回归一样也是<strong>单层神经网络</strong>结构，输出层是一个全连接层。</p><p>回到上面举的例子，既然分类问题需要得到离散的预测输出，一个简单的办法是将输出值$o_i$当作预测类别是$i$的置信度，并将值最大的输出所对应的类作为预测输出，即输出 $\underset{i}{\arg\max} o_i$。例如，如果$o_1,o_2,o_3$分别为$0.1,10,0.1$，由于$o_2$最大，那么预测类别为2，其代表狗。</p><h4 id="输出问题"><a href="#输出问题" class="headerlink" title="输出问题"></a>输出问题</h4><p>直接使用输出层的输出有两个问题：</p><ol><li>一方面，由于输出层的输出值的范围不确定，我们难以直观上判断这些值的意义。例如，刚才举的例子中的输出值10表示“很置信”图像类别为猫，因为该输出值是其他两类的输出值的100倍。但如果$o_1=o_3=10^3$，那么输出值10却又表示图像类别为猫的概率很低。</li><li>另一方面，由于真实标签是离散值，这些离散值与不确定范围的输出值之间的误差难以衡量。</li></ol><p>softmax运算符（softmax operator）解决了以上两个问题。它通过下式将输出值变换成值为正且和为1的概率分布：</p><script type="math/tex; mode=display"> \hat{y}_1, \hat{y}_2, \hat{y}_3 = \text{softmax}(o_1, o_2, o_3)</script><p>其中</p><script type="math/tex; mode=display"> \hat{y}1 = \frac{ \exp(o_1)}{\sum_{i=1}^3 \exp(o_i)},\quad \hat{y}2 = \frac{ \exp(o_2)}{\sum_{i=1}^3 \exp(o_i)},\quad \hat{y}3 = \frac{ \exp(o_3)}{\sum_{i=1}^3 \exp(o_i)}.</script><h4 id="计算效率"><a href="#计算效率" class="headerlink" title="计算效率"></a>计算效率</h4><h3 id="交叉熵损失函数"><a href="#交叉熵损失函数" class="headerlink" title="交叉熵损失函数"></a>交叉熵损失函数</h3><p>对于样本$i$，我们构造向量$\boldsymbol{y}^{(i)}\in \mathbb{R}^{q}$ ，使其第$y^{(i)}$（样本$i$类别的离散数值）个元素为1，其余为0。这样我们的训练目标可以设为使预测概率分布$\boldsymbol{\hat y}^{(i)}$尽可能接近真实的标签概率分布$\boldsymbol{y}^{(i)}$。</p><ul><li>平方损失估计<script type="math/tex; mode=display">\begin{aligned}Loss = |\boldsymbol{\hat y}^{(i)}-\boldsymbol{y}^{(i)}|^2/2\end{aligned}</script></li></ul><p>然而，在实际应用中，我们其实并不需要预测标签完全等于真实标签，例如$y^{(i)}=3$，我们只需要$\hat{y}^{(i)}_3$比其他两个预测值$\hat{y}^{(i)}_1$和$\hat{y}^{(i)}_2$大就行了，即使$\hat{y}^{(i)}_3$值为0.6，不管其他两个预测值为多少，类别预测均正确。<br>因此，为了改善上述问题，我们采用交叉熵（Cross Entropy）：</p><script type="math/tex; mode=display">H\left(\boldsymbol y^{(i)}, \boldsymbol {\hat y}^{(i)}\right ) = -\sum_{j=1}^q y_j^{(i)} \log \hat y_j^{(i)},</script><p>其中带下标的$y_j^{(i)}$是向量$\boldsymbol y^{(i)}$中非0即1的元素。</p><p>假设训练数据集的样本数为$n$，交叉熵损失函数定义为 </p><script type="math/tex; mode=display">\ell(\boldsymbol{\Theta}) = \frac{1}{n} \sum_{i=1}^n H\left(\boldsymbol y^{(i)}, \boldsymbol {\hat y}^{(i)}\right ),</script><p>其中$\boldsymbol{\Theta}$代表模型参数。</p><h3 id="获取Fashion-MNIST训练集和读取数据"><a href="#获取Fashion-MNIST训练集和读取数据" class="headerlink" title="获取Fashion-MNIST训练集和读取数据"></a>获取Fashion-MNIST训练集和读取数据</h3><p>图像分类数据集中最常用的是手写数字识别数据集MNIST[1]。但大部分模型在MNIST上的分类精度都超过了95%。为了更直观地观察算法之间的差异，我们将使用一个图像内容更加复杂的数据集Fashion-MNIST[2]。</p><p>我这里我们会使用torchvision包，它是服务于PyTorch深度学习框架的，主要用来构建计算机视觉模型。torchvision主要由以下几部分构成：</p><ol><li>torchvision.datasets: 一些加载数据的函数及常用的数据集接口；</li><li>torchvision.models: 包含常用的模型结构（含预训练模型），例如AlexNet、VGG、ResNet等；</li><li>torchvision.transforms: 常用的图片变换，例如裁剪、旋转等；</li><li>torchvision.utils: 其他的一些有用的方法。</li></ol><p><s>代码请见jupyter notebook，后续补充</s><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torchvision</span>.<span class="title">datasets</span>.<span class="title">FashionMNIST</span><span class="params">(root, train=True, transform=None, target_transform=None, download=False)</span></span></span><br></pre></td></tr></table></figure></p><ul><li>root（string）– 数据集的根目录，其中存放processed/training.pt和processed/test.pt文件。<ul><li>train（bool, 可选）– 如果设置为True，从training.pt创建数据集，否则从test.pt创建。</li><li>download（bool, 可选）– 如果设置为True，从互联网下载数据并放到root文件夹下。如果root目录下已经存在数据，不会再次下载。</li><li>transform（可被调用 , 可选）– 一种函数或变换，输入PIL图片，返回变换之后的数据。如：transforms.RandomCrop。</li><li>target_transform（可被调用 , 可选）– 一种函数或变换，输入目标，进行变换。</li></ul></li></ul><h3 id="Softmax从零开始"><a href="#Softmax从零开始" class="headerlink" title="Softmax从零开始"></a>Softmax从零开始</h3><h3 id="Softmax的简洁实现"><a href="#Softmax的简洁实现" class="headerlink" title="Softmax的简洁实现"></a>Softmax的简洁实现</h3><h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><ol><li><p>softmax([100, 101, 102])的结果等于以下的哪一项（）<br>A. softmax([10.0, 10.1, 10.2])<br>B. softmax([-100, -101, -102])<br>C. softmax([-2 -1, 0])<br>D. softmax([1000, 1010, 1020])</p></li><li><p>对于本节课的模型，在刚开始训练时，训练数据集上的准确率低于测试数据集上的准确率，原因是（）<br>A. 模型参数是在训练集上进行训练的，可能陷入了过拟合<br>B. 训练集的样本容量更大，要提高准确率更难<br>C. 训练集上的准确率是在一个epoch的过程中计算得到的，测试集上的准确率是在一个epoch结束后计算得到的，后者的模型参数更优</p></li></ol><h2 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a>多层感知机</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><ol><li>隐藏层</li></ol><p>具体来说，给定一个小批量样本$\boldsymbol{X} \in \mathbb{R}^{n \times d}$，其批量大小为$n$，输入个数为$d$。假设多层感知机只有一个隐藏层，其中隐藏单元个数为$h$。记隐藏层的输出（也称为隐藏层变量或隐藏变量）为$\boldsymbol{H}$，有$\boldsymbol{H} \in \mathbb{R}^{n \times h}$。因为隐藏层和输出层均是全连接层，可以设隐藏层的权重参数和偏差参数分别为$\boldsymbol{W}_h \in \mathbb{R}^{d \times h}$和 $\boldsymbol{b}_h \in \mathbb{R}^{1 \times h}$，输出层的权重和偏差参数分别为$\boldsymbol{W}_o \in \mathbb{R}^{h \times q}$和$\boldsymbol{b}_o \in \mathbb{R}^{1 \times q}$。</p><p><img src="https://cdn.kesci.com/upload/image/q5ho684jmh.png" alt="多层感知机的神经网络图"></p><p>我们先来看一种含单隐藏层的多层感知机的设计。其输出$\boldsymbol{O} \in \mathbb{R}^{n \times q}$的计算为</p><script type="math/tex; mode=display"> \begin{aligned} \boldsymbol{H} &= \boldsymbol{X} \boldsymbol{W}_h + \boldsymbol{b}_h,\\ \boldsymbol{O} &= \boldsymbol{H} \boldsymbol{W}_o + \boldsymbol{b}_o, \end{aligned}</script><p>也就是将隐藏层的输出直接作为输出层的输入。如果将以上两个式子联立起来，可以得到</p><script type="math/tex; mode=display"> \boldsymbol{O} = (\boldsymbol{X} \boldsymbol{W}_h + \boldsymbol{b}_h)\boldsymbol{W}_o + \boldsymbol{b}_o = \boldsymbol{X} \boldsymbol{W}_h\boldsymbol{W}_o + \boldsymbol{b}_h \boldsymbol{W}_o + \boldsymbol{b}_o.</script><p>从联立后的式子可以看出，虽然神经网络引入了隐藏层，却依然等价于一个单层神经网络：其中输出层权重参数为$\boldsymbol{W}_h\boldsymbol{W}_o$，偏差参数为$\boldsymbol{b}_h \boldsymbol{W}_o + \boldsymbol{b}_o$。不难发现，即便再添加更多的隐藏层，以上设计依然只能与仅含输出层的单层神经网络等价。</p><h3 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h3><h4 id="ReLU函数"><a href="#ReLU函数" class="headerlink" title="ReLU函数"></a>ReLU函数</h4><p>ReLU（rectified linear unit）函数提供了一个很简单的非线性变换。给定元素$x$，该函数定义为</p><script type="math/tex; mode=display">\text{ReLU}(x) = \max(x, 0).</script><p>可以看出，ReLU函数只保留正数元素，并将负数元素清零。为了直观地观察这一非线性变换，我们先定义一个绘图函数xyplot。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="comment"># sys.path.append("/home/kesci/input")</span></span><br><span class="line"><span class="comment"># import d2lzh1981 as d2l</span></span><br><span class="line"><span class="comment"># print(torch.__version__)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">xyplot</span><span class="params">(x_vals, y_vals, name)</span>:</span></span><br><span class="line">    <span class="comment"># d2l.set_figsize(figsize=(5, 2.5))</span></span><br><span class="line">    plt.plot(x_vals.detach().numpy(), y_vals.detach().numpy())</span><br><span class="line">    plt.xlabel(<span class="string">'x'</span>)</span><br><span class="line">    plt.ylabel(name + <span class="string">'(x)'</span>)</span><br><span class="line">x = torch.arange(<span class="number">-8.0</span>, <span class="number">8.0</span>, <span class="number">0.1</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line">y = x.relu()</span><br><span class="line">xyplot(x, y, <span class="string">'relu'</span>)</span><br></pre></td></tr></table></figure><p><img src="https://cdn.kesci.com/rt_upload/070825B6A382411DA5BD7D14E67E8D54/q5hv7cdtna.png" alt=""></p><h4 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = x.sigmoid()</span><br><span class="line">xyplot(x, y, <span class="string">'sigmoid'</span>)</span><br></pre></td></tr></table></figure><p><img src="https://cdn.kesci.com/rt_upload/68FCB4E8142144458F13128B370D1C91/q5hv7dor11.png" alt=""></p><h4 id="tanh函数"><a href="#tanh函数" class="headerlink" title="tanh函数"></a>tanh函数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = x.tanh()</span><br><span class="line">xyplot(x, y, <span class="string">'tanh'</span>)</span><br></pre></td></tr></table></figure><p><img src="https://cdn.kesci.com/rt_upload/92D16076309F42169482834C0B6ABB24/q5hv7dfeso.png" alt=""></p><h4 id="关于激活函数的选择"><a href="#关于激活函数的选择" class="headerlink" title="关于激活函数的选择"></a>关于激活函数的选择</h4><p>ReLu函数是一个通用的激活函数，目前在大多数情况下使用。但是，ReLU函数只能在隐藏层中使用。</p><p>用于分类器时，sigmoid函数及其组合通常效果更好。由于梯度消失问题，有时要避免使用sigmoid和tanh函数。</p><p>在神经网络层数较多的时候，最好使用ReLu函数，ReLu函数比较简单计算量少，而sigmoid和tanh函数计算量大很多。</p><p>在选择激活函数的时候可以先选用ReLu函数如果效果不理想可以尝试其他激活函数。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Softmax和分类模型&quot;&gt;&lt;a href=&quot;#Softmax和分类模型&quot; class=&quot;headerlink&quot; title=&quot;Softmax和分类模型&quot;&gt;&lt;/a&gt;Softmax和分类模型&lt;/h2&gt;&lt;h3 id=&quot;Softmax基本概念&quot;&gt;&lt;a href=&quot;#So
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Pytorch" scheme="http://www.secret114.com/tags/Pytorch/"/>
+    
+      <category term="DataWhale" scheme="http://www.secret114.com/tags/DataWhale/"/>
+    
+      <category term="Deep Learning" scheme="http://www.secret114.com/tags/Deep-Learning/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Leetcode]二叉树的前/中/后序和层次遍历（94/102/144/145）</title>
+    <link href="http://www.secret114.com/2020/02/11/Leetcode-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D-%E4%B8%AD-%E5%90%8E%E5%BA%8F%E5%92%8C%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%8894-102-144-145%EF%BC%89/"/>
+    <id>http://www.secret114.com/2020/02/11/Leetcode-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D-%E4%B8%AD-%E5%90%8E%E5%BA%8F%E5%92%8C%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86%EF%BC%8894-102-144-145%EF%BC%89/</id>
+    <published>2020-02-11T07:12:50.000Z</published>
+    <updated>2020-02-11T15:47:44.882Z</updated>
+    
+    <content type="html"><![CDATA[<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=3 orderedList=false} --><!-- code_chunk_output --><ul><li><a href="#94-二叉树的中序遍历">94. 二叉树的中序遍历</a><ul><li><a href="#方法一遍历">方法一：遍历</a></li><li><a href="#方法二迭代">方法二：迭代</a></li></ul></li><li><a href="#144二叉树的前序遍历">144.二叉树的前序遍历</a><ul><li><a href="#方法一遍历-1">方法一：遍历</a></li><li><a href="#方法二迭代-1">方法二：迭代</a></li></ul></li></ul><!-- /code_chunk_output --><p>这篇主要是针对二叉树的遍历进行代码详解，目的是学会二叉树各类遍历的实际应用代码模板，学以致用。文章内容按照Leetcode上题号顺序分类解答，最终列出相关通用模板和方法。</p><h2 id="94-二叉树的中序遍历"><a href="#94-二叉树的中序遍历" class="headerlink" title="94. 二叉树的中序遍历"></a>94. 二叉树的中序遍历</h2><blockquote><p>规律：<strong>左 - 根 - 右</strong></p></blockquote><h3 id="方法一：遍历"><a href="#方法一：遍历" class="headerlink" title="方法一：遍历"></a>方法一：遍历</h3><p>根据二叉树的中序遍历情况，递归只需要根据规律将结果装入<code>res</code>中即可，代码如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = [] <span class="comment"># 存储最终结果的变量</span></span><br><span class="line">        self.helper(root,res) <span class="comment"># helper函数用于递归</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(self,root,res)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        函数功能：按照“左根右”递归遍历二叉树</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :type res: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> ; <span class="comment"># 若二叉树为空，则直接返回</span></span><br><span class="line">        self.helper(root.left,res) <span class="comment"># 遍历左子树</span></span><br><span class="line">        res.append(root.val) <span class="comment"># 将根节点放入res中</span></span><br><span class="line">        self.helper(root.right,res) <span class="comment"># 遍历右子树</span></span><br></pre></td></tr></table></figure><h3 id="方法二：迭代"><a href="#方法二：迭代" class="headerlink" title="方法二：迭代"></a>方法二：迭代</h3><p>上面的方法容易造成“一看就会，一用就跪”的局面，并且对于计算机来说递归次数越多代码运行所消耗的内存和时间就越大，因此，在实际应用中，常采用迭代来替代递归。</p><p>迭代方法的关键在于以空间换时间，<strong>用栈来存储遍历时经过的节点</strong>（这点思路非常重要，并且要注意是栈不是队列！）。与其他遍历不同（前序、后序），中序遍历需要存储所有遍历到的左节点，找到<strong>最左侧</strong>节点（叶子节点）后分步释放节点并迭代右节点，这部分代码需要注意，其代码如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        stack,res = [],[] <span class="comment"># 栈stack存储遍历节点,res存储结果</span></span><br><span class="line">        cur = root <span class="comment"># 存储当前节点</span></span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> cur:</span><br><span class="line">            <span class="comment"># 遍历左子树，直到最左节点</span></span><br><span class="line">            <span class="keyword">while</span> cur:</span><br><span class="line">                stack.append(cur) </span><br><span class="line">                cur = cur.left</span><br><span class="line">            <span class="comment"># 释放左节点，并开始迭代右节点</span></span><br><span class="line">            cur = stack.pop() <span class="comment"># 当前栈顶保存了最左节点的信息</span></span><br><span class="line">            res.append(cur.val)</span><br><span class="line">            cur = cur.right <span class="comment"># 迭代右子树</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure><h2 id="144-二叉树的前序遍历"><a href="#144-二叉树的前序遍历" class="headerlink" title="144.二叉树的前序遍历"></a>144.二叉树的前序遍历</h2><blockquote><p>规律：<strong>根 - 左 - 右</strong></p></blockquote><h3 id="方法一：遍历-1"><a href="#方法一：遍历-1" class="headerlink" title="方法一：遍历"></a>方法一：遍历</h3><p>跟之前的遍历一样，按照规律编写如下代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        res = []</span><br><span class="line">        self.helper(root,res)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(self,root,res)</span></span></span><br><span class="line"><span class="function">        <span class="title">if</span> <span class="title">not</span> <span class="title">root</span>:</span></span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        res.append(root.val) <span class="comment"># 将根节点写入res中</span></span><br><span class="line">        self.helper(root.left,res) <span class="comment"># 遍历左子树</span></span><br><span class="line">        self.helper(root.right,res) <span class="comment"># 遍历右子树</span></span><br></pre></td></tr></table></figure><h3 id="方法二：迭代-1"><a href="#方法二：迭代-1" class="headerlink" title="方法二：迭代"></a>方法二：迭代</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;!-- @import &quot;[TOC]&quot; {cmd=&quot;toc&quot; depthFrom=2 depthTo=3 orderedList=false} --&gt;
+
+&lt;!-- code_chunk_output --&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#94-二叉树的中序遍历&quot;&gt;94
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Leetcode" scheme="http://www.secret114.com/tags/Leetcode/"/>
+    
+      <category term="Python" scheme="http://www.secret114.com/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Leetcode]76.最小覆盖子串</title>
+    <link href="http://www.secret114.com/2020/01/20/Leetcode-76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/"/>
+    <id>http://www.secret114.com/2020/01/20/Leetcode-76-%E6%9C%80%E5%B0%8F%E8%A6%86%E7%9B%96%E5%AD%90%E4%B8%B2/</id>
+    <published>2020-01-20T06:56:01.000Z</published>
+    <updated>2020-02-10T07:04:02.300Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>题号：76</p><p>题名：最小覆盖子串</p><p>难度：H</p><p>地址：<a href="https://leetcode-cn.com/problems/minimum-window-substring/submissions/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/minimum-window-substring/submissions/</a></p></blockquote><h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>参照<a href="https://zhuanlan.zhihu.com/p/67687874" target="_blank" rel="noopener" title="【知乎】[LeetCode] 76. 最小覆盖子串">知乎</a>的解法，熟悉滑动窗口</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;题号：76&lt;/p&gt;
+&lt;p&gt;题名：最小覆盖子串&lt;/p&gt;
+&lt;p&gt;难度：H&lt;/p&gt;
+&lt;p&gt;地址：&lt;a href=&quot;https://leetcode-cn.com/problems/minimum-window-substring/submissions/
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Leetcode" scheme="http://www.secret114.com/tags/Leetcode/"/>
+    
+      <category term="Python" scheme="http://www.secret114.com/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于windows控制台或Cmder打开时提示“系统找不到指定的路径”问题</title>
+    <link href="http://www.secret114.com/2020/01/08/%E5%85%B3%E4%BA%8Ewindows%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%88%96Cmder%E6%89%93%E5%BC%80%E6%97%B6%E6%8F%90%E7%A4%BA%E2%80%9C%E7%B3%BB%E7%BB%9F%E6%89%BE%E4%B8%8D%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84%E8%B7%AF%E5%BE%84%E2%80%9D%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.secret114.com/2020/01/08/%E5%85%B3%E4%BA%8Ewindows%E6%8E%A7%E5%88%B6%E5%8F%B0%E6%88%96Cmder%E6%89%93%E5%BC%80%E6%97%B6%E6%8F%90%E7%A4%BA%E2%80%9C%E7%B3%BB%E7%BB%9F%E6%89%BE%E4%B8%8D%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84%E8%B7%AF%E5%BE%84%E2%80%9D%E9%97%AE%E9%A2%98/</id>
+    <published>2020-01-08T00:56:48.000Z</published>
+    <updated>2020-01-08T01:07:48.087Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天因为心血来潮，突然删了用户根目录下的配置文件夹（主要是觉得有些环境配置用不到了就顺带一起清理下），结果打开cmder时一连提示好几个“系统找不到指定的路径”，删了cmder重配置也是一样。后来我发现cmd下也会提示这个错误，于是在网上搜了下，发现了这个解决办法。</p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>首先<code>regedit</code>打开注册表，找到<code>计算机\HKEY_CURRENT_USER\Software\Microsoft\Command Processor</code>路径下<code>Autorun</code>注册表项，删除即可。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;昨天因为心血来潮，突然删了用户根目录下的配置文件夹（主要是觉得有些环境配置用不到了就顺带一起清理下），结果打开cmder时一连提示好几个“系统找不到指定的路径”，删了cmder重配置也是一样。后来我发现cmd下也会提示这个错误，于是在网上搜了下，发现了这个解决办法。&lt;/p&gt;
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>1. Two Sum-两数之和</title>
+    <link href="http://www.secret114.com/2020/01/05/1-Two-Sum-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/"/>
+    <id>http://www.secret114.com/2020/01/05/1-Two-Sum-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</id>
+    <published>2020-01-05T09:52:17.000Z</published>
+    <updated>2020-01-05T09:54:52.056Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Pandas-API-DataFrame-用法</title>
+    <link href="http://www.secret114.com/2020/01/05/Pandas-API-DataFrame-%E7%94%A8%E6%B3%95/"/>
+    <id>http://www.secret114.com/2020/01/05/Pandas-API-DataFrame-%E7%94%A8%E6%B3%95/</id>
+    <published>2020-01-05T04:37:16.273Z</published>
+    <updated>2019-07-02T07:11:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>title: ‘[Pandas API]DataFrame()用法’<br>date: 2019-07-02 11:58:14<br>tags: [api]</p><p>API地址：<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html" target="_blank" rel="noopener">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html</a></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p><code>DataFrame</code>是Python中<code>Pandas</code>库中的一种数据结构，它类似于Excel，是一种<strong>二维表</strong>。<code>DataFrame</code>可以存放多类型数据，例如数值、字符串等。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.DataFrame([data,index,columns,dtype,copy]) <span class="comment"># pandas这里简写为pd</span></span><br></pre></td></tr></table></figure><ul><li>data: 可以是<code>ndarray</code>、<code>lterable</code>、<code>DataFrame</code>类型</li><li>index: 用于生成结果索引</li><li>dtype: 强制输出一个</li><li>copy: 从输入中复制数据</li></ul><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>Pandas库经常与Numpy库连用。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;title: ‘[Pandas API]DataFrame()用法’&lt;br&gt;date: 2019-07-02 11:58:14&lt;br&gt;tags: [api]&lt;/p&gt;
+&lt;p&gt;API地址：&lt;a href=&quot;https://pandas.pydata.org/pandas-doc
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Anaconda下配置多版本环境</title>
+    <link href="http://www.secret114.com/2019/07/13/Anaconda%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83/"/>
+    <id>http://www.secret114.com/2019/07/13/Anaconda%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83/</id>
+    <published>2019-07-12T22:40:10.000Z</published>
+    <updated>2019-07-14T03:18:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>文章详述了有关Anaconda软件包中关于conda配置多版本环境的内容，多环境用于不同编程需要。<br>核心命令为</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create [--name | -a] &lt;envsname&gt; [python=x.x]</span><br><span class="line">conda activate &lt;envsname&gt;</span><br></pre></td></tr></table></figure><p><img src="http://image.secret114.com/Image/Anaconda-open-source-software.png" alt="Anaconda"></p><a id="more"></a><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Anaconda是一款开源的Python发行版本，其包含了conda、python等许多科学包和依赖环境，我平时学习时最常使用的Jupter Notebook就是运行在Anaconda软件环境中的，平时最常用的就是下载包和看文档比较方便，没有深入研究过这个工具的强大作用。这次利用pytorch中的torchtext做情感分析实验发现，pytorch倒是很容易安装上了（这里吐槽Pycharm各种报错，难受），而torchtext所需Python版本是3.7，安装时报出各种安装依赖。后来，在简书上找到一篇<a href="https://www.jianshu.com/p/a52c8b514ea9" target="_blank" rel="noopener" title="conda下多版本Python切换和配置">《conda下多版本Python切换和配置》</a>，试着做了一些配置，发现确实好用，又get到一种新方法～</p><h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>Anaconda环境下需要多个Python版本之间的切换，原始的Anaconda下的Python版本无法满足要求（例如，两个notebook运行环境需要在python 2.7.x和python 3.6.x之间进行切换，总不能要用哪个notebook时先把另一个notebook环境关了吧？这样切换太麻烦了）</p><h2 id="相关环境"><a href="#相关环境" class="headerlink" title="相关环境"></a>相关环境</h2><p>我这边是运行在Vmware虚拟机里的UBuntu，也就是linux环境，系统Python默认版本为3.6，也带有Python 2.7、3.7。总结如下：</p><ul><li><p>OS: Ubuntu(Linux)</p></li><li><p>Python: 3.6</p></li><li><p>conda: 4.7.5</p></li></ul><h1 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h1><ol><li>首先检测安装的conda版本，并将conda升级到最新版本：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda --version <span class="comment"># 查看conda版本</span></span><br></pre></td></tr></table></figure><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2009-48-23.png" alt="查看conda版本"></p><p>如果版本较低可以升级conda，或者顺手升级Anaconda环境的所有依赖包版本：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda update conda <span class="comment"># 升级conda</span></span><br><span class="line">conda update --all <span class="comment"># 升级Anaconda所有依赖包</span></span><br></pre></td></tr></table></figure><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2009-58-29.png" alt="升级conda"></p><p>这里我省略了安装过程的刷屏代码，最后只要看见<code>All requested packages already installed.</code>就代表成功了。</p><blockquote><p>这里注意，如果出现Anaconda安装了但是conda命令无法执行，那可能是环境变量没有添加。一般bash没问题，这里我用的是zsh，需要手动添加环境变量：</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2009-41-30.png" alt="zsh下conda命令无法找到"></p><p>在<code>~/.zshrc</code>文件末尾添加一句：</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2009-45-07.png" alt="配置zsh环境变量"></p><p>最后<code>source ~/.zshrc</code>即可，这样就能正常使用conda命令了。</p></blockquote><ol start="2"><li>列出所有conda环境</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda info --envs</span><br></pre></td></tr></table></figure><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2010-01-40.png" alt="显示所有conda环境"></p><p>这里发现codna一共两个环境（其中带*的为默认环境），使用的python版本都是3.6，而我的notebook torch需要python 3.7的相关依赖——</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2010-10-42.png" alt="安装torchtext时提示python相关package版本不匹配"></p><p>所以我们需要创建一个新的Python 3.7环境安装torchtext。</p><ol start="3"><li>创建一个新环境并激活</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n py37  [python=3.7]</span><br></pre></td></tr></table></figure><p>其中，<code>py37</code>为创建的环境名称，后面指定了Python版本，也可以不添加，就是分配默认版本。</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2018-13-26.png" alt="创建conda环境"></p><p>选择<code>y</code>自动配置完成后，会出现提示：</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2018-14-19.png" alt="conda新环境配置完成"></p><p>我们按照提示激活环境即可使用：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate py37</span><br></pre></td></tr></table></figure><p>注意，在zsh命令行中输入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> activate &lt;envname&gt;</span><br></pre></td></tr></table></figure><blockquote><p><s>需要在Terminal下切换conda环境的话也是使用<code>conda activate &lt;envname&gt;</code>就可以完成切换，想要回到原始环境就<code>conda deactivate</code>。而在Jupyter notebook中直接选择<code>kernel -&gt; Change kernel</code></s></p></blockquote><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2018-26-11.png" alt="激活环境 &amp; 切换环境"></p><p>可以看到，<code>conda activate</code>命令在各环境下进行切换，十分方便。</p><ol start="4"><li>其他配置</li></ol><p>conda还有许多配置命令，下面一一列举：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conda list [--name &lt;envname&gt;] <span class="comment"># 检查所有package，默认为当前conda环境</span></span><br><span class="line">conda search &lt;package name&gt; <span class="comment"># 查找package信息</span></span><br><span class="line">conda install [--name &lt;envname&gt;] &lt;package name&gt; <span class="comment"># 将package安装到某个conda环境中，默认为当前环境</span></span><br><span class="line">conda remove --name &lt;envname&gt; &lt;package name | --all&gt; <span class="comment"># 移除依赖包，或者移除整个环境 </span></span><br><span class="line">conda update [--name &lt;envname&gt;] &lt;package name&gt; <span class="comment"># 更新依赖包，默认为当前conda环境</span></span><br></pre></td></tr></table></figure><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.jianshu.com/p/a52c8b514ea9" target="_blank" rel="noopener" title="conda下多版本Python切换和配置">简书：conda下多版本Python切换和配置</a></li><li><a href="https://blog.csdn.net/neu_chenguangq/article/details/79451945" target="_blank" rel="noopener" title="conda-多环境配置">CSDN：conda-多环境配置</a></li><li><a href="https://zhuanlan.zhihu.com/p/46902996" target="_blank" rel="noopener" title="[工具] Anaconda 环境管理工具 如何安装不同版本的R和python">知乎：[工具] Anaconda 环境管理工具 如何安装不同版本的R和python</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;文章详述了有关Anaconda软件包中关于conda配置多版本环境的内容，多环境用于不同编程需要。&lt;br&gt;核心命令为&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;conda create [--name | -a] &amp;lt;envsname&amp;gt; [python=x.x]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;conda activate &amp;lt;envsname&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://image.secret114.com/Image/Anaconda-open-source-software.png&quot; alt=&quot;Anaconda&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="anaconda" scheme="http://www.secret114.com/tags/anaconda/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux下安装oh-my-zsh</title>
+    <link href="http://www.secret114.com/2019/07/13/Linux%E4%B8%8B%E5%AE%89%E8%A3%85oh-my-zsh/"/>
+    <id>http://www.secret114.com/2019/07/13/Linux%E4%B8%8B%E5%AE%89%E8%A3%85oh-my-zsh/</id>
+    <published>2019-07-12T22:39:28.000Z</published>
+    <updated>2019-07-14T03:36:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>注意：安装前先备份<code>/etc/passwd</code></strong></p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh</span><br><span class="line">chsh -s /bin/zsh <span class="comment"># 注意，不要使用sudo</span></span><br><span class="line">sudo vim /etc/passwd</span><br></pre></td></tr></table></figure><p>修改第一行的<code>/bin/bash</code>变成<code>/bin/zsh</code>：</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2005-59-31.png" alt=""></p><p>把最后一行<code>/bin/bash</code>改为<code>/bin/zsh</code>：</p><p><img src="http://image.secret114.com/Screenshot%20from%202019-07-13%2006-00-16.png" alt=""></p><p>然后根据<a href="https://ohmyz.sh/" target="_blank" rel="noopener" title="oh-my-zsh官网">官网</a>提供的命令自动安装oh-my-zsh：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure><p>然后重启电脑后就能看到oh-my-zsh安装好了，目前我没遇见过其他错误，还正在体验中</p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.cnblogs.com/EasonJim/p/7863099.html" target="_blank" rel="noopener" title="Ubuntu 16.04下安装zsh和oh-my-zsh">博客园：Ubuntu 16.04下安装zsh和oh-my-zsh</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;注意：安装前先备份&lt;code&gt;/etc/passwd&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h1&gt;&lt;figure class=&quot;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Linux" scheme="http://www.secret114.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解NLP中的卷积神经网络(CNN)</title>
+    <link href="http://www.secret114.com/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/"/>
+    <id>http://www.secret114.com/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/</id>
+    <published>2019-07-04T10:02:25.000Z</published>
+    <updated>2019-07-04T10:02:25.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>[TensorFlow API]tf.placeholder()用法</title>
+    <link href="http://www.secret114.com/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/"/>
+    <id>http://www.secret114.com/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/</id>
+    <published>2019-07-04T03:02:43.000Z</published>
+    <updated>2019-07-04T03:25:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>API地址：</p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p> TensorFlow的设计理念称之为计算流图，在编写程序时，首先构筑整个系统的graph，代码并不会直接生效，这一点和python的其他数值计算库（如Numpy等）不同，graph为静态的，类似于docker中的镜像。然后，在实际的运行时，启动一个session，程序才会真正的运行。这样做的好处就是：避免反复地切换底层程序实际运行的上下文，TensorFlow帮你优化整个系统的代码。我们知道，很多python程序的底层为C语言或者其他语言，执行一行脚本，就要切换一次，是有成本的，TensorFlow通过计算流图的方式，帮你优化整个session需要执行的代码，还是很有优势的。</p><p>所以<code>placeholder()</code>函数是在神经网络构建graph的时候在模型中的占位，此时并没有把要输入的数据传入模型，它只会分配必要的内存。等建立session，在会话中，运行模型的时候通过<code>feed_dict()</code>函数向占位符喂入数据。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tf.placeholder(</span><br><span class="line">    dtype,</span><br><span class="line">    shape=<span class="literal">None</span>,</span><br><span class="line">    name=<span class="literal">None</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure><ul><li><p>dtype: 数据类型，常用的是<code>float32</code>,<code>int64</code>等数值类型。</p></li><li><p>shape: 数据形状【默认None】</p></li><li><p>name：名字</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;API地址：&lt;/p&gt;
+&lt;h1 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot; title=&quot;描述&quot;&gt;&lt;/a&gt;描述&lt;/h1&gt;&lt;p&gt; TensorFlow的设计理念称之为计算流图，在编写程序时，首先构筑整个系统的graph，代码并不会直接生效，
+      
+    
+    </summary>
+    
+    
+    
+      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[gensim API]word2vec用法</title>
+    <link href="http://www.secret114.com/2019/07/02/gensim-API-word2vec%E7%94%A8%E6%B3%95/"/>
+    <id>http://www.secret114.com/2019/07/02/gensim-API-word2vec%E7%94%A8%E6%B3%95/</id>
+    <published>2019-07-02T08:01:56.000Z</published>
+    <updated>2019-07-02T09:11:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>API地址：<a href="https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec" target="_blank" rel="noopener">https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec</a></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>gensim是用于NLP的Python包，它封装了好多有用的模型。其中<code>gensim.models</code>中最常用的就是封装了C版本的word2vec。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">gensim</span>.<span class="title">models</span>.<span class="title">word2vec</span>.<span class="title">Word2Vec</span><span class="params">(sentences=None, corpus_file=None, size=<span class="number">100</span>, alpha=<span class="number">0.025</span>, window=<span class="number">5</span>, min_count=<span class="number">5</span>, max_vocab_size=None, sample=<span class="number">0.001</span>, seed=<span class="number">1</span>, workers=<span class="number">3</span>, min_alpha=<span class="number">0.0001</span>, sg=<span class="number">0</span>, hs=<span class="number">0</span>, negative=<span class="number">5</span>, ns_exponent=<span class="number">0.75</span>, cbow_mean=<span class="number">1</span>, hashfxn=&lt;built-in function hash&gt;, iter=<span class="number">5</span>, null_word=<span class="number">0</span>, trim_rule=None, sorted_vocab=<span class="number">1</span>, batch_words=<span class="number">10000</span>, compute_loss=False, callbacks=<span class="params">()</span>, max_final_vocab=None)</span></span></span><br></pre></td></tr></table></figure><p>emm……参数有点多，这边做简单介绍：</p><ul><li>sentences: 需要分析的语料了，可以是一个列表，或者从文件中遍历读出（<code>word2vec.LineSentence(filename)</code>）</li><li>size: 词向量维度【默认100】</li><li>window: 词向量上下文最大距离，对于一般语料推荐[5;10]之间</li><li>sg: word2vec模型的选择，0为CBOW模型；1为Skip-Gram模型【默认0，CBOW模型】</li><li>hs: word2vec解法的选择，0为Negative Sampling；1为Hierarchical Softmax【默认0，Negative Sampling】</li><li>cbow_mean: 仅用作CBOW在做投影的时候，为0</li><li>min_count: 需要计算词向量的最小词频</li><li>iter: 随机梯度下降法中迭代的最大次数【默认5】</li><li>alpha: 随机梯度下降法中迭代的初始步长【默认0.025】</li><li>min_alpha: 在迭代过程中逐渐减小步长</li></ul><p><strong>训练好的词向量将会存储在<code>model.wv</code>的KeyedVectors实例中。</strong></p><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>参考：<a href="https://www.cnblogs.com/jiangxinyang/p/10207273.html" target="_blank" rel="noopener">https://www.cnblogs.com/jiangxinyang/p/10207273.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;API地址：&lt;a href=&quot;https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https
+      
+    
+    </summary>
+    
+    
+    
+      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Pandas API]replace()用法</title>
+    <link href="http://www.secret114.com/2019/07/02/Pandas-API-replace-%E7%94%A8%E6%B3%95/"/>
+    <id>http://www.secret114.com/2019/07/02/Pandas-API-replace-%E7%94%A8%E6%B3%95/</id>
+    <published>2019-07-02T07:37:12.000Z</published>
+    <updated>2019-07-02T07:46:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>API地址：<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html?highlight=replace#pandas.DataFrame.replace" target="_blank" rel="noopener">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html?highlight=replace#pandas.DataFrame.replace</a></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p><code>replace()</code>函数是Pandas库中用来批量替换数据的函数。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataFrame.repalce(to_replace=<span class="literal">None</span>,value=<span class="literal">None</span>,inplace=<span class="literal">False</span>,limit=<span class="literal">None</span>,regex=<span class="literal">False</span>,method=<span class="string">'pad'</span>)</span><br></pre></td></tr></table></figure><ul><li>to_replace: 将要被替换的值，主要分为三类<ul><li>numeric, str, regex: 等于或匹配的值将会被替换</li><li>str, regex, numeric列表：替换的列表长度必须相同</li><li>字典</li></ul></li><li>value: 要替换的值</li><li>inplace: 若为True则就地修改</li><li>limit: 向前或向后填充的数量</li><li>regex: 正则表达式，与前面的to_replace连用</li><li>method: {‘pad’, ‘ffill’,’bfill’, None}，用前面或后面的值来替换</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;API地址：&lt;a href=&quot;https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html?highlight=replace#pandas.DataFram
+      
+    
+    </summary>
+    
+    
+    
+      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Python API]split()用法</title>
+    <link href="http://www.secret114.com/2019/07/02/Python-API-split-%E7%94%A8%E6%B3%95/"/>
+    <id>http://www.secret114.com/2019/07/02/Python-API-split-%E7%94%A8%E6%B3%95/</id>
+    <published>2019-07-02T03:27:30.000Z</published>
+    <updated>2019-07-02T04:01:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>API地址：<a href="https://docs.python.org/3/library/stdtypes.html?highlight=split#str.split" target="_blank" rel="noopener">https://docs.python.org/3/library/stdtypes.html?highlight=split#str.split</a></p><p><img src="http://wx2.sinaimg.cn/mw690/83f4f5acly1g4lc2isn1vj20s60n2juv.jpg" alt="split()函数官方描述"></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>通过指定分隔符对字符串进行切片，如果参数<code>num</code>有指定值，则分隔<code>num+1</code>个子字符串</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str.split(sep=<span class="literal">None</span>, maxsplit=<span class="number">-1</span>)</span><br></pre></td></tr></table></figure><ul><li>sep: 分隔符，默认为所有的空字符，包括空格、换行(<code>\n</code>)、制表符(<code>\t</code>)等。</li><li>maxsplit: 分割次数。默认为<code>-1</code>, 即分隔所有。</li></ul><h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; str = <span class="string">"a,b,c"</span></span><br><span class="line">&gt;&gt;&gt; str.split()     <span class="comment"># 默认分割所有空字符</span></span><br><span class="line">[<span class="string">'a,b,c'</span>]</span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>)  <span class="comment"># 也可以指定</span></span><br><span class="line">[<span class="string">'a,b,c'</span>]</span><br><span class="line">&gt;&gt;&gt; str = <span class="string">"www.baidu.com"</span></span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>)</span><br><span class="line">[<span class="string">'www'</span>, <span class="string">'baidu'</span>, <span class="string">'com'</span>]</span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>,1) <span class="comment"># 可以指定最大分割次数</span></span><br><span class="line">[<span class="string">'www'</span>, <span class="string">'baidu.com'</span>]</span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>,maxsplit=1) <span class="comment"># 参数名maxsplit可以忽略也可以写上</span></span><br><span class="line">[<span class="string">'www'</span>, <span class="string">'baidu.com'</span>]</span><br></pre></td></tr></table></figure><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p><code>split()</code>函数常与<code>strip()</code>连用，用于分割字符串，具体用法请参照<a href="https://1141937908.github.io/2019/07/02/Python-API-strip-%E7%94%A8%E6%B3%95/" target="_blank" rel="noopener">strip()用法</a>。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;API地址：&lt;a href=&quot;https://docs.python.org/3/library/stdtypes.html?highlight=split#str.split&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://docs.pyt
+      
+    
+    </summary>
+    
+    
+    
+      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Python API]strip()用法</title>
+    <link href="http://www.secret114.com/2019/07/02/Python-API-strip-%E7%94%A8%E6%B3%95/"/>
+    <id>http://www.secret114.com/2019/07/02/Python-API-strip-%E7%94%A8%E6%B3%95/</id>
+    <published>2019-07-02T03:04:04.000Z</published>
+    <updated>2019-07-02T04:00:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>API地址：<a href="https://docs.python.org/3/library/stdtypes.html?highlight=strip#str.strip" target="_blank" rel="noopener">https://docs.python.org/3/library/stdtypes.html?highlight=strip#str.strip</a></p><p><img src="http://wx2.sinaimg.cn/mw690/83f4f5acly1g4lbpbdrvaj20rz0cu76f.jpg" alt="strip()函数官方描述"></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>用于移除字符串头尾指定的字符（默认为<code>空格</code>或<code>换行符</code>）。</p><p><strong>注意：该方法只能删除开头或结尾的字符，不能删除中间部分的字符。</strong></p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str.strip([chars])</span><br></pre></td></tr></table></figure><ul><li>chars: 移除字符串头尾指定的字符序列</li></ul><h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; str = <span class="string">"          weibo            "</span></span><br><span class="line">&gt;&gt;&gt; str.strip()</span><br><span class="line"><span class="string">'weibo'</span></span><br><span class="line">&gt;&gt;&gt; str = <span class="string">"www.baidu.com"</span></span><br><span class="line">&gt;&gt;&gt; str.strip(<span class="string">'w.com'</span>)</span><br><span class="line"><span class="string">'baidu'</span></span><br></pre></td></tr></table></figure><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p><code>strip()</code>函数常与<code>split()</code>连用，用于分割字符串，具体用法请参照<a href="https://1141937908.github.io/2019/07/02/Python-API-split-用法/" target="_blank" rel="noopener">split()用法</a>。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;API地址：&lt;a href=&quot;https://docs.python.org/3/library/stdtypes.html?highlight=strip#str.strip&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://docs.pyt
+      
+    
+    </summary>
+    
+    
+    
+      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NLP初学者如何查阅学术资料</title>
+    <link href="http://www.secret114.com/2019/06/09/NLP%E5%88%9D%E5%AD%A6%E8%80%85%E5%A6%82%E4%BD%95%E6%9F%A5%E9%98%85%E5%AD%A6%E6%9C%AF%E8%B5%84%E6%96%99/"/>
+    <id>http://www.secret114.com/2019/06/09/NLP%E5%88%9D%E5%AD%A6%E8%80%85%E5%A6%82%E4%BD%95%E6%9F%A5%E9%98%85%E5%AD%A6%E6%9C%AF%E8%B5%84%E6%96%99/</id>
+    <published>2019-06-09T15:19:43.000Z</published>
+    <updated>2019-06-09T16:14:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>读研接近一年以来，自己逐渐需要开始写论文，并往人工智能NLP相关领域内进行深入挖掘，只是之前各方面原因，未能有效地监督自己好好读论文并形成自己的体系，所以现在想趁着写论文的这段时间内做个笔记，算作是边学边做吧。</p><p>对于经验之谈，现在的我还处于菜鸟阶段，没有深入了解相关行业的动向，所以只能靠网上资料慢慢积累。知乎、简书、CSDN上都有相关介绍，所以我就在这里算是做个总结性的文章，把我看到的经验之谈搬运过来，作为自己在初学道路上的索引。</p><h1 id="1、国际学术组织、学术会议、学术论文"><a href="#1、国际学术组织、学术会议、学术论文" class="headerlink" title="1、国际学术组织、学术会议、学术论文"></a>1、国际学术组织、学术会议、学术论文</h1><p>自然语言处理（natural language processing，NLP）在很大程度上与计算语言学（computational linguistics，CL）重合。与其他计算机学科类似，NLP/CL有一个属于自己的最权威的国际专业学会，叫做The Association for Computational Linguistics（<a href="https://www.aclweb.org/portal/" target="_blank" rel="noopener" title="The Association for Computational Linguistics官网">ACL</a>）， 这个协会主办了NLP/CL领域最权威的国际会议，即<strong>ACL年会</strong>，ACL学会还会在北美和欧洲召开分年会，分别称为<strong>NAACL</strong>和<strong>EACL</strong>。除此之外，ACL学会下设多个特殊兴趣小组（special interest groups，SIGs），聚集了NLP/CL不同子领域的学者，性质类似一个大学校园的兴趣社团。其中比较有名的诸如SIGDAT（Linguistic data and corpus-based approaches to NLP）、SIGNLL（Natural Language Learning）等。</p><p>这些SIGs也会召开一些国际学术会议，其中比较有名的就是SIGDAT组织的EMNLP（Conference on Empirical Methods on Natural Language Processing）和SIGNLL组织的CoNLL（Conference on Natural Language Learning）。此外还有一个International Committee on Computational Linguistics的老牌NLP/CL学术组织，它每两年组织一个称为International Conference on Computational Linguistics (COLING)的国际会议，也是NLP/CL的重要学术会议。NLP/CL的主要学术论文就分布在这些会议上。</p><p>NLP/CL领域最大的好处在于，ACL学会建立了一个<a href="https://aclweb.org/anthology/" target="_blank" rel="noopener" title="ACL Anthology网站首页">ACL Anthology</a>的网站，支持该领域绝大部分国际学术会议论文的免费下载，甚至包含了其他组织主办的学术会议，例如COLING、IJCNLP等，并支持基于Google的全文检索功能，可谓一站在手，NLP论文我有。由于这个论文集合非常庞大，并且可以开放获取，很多学者也基于它开展研究，提供了更丰富的检索支持，具体入口可以参考ACL Anthology页面上方搜索框右侧的不同检索按钮。</p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="https://www.jianshu.com/p/db0a2a2cc2ba" target="_blank" rel="noopener">【简书】初学者如何查阅自然语言处理（NLP）领域学术资料</a></li><li><a href="https://www.aclweb.org/portal/" target="_blank" rel="noopener" title="The Association for Computational Linguistics官网">ACL学会官网</a></li><li><a href="https://blog.csdn.net/weixin_34613450/article/details/86679630" target="_blank" rel="noopener">【CSDN】NLP领域国内外知名会议和期刊</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;读研接近一年以来，自己逐渐需要开始写论文，并往人工智能NLP相关领域内进行深入挖掘，只是之前各方面原因，未能有效地监督自己好好读论文并形成自己的体系，所以现在想趁着写论文的这段时间内做个笔记，算作是边学边做吧。&lt;/p&gt;
+&lt;p&gt;对于经验之谈，现在的我还处于菜鸟阶段，没有深入了
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>论文的粗略想法</title>
+    <link href="http://www.secret114.com/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/"/>
+    <id>http://www.secret114.com/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/</id>
+    <published>2019-04-17T11:46:39.000Z</published>
+    <updated>2019-06-06T00:08:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h1><p>语言模型预训练在许多自然语言处理任务上表现得十分有效。这些任务包括句子水平任务类似于自然语言参考和模式匹配。</p><p>我们引入BERT和他的细节实施内容。</p><p>首先语言模型采用了Transformer Decoder的方法来进行训练，采用文本预测作为语言模型训练任务，训练完毕之后，加一层Linear Project来完成分类/相似度计算等NLP任务。因此总结来说，LM + Fine-Tuning的方法工作包括两步：</p><ol><li>构造语言模型，采用大的语料A来训练语言模型</li><li>在语言模型基础上增加少量神经网络层来完成specific task例如序列标注、分类等，然后采用有标记的语料B来有监督地训练模型，这个过程中语言模型的参数并不固定，依然是trainable variables.</li></ol><p>BERT论文采用了LM + fine-tuning的方法，同时也讨论了BERT + task-specific model的方法。</p><h1 id="2-attention机制"><a href="#2-attention机制" class="headerlink" title="2 attention机制"></a>2 attention机制</h1><p>为了解决这一由长序列到定长向量转化而造成的信息损失的瓶颈，Attention注意力机制被引入了</p><p>Attention机制跟人类翻译文章时候的思路有些类似，即将注意力关注于我们翻译部分对应的上下文。同样的，Attention模型中，当我们翻译当前词语时，我们会寻找源语句中相对应的几个词语，并结合之前的已经翻译的部分作出相应的翻译，如下图所示，当我们翻译“knowledge”时，只需将注意力放在源句中“知识”的部分，当翻译“power”时，只需将注意力集中在”力量“。这样，当我们decoder预测目标翻译的时候就可以看到encoder的所有信息，而不仅局限于原来模型中定长的隐藏向量，并且不会丧失长程的信息。</p><p>首先假设……【原文一段更新】</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-Introduction&quot;&gt;&lt;a href=&quot;#1-Introduction&quot; class=&quot;headerlink&quot; title=&quot;1 Introduction&quot;&gt;&lt;/a&gt;1 Introduction&lt;/h1&gt;&lt;p&gt;语言模型预训练在许多自然语言处理任务上表现得
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>[林轩田]第一周</title>
+    <link href="http://www.secret114.com/2019/01/14/%E6%9E%97%E8%BD%A9%E7%94%B0-%E7%AC%AC%E4%B8%80%E5%91%A8/"/>
+    <id>http://www.secret114.com/2019/01/14/%E6%9E%97%E8%BD%A9%E7%94%B0-%E7%AC%AC%E4%B8%80%E5%91%A8/</id>
+    <published>2019-01-14T13:16:12.000Z</published>
+    <updated>2019-06-06T00:07:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="第1周-学习计划"><a href="#第1周-学习计划" class="headerlink" title="第1周 学习计划"></a>第1周 学习计划</h1><p>2018/12/28——2019/1/6</p><h1 id="第一节"><a href="#第一节" class="headerlink" title="第一节"></a>第一节</h1><blockquote><p><strong>任务1：自测机器学习笔试100题</strong></p><p><strong>自测题：</strong><a href="https://mp.weixin.qq.com/s/zdnQeoG6YzupWA9ZBCG5fA" target="_blank" rel="noopener" title="长文！机器学习笔试精选 100 题【附详细解析】">机器学习笔试精选 100 题</a></p><p><strong>学习时长：</strong>12/30—12/31</p></blockquote><p>这个任务我会在另一篇文章<a href="https://www.baidu.com" target="_blank" rel="noopener" title="[AI有道]机器学习笔试精选100篇">《[AI有道]机器学习笔试精选100篇》</a>中详细解析。</p><blockquote><p><strong>任务2：</strong>天池o2o比赛完全流程解析（视频+PPT）</p><p><strong>学习时长：</strong>12/30—12/31</p><p><strong>作业</strong>：每个学员注册天池账号，报名参加比赛。提交结果，查看成绩。（结果 submit1.csv文件提供，学员只需按照直播视频讲述的方法提交查看成绩就好。源码也同时提供，供大家先学）</p><p><strong>作业提交形式</strong>：比赛上传结果界面排名截图打卡上传</p><p><strong>源码文件：</strong><a href="https://pan.baidu.com/s/1MQIutT1ALrPETGE1SXy_pQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1MQIutT1ALrPETGE1SXy_pQ</a>（提取码：rql8）</p><p>﻿看不清楚也可以这个地址看（ <a href="https://m.lizhiweike.com/lecture2/11171992" target="_blank" rel="noopener">https://m.lizhiweike.com/lecture2/11171992</a> ，密码041220）</p></blockquote><h1 id="第二节"><a href="#第二节" class="headerlink" title="第二节"></a>第二节</h1><blockquote><p><strong>任务：配置开发环境，熟悉 Jupyter Notebook</strong></p><p><strong>任务详解：</strong>以Python3为开发语言，安装软件Anaconda。Anaconda自带Jupyter Notebook，熟悉Jupyter Notebook的基本用法。</p><p><strong>学习时长：</strong>1/1—1/3</p><p><strong>参考资料：</strong></p><p><a href="https://mp.weixin.qq.com/s/O2nTGOtqGR-V33-YJgPgJQ" target="_blank" rel="noopener" title="Jupyter Notebook入门教程（上）">Jupyter Notebook入门教程（上）</a></p><p><a href="https://mp.weixin.qq.com/s/AwSzkjlpwvdUzh6CmHq6AQ" target="_blank" rel="noopener" title="Jupyter Notebook入门教程（下）">Jupyter Notebook入门教程（下）</a></p><p><strong>作业：</strong>使用Jupyter Nootbook，对Numpy、Pandas、Matplotlib各写一个小的demo程序。要求是解释性说明和代码相结合的形式。 </p></blockquote><p>Jupyter Notebook对于每个初学Machine learning的coder都接触过，所以简单的就不多做介绍了。这里尤其强调使用快捷键十分有用，建议学习下（可以在<code>帮助-快捷键</code>中查看）。这里简单总结下文章中所提到的各重要点：</p><ul><li><code>Shift</code>+<code>Enter</code>可在编辑模式下执行代码</li><li>Markdown语法（及HTML语法扩展）</li><li>LaTeX语法</li><li>Matplotlib集成（实测好像可以不用添加emmm）</li><li>Server地址：<code>localhost:8888</code></li></ul><h1 id="第三节"><a href="#第三节" class="headerlink" title="第三节"></a>第三节</h1><blockquote><p><strong>第三节学习内容</strong></p><p><strong>任务1：</strong>视频学习 何时机器可以学习？</p><p><strong>作业1：</strong>PLA算法</p><p>First, we use an artificial data set to study PLA. The data set is in <a href="https://www.csie.ntu.edu.tw/~htlin/course/ml15fall/hw1/hw1_15_train.dat" target="_blank" rel="noopener">https://www.csie.ntu.edu.tw/~htlin/course/ml15fall/hw1/hw1_15_train.dat</a> Each line of the data set contains one (x n ,y n ) with x n ∈ R 4 . The first 4 numbers of the line contains the components of x n orderly, the last number is y n . Please initialize your algorithm with w = 0 and take sign(0) as −1. As a friendly reminder, remember to add x 0 = 1 as always!</p><ol><li><p>Implement a version of PLA by visiting examples in the na¨ıve cycle using the order of examples in the data set. Run the algorithm on the data set.</p></li><li><p>Implement a version of PLA by visiting examples** in fixed, pre-determined random cycles throughout the algorithm. Run the algorithm on the data set. Please repeat your experiment for 2000 times, each with a different random seed. What is the average number of updates before the algorithm halts? Plot a histogram (<a href="https://h5.youyinian.cn/userNew/%C2%A0%3Ca%20class='c_primary'%20href='https://en.wikipedia.org/wiki/Histogram'%20target='_blank'%3Ehttps://en.wikipedia.org/wiki/Histogram%3C/a%20%3E%C2%A0"> </a><a href="https://en.wikipedia.org/wiki/Histogram" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Histogram</a> ) to show the number of updates versus frequency.</p></li><li><p>Implement a version of PLA by visiting examples in fixed, pre-determined random cycles throughout the algorithm, while changing the update rule to be:</p></li></ol><p><strong>Wt+1→Wt+ηyn(t)xn(t)</strong></p><p><strong>with η=0.5η=0.5. Note that your PLA in the previous problem corresponds to η=1η=1. Please repeat your experiment for 2000 times, each with a different random seed. What is the average number of updates before the algorithm halts? Plot a histogram to show the number of updates versus frequency. Compare your result to the previous problem and briefly discuss your findings.</strong></p><p><strong>作业2：Pocket PLA算法</strong></p><p><strong>Next, we play with the pocket algorithm. Modify your PLA in Problem 16 to visit examples purely randomly, and then add the ‘pocket’ steps to the algorithm. We will use</strong> </p><p><strong><a href="https://www.csie.ntu.edu.tw" target="_blank" rel="noopener">https://www.csie.ntu.edu.tw</a> /~htlin/course/ml15fall/hw1/hw1_18_train.dat</strong> </p><p><strong>as the training data set D, and</strong> </p><p><strong><a href="https://www.csie.ntu.edu.tw" target="_blank" rel="noopener">https://www.csie.ntu.edu.tw</a> /~htlin/course/ml15fall/hw1/hw1_18_test.dat</strong> </p><p><strong>as the test set for “verifying” the g returned by your algorithm (see lecture 4 about verifying). The sets are of the same format as the previous one.</strong></p><p><strong>1.Run the pocket algorithm with a total of 50 updates on D, and verify the performance of w pocket using the test set. Please repeat your experiment for 2000 times, each with a different random seed. What is the average error rate on the test set? Plot a histogram to show error rate versus frequency.</strong></p><p><strong>2. Modify your algorithm to return w50w50(the PLA vector after 50 updates) instead of w (the pocket vector) after 50 updates. Run the modified algorithm on D, and verify the performance using the test set. Please repeat your experiment for 2000 times, each with a different random seed. What is the average error rate on the test set? Plot a histogram to show error rate versus frequency. Compare your result to the previous problem and briefly discuss your findings.</strong></p><p><strong>3. Modify your algorithm in Problem 18 to run for 100 updates instead of 50, and verify the performance of w pocket using the test set. Please repeat your experiment for 2000 times, each with a different random seed. What is the average error rate on the test set? Plot a histogram to show error rate versus frequency. Compare your result to Problem 18 and briefly discuss your findings.</strong></p><p><strong>作业参考答案</strong></p><p><strong>说明：当天作业参考答案隔天发布</strong></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;第1周-学习计划&quot;&gt;&lt;a href=&quot;#第1周-学习计划&quot; class=&quot;headerlink&quot; title=&quot;第1周 学习计划&quot;&gt;&lt;/a&gt;第1周 学习计划&lt;/h1&gt;&lt;p&gt;2018/12/28——2019/1/6&lt;/p&gt;
+&lt;h1 id=&quot;第一节&quot;&gt;&lt;a href=
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>[Python3网络爬虫开发实战]第3章 基本库的使用</title>
+    <link href="http://www.secret114.com/2018/10/10/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC3%E7%AB%A0-%E5%9F%BA%E6%9C%AC%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>http://www.secret114.com/2018/10/10/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98-%E7%AC%AC3%E7%AB%A0-%E5%9F%BA%E6%9C%AC%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
+    <published>2018-10-10T12:22:14.000Z</published>
+    <updated>2019-06-06T00:05:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="3-1-使用urllib"><a href="#3-1-使用urllib" class="headerlink" title="3.1 使用urllib"></a>3.1 使用urllib</h2><p>Python2中有urllib和urllib2两个库来实现请求的发送。而在Python3中，urllib2这个库已经不存在了，统一为urllib，其官方网站为：<a href="https://docs.python.org/3/library/urllib.html" target="_blank" rel="noopener">https://docs.python.org/3/library/urllib.html</a> 。</p><p>urllib是Python内置的HTTP请求库，它收集了几个用于处理URL的模块：</p><ul><li>最基本的HTTP请求模块：<code>urllib.request</code>for opening and reading URLs</li><li>异常处理模块：<code>urllib.error</code> containing the exceptions raised by <code>urllib.request</code></li><li>工具模块：<code>urllib.parse</code> for parsing URLs</li><li>识别<code>robots.txt</code>文件（少见）：<code>urllib.robotparser</code>for parsing <code>robots.txt</code> files</li></ul><blockquote><p>这里采用了官方文档中的描述，主要是觉得写得十分简洁</p></blockquote><p>重点讲解前3个模块。</p><h3 id="3-1-1-发送请求"><a href="#3-1-1-发送请求" class="headerlink" title="3.1.1 发送请求"></a>3.1.1 发送请求</h3><p>首先，<code>urllib.request</code>模块提供了最基本的构造HTTP请求的方法，利用它我们可以方便地实现请求地发送并得到响应，同时它还自带处理授权验证（authentication）、重定向（redirection）、浏览器Cookies以及其他内容。</p><h4 id="1-urlopen"><a href="#1-urlopen" class="headerlink" title="1. urlopen()"></a>1. urlopen()</h4><p>首先我们先看看简单的应用：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">response = urllib.request.urlopen(<span class="string">'https://www.python.org'</span>)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure><p><img src="http://wx3.sinaimg.cn/large/83f4f5acly1fw3fke9hhkj20u00k4jw8.jpg" alt="运行结果"></p><blockquote><p>这里作为说明，我把代码放到最下面进行说明</p></blockquote><p>可以利用<code>type()</code>方法输出响应的类型：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(type(response))</span><br></pre></td></tr></table></figure><p><img src="http://wx4.sinaimg.cn/large/83f4f5acly1fw3frokxufj20nx081gn7.jpg" alt="运行结果"></p><p>可以发现，它是一个HTTPResponse类型的对象，主要包含<code>read()</code>、<code>readinto()</code>、<code>getheader(name)</code>、<code>getheaders()</code>、<code>fileno()</code>等方法，以及<code>msg</code>、<code>version</code>、<code>status</code>、<code>reason</code>、<code>debuglevel</code>、<code>closed</code>等属性。得到这个对象后，我们把它赋值为response变量，然后就可以调用这些方法和属性，得到返回结果的一系列信息了。</p><blockquote><p>这里我们可以直观地从Pycharm中看到细节</p><p><img src="http://wx3.sinaimg.cn/large/83f4f5acly1fw3g0psynij20j90d6jsf.jpg" alt="HTTPResponse类型对象"></p><p>另外，在廖雪峰的Python3教程中有关<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432688314740a0aed473a39f47b09c8c7274c9ab6aee000" target="_blank" rel="noopener">urllib内建库</a>有通过代码输出查看所有内容的：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> request.urlopen(<span class="string">'https://www.python.org'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = f.read()</span><br><span class="line">    print(<span class="string">'Status:'</span>, f.status, f.reason)</span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> f.getheaders():</span><br><span class="line">        print(<span class="string">'%s:%s'</span> % (k, v))</span><br><span class="line">    <span class="comment"># print('Data:', data.decode('utf-8'))</span></span><br></pre></td></tr></table></figure><p><img src="http://wx4.sinaimg.cn/large/83f4f5acly1fwgs9jpx5ij20ti0c8wfj.jpg" alt="运行结果"></p></blockquote><p>例如这个示例，就可以很好地理解如何使用HTTPResponse类型的对象属性——</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">response = urllib.request.urlopen(<span class="string">'https://www.python.org'</span>)</span><br><span class="line"></span><br><span class="line">print(response.status)</span><br><span class="line">print(response.getheaders())</span><br><span class="line">print(response.getheader(<span class="string">'Server'</span>))</span><br></pre></td></tr></table></figure><p><img src="http://wx4.sinaimg.cn/large/83f4f5acly1fw3g5lkzirj218e0j6tar.jpg" alt="运行结果"></p><p>如果想要给连接传递一些参数，该怎么实现呢？看了这么多模块应用，首先看下<code>urlopen()</code>函数的API：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">urllib.request.urlopen(url, data=<span class="literal">None</span>, [timeout, ]*, cafile=<span class="literal">None</span>, capath=<span class="literal">None</span>, cadefault=<span class="literal">False</span>, context=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure><p>下面就来讲解下这些参数的用法</p><h5 id="data-参数"><a href="#data-参数" class="headerlink" title="data 参数"></a>data 参数</h5><p>data：需要使用<code>bytes()</code>方法将参数转化为字节流编码格式的内容，即bytes类型。另外，如果加了这个参数，则它的请求就不再是GET方式，而是POST方式。</p><h5 id="timeout-参数"><a href="#timeout-参数" class="headerlink" title="timeout 参数"></a>timeout 参数</h5><p><span style="border-bottom:solid red;">timeout参数用于设置超时时间（以秒为单位）</span>，如果未指定就将使用全局默认超时设置。它支持HTTP、HTTPS、FTP请求。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">response = urllib.request.urlopen(<span class="string">'https://www.google.com'</span>, timeout=<span class="number">0.1</span>)</span><br><span class="line"><span class="comment"># 书上timeout这里用的是1s，但是可能由于是网络问题能够get到，这里改为0.1s</span></span><br><span class="line">print(response.read())</span><br></pre></td></tr></table></figure><p><img src="http://wx2.sinaimg.cn/large/83f4f5acly1fwacwz8d8wj20ty0i8423.jpg" alt="timeout运行结果"></p><p>这样我们可以通过这个参数来控制一个网页获取时长，如果长时间未响应，就跳过它的抓取（通过<code>try / except</code>语句实现）：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> urllib.error</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = urllib.request.urlopen(<span class="string">'https://httpbin.org/bin'</span>, timeout=<span class="number">1</span>)</span><br><span class="line"><span class="keyword">except</span> urllib.error.URLError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">if</span> isinstance(e.reason, socket.timeout):</span><br><span class="line">        print(<span class="string">'TIME OUT'</span>)</span><br></pre></td></tr></table></figure><p><img src="http://wx4.sinaimg.cn/large/83f4f5acly1fwad70kxp8j21ae0aoaae.jpg" alt="运行结果"></p><h5 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h5><p>书上这里没有做更多说明，这方面的内容最好直接看官方文档。</p><h4 id="2-Request"><a href="#2-Request" class="headerlink" title="2. Request"></a>2. Request</h4><p>通过<code>urlopen()</code>方法我们可以实现最基本请求的发起，但如果我们需要加入headers等信息，就可以利用更加强大的Request类来构建。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">request = urllib.request.Request(<span class="string">'https://python.org'</span>)</span><br><span class="line">response = urllib.request.urlopen(request)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure><blockquote><p>在阅读《Python3网络爬虫开发实战》和廖雪峰的Pyhton3教程时，我发现两者包引入的风格不同。关于<code>improt modules.foo</code>和<code>from modules import foo</code>两者的区别，我查看了Stack Overflow上的解答<a href="https://stackoverflow.com/questions/710551/use-import-module-or-from-module-import" target="_blank" rel="noopener">Use ‘import module’ or ‘from module import’?</a> 中的最高票，其回答是看个人风格。（我选择<code>from import</code>）</p></blockquote><p>下面我们先看看Request可以通过怎样的参数来构造：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">urllib</span>.<span class="title">request</span>.<span class="title">Request</span><span class="params">(url, data=None, headers=&#123;&#125;, origin_req_host=None, unverifiable=False, method=None)</span></span></span><br></pre></td></tr></table></figure><ul><li><code>url</code>参数应该是一个包含有效的URL地址的字符串</li><li><code>data</code>如果需要传递就必须是bytes类型，否则为None。目前HTTP请求是唯一使用数据的请求，对于HTTP POST请求方法，如果是字典，可以先使用<code>urllib.parse.urlencode()</code>函数编码。</li><li><code>headers</code>应该是字典，它就是请求头。我们可以通过构造请求时通过<code>headers</code>参数添加，也可以通过调用请求实例的<code>add_header()</code>方法添加。</li><li><code>origin_req_host</code>指的是用户启动的原始请求的主机名或IP地址。</li><li><code>unverifiable</code>表示这个请求是否是无法验证的，默认是False，意为用户没有足够的权限来选择接受这个请求的结果。</li><li><code>method</code>是一个字符串，表示将使用的HTTP请求方法。 如果提供，则其值将存储在<code>method</code>属性中，并由<code>get_method()</code>使用。（默认GET）</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request, parse</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://httpbin.org/post'</span></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '</span></span><br><span class="line">                  <span class="string">'Chrome/70.0.3538.67 Safari/537.36 '</span>,</span><br><span class="line">    <span class="string">'Host'</span>: <span class="string">'httpbin.org'</span></span><br><span class="line">&#125;</span><br><span class="line">dict = &#123;</span><br><span class="line">    <span class="string">'name'</span>: <span class="string">'Germey'</span></span><br><span class="line">&#125;</span><br><span class="line">data = bytes(parse.urlencode(dict), encoding=<span class="string">'utf8'</span>)</span><br><span class="line">r = request.Request(url=url, data=data, headers=headers, method=<span class="string">'POST'</span>)</span><br><span class="line">response = request.urlopen(r)</span><br><span class="line">print(response.read().decode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure><p><img src="http://wx2.sinaimg.cn/large/83f4f5acly1fwgu9wi4trj21820gydgz.jpg" alt="运行结果"></p><h4 id="3-高级用法"><a href="#3-高级用法" class="headerlink" title="3. 高级用法"></a>3. 高级用法</h4><p>如果我们需要更高级的操作，就需要更强大的Handler工具了。简单理解就是Handler就是各类处理器，可以专门处理Cookies的，有设置代理的等等。</p><p>首先介绍<code>urllib.request.BaseHandler</code>，它是所有其他Handler类的父类，提供了最基本的方法，例如<code>default_open()</code>、<code>protocol_request()</code>等。下面列举一些继承子类：</p><ul><li><p><code>HTTPDefaultErrorHandler</code>：用于处理HTTP响应错误，错误都会抛出HTTPError类型的异常</p></li><li><p><code>HTTPRedirectHandler</code>：用于处理重定向</p></li><li><p><code>HTTPCookieProcessor</code>：用于处理Cookies</p></li><li><p><code>ProxyHandler</code>：用于设置代理，默认代理为空</p></li><li><p>``</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;3-1-使用urllib&quot;&gt;&lt;a href=&quot;#3-1-使用urllib&quot; class=&quot;headerlink&quot; title=&quot;3.1 使用urllib&quot;&gt;&lt;/a&gt;3.1 使用urllib&lt;/h2&gt;&lt;p&gt;Python2中有urllib和urllib2两个库来实现请
+      
+    
+    </summary>
+    
+    
+      <category term="Python3网络爬虫开发实战" scheme="http://www.secret114.com/categories/Python3%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/"/>
+    
+    
+  </entry>
+  
+</feed>
