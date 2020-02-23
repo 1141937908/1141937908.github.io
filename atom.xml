@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.secret114.com/"/>
-  <updated>2020-02-18T10:16:43.334Z</updated>
+  <updated>2020-02-23T11:15:19.441Z</updated>
   <id>http://www.secret114.com/</id>
   
   <author>
@@ -17,13 +17,54 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>动手学深度学习-Task06</title>
+    <link href="http://www.secret114.com/2020/02/23/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task06/"/>
+    <id>http://www.secret114.com/2020/02/23/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task06/</id>
+    <published>2020-02-23T07:22:28.000Z</published>
+    <updated>2020-02-23T11:15:19.441Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>任务06：批量归一化和残差网络；凸优化；梯度下降（1天）</p></blockquote><h2 id="批量归一化和残差网络"><a href="#批量归一化和残差网络" class="headerlink" title="批量归一化和残差网络"></a>批量归一化和残差网络</h2><h3 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h3><ul><li>浅层模型<ul><li>处理后的任意一个特征在数据集中所有样本上的均值为0、标准差为1</li><li>标准化处理输入数据使各个特征的分布相近</li></ul></li><li>深层模型<ul><li>利用小批量上的均值和标准差，不断调整神经网络中间输出，从而使整个神经网络在各层的中间输出的数值更稳定</li></ul></li></ul><h4 id="1-对全连接层做批量归一化"><a href="#1-对全连接层做批量归一化" class="headerlink" title="1.对全连接层做批量归一化"></a>1.对全连接层做批量归一化</h4><p>位置：全连接层中的仿射变换和激活函数之间。<br><strong>全连接：</strong>  </p><script type="math/tex; mode=display">\boldsymbol{x} = \boldsymbol{W\boldsymbol{u} + \boldsymbol{b}} \\ output =\phi(\boldsymbol{x})</script><p> <strong>批量归一化：</strong></p><script type="math/tex; mode=display">output=\phi(\text{BN}(\boldsymbol{x}))</script><script type="math/tex; mode=display">\boldsymbol{y}^{(i)} = \text{BN}(\boldsymbol{x}^{(i)})</script><script type="math/tex; mode=display">\boldsymbol{\mu}_\mathcal{B} \leftarrow \frac{1}{m}\sum_{i = 1}^{m} \boldsymbol{x}^{(i)},</script><script type="math/tex; mode=display">\boldsymbol{\sigma}_\mathcal{B}^2 \leftarrow \frac{1}{m} \sum_{i=1}^{m}(\boldsymbol{x}^{(i)} - \boldsymbol{\mu}_\mathcal{B})^2,</script><script type="math/tex; mode=display">\hat{\boldsymbol{x}}^{(i)} \leftarrow \frac{\boldsymbol{x}^{(i)} - \boldsymbol{\mu}_\mathcal{B}}{\sqrt{\boldsymbol{\sigma}_\mathcal{B}^2 + \epsilon}},</script><p>这⾥ϵ &gt; 0是个很小的常数，保证分母大于0</p><script type="math/tex; mode=display">{\boldsymbol{y}}^{(i)} \leftarrow \boldsymbol{\gamma} \odot\hat{\boldsymbol{x}}^{(i)} + \boldsymbol{\beta}.</script><p>引入可学习参数：拉伸参数γ和偏移参数β。若$\boldsymbol{\gamma} = \sqrt{\boldsymbol{\sigma}<em>\mathcal{B}^2 + \epsilon}$和$\boldsymbol{\beta} = \boldsymbol{\mu}</em>\mathcal{B}$，批量归一化无效。</p><h4 id="2-对卷积层做批量归⼀化"><a href="#2-对卷积层做批量归⼀化" class="headerlink" title="2.对卷积层做批量归⼀化"></a>2.对卷积层做批量归⼀化</h4><p>位置：卷积计算之后、应⽤激活函数之前。<br>如果卷积计算输出多个通道，我们需要对这些通道的输出分别做批量归一化，且每个通道都拥有独立的拉伸和偏移参数。<br>计算：对单通道，batchsize=m,卷积计算输出=pxq<br>对该通道中m×p×q个元素同时做批量归一化,使用相同的均值和方差。</p><h4 id="3-预测时的批量归⼀化"><a href="#3-预测时的批量归⼀化" class="headerlink" title="3.预测时的批量归⼀化"></a>3.预测时的批量归⼀化</h4><p>训练：以batch为单位,对每个batch计算均值和方差。<br>预测：用移动平均估算整个训练数据集的样本均值和方差。</p><h4 id="从零实现"><a href="#从零实现" class="headerlink" title="从零实现"></a>从零实现</h4><h4 id="基于LeNet的应用"><a href="#基于LeNet的应用" class="headerlink" title="基于LeNet的应用"></a>基于LeNet的应用</h4><h4 id="简介实现"><a href="#简介实现" class="headerlink" title="简介实现"></a>简介实现</h4><h3 id="残差网络"><a href="#残差网络" class="headerlink" title="残差网络"></a>残差网络</h3><p>深度学习的问题：深度CNN网络达到一定深度后再一味地增加层数并不能带来进一步地分类性能提高，反而会招致网络收敛变得更慢，准确率也变得更差。</p><h4 id="残差块"><a href="#残差块" class="headerlink" title="残差块"></a>残差块</h4><p>恒等映射：<br>左边：f(x)=x<br>右边：f(x)-x=0 （易于捕捉恒等映射的细微波动）<br><img src="https://cdn.kesci.com/upload/image/q5l8lhnot4.png" alt=""><br>在残差块中，输⼊可通过跨层的数据线路更快 地向前传播。</p><h4 id="ResNet模型"><a href="#ResNet模型" class="headerlink" title="ResNet模型"></a>ResNet模型</h4><p>卷积(64,7x7,3)<br>批量一体化<br>最大池化(3x3,2)</p><p>残差块x4 (通过步幅为2的残差块在每个模块之间减小高和宽)</p><p>全局平均池化</p><p>全连接</p><h2 id="凸优化"><a href="#凸优化" class="headerlink" title="凸优化"></a>凸优化</h2><blockquote><p>优化学习和深度学习在某种程度上来说是不太一样的，深度学习的数据集分为训练集和测试集，作为优化方法，它只能看到训练集上的数据，因此<strong>优化的数据集是训练集</strong>，而深度学习是为了测试集上的参数。</p><ul><li>优化方法目标：训练集损失函数值</li><li>深度学习目标：测试集损失函数值（泛化性）</li></ul></blockquote><p><img src="https://cdn.kesci.com/rt_upload/9349E70A9A0B46F487C86AF9A00D3002/q5p1hvo1y3.svg" alt=""></p><h3 id="优化在深度学习中的挑战"><a href="#优化在深度学习中的挑战" class="headerlink" title="优化在深度学习中的挑战"></a>优化在深度学习中的挑战</h3><h4 id="1-局部最小值"><a href="#1-局部最小值" class="headerlink" title="1.局部最小值"></a>1.局部最小值</h4><script type="math/tex; mode=display">f(x) = x\cos \pi x</script><p><img src="https://cdn.kesci.com/rt_upload/4965DB27A9A347E58616D03D993E961F/q5p1i9it7u.svg" alt="局部最小值点"></p><h4 id="2-鞍点"><a href="#2-鞍点" class="headerlink" title="2.鞍点"></a>2.鞍点</h4><p><img src="https://cdn.kesci.com/rt_upload/02890A049EE14E1D91FD5198DEDA3FFD/q5p1inxfx6.svg" alt="鞍点"></p><script type="math/tex; mode=display">A=\left[\begin{array}{cccc}{\frac{\partial^{2} f}{\partial x_{1}^{2}}} & {\frac{\partial^{2} f}{\partial x_{1} \partial x_{2}}} & {\cdots} & {\frac{\partial^{2} f}{\partial x_{1} \partial x_{n}}} \\ {\frac{\partial^{2} f}{\partial x_{2} \partial x_{1}}} & {\frac{\partial^{2} f}{\partial x_{2}^{2}}} & {\cdots} & {\frac{\partial^{2} f}{\partial x_{2} \partial x_{n}}} \\ {\vdots} & {\vdots} & {\ddots} & {\vdots} \\ {\frac{\partial^{2} f}{\partial x_{n} \partial x_{1}}} & {\frac{\partial^{2} f}{\partial x_{n} \partial x_{2}}} & {\cdots} & {\frac{\partial^{2} f}{\partial x_{n}^{2}}}\end{array}\right]</script><p>海森矩阵结论：<br><img src="https://cdn.kesci.com/rt_upload/974B5BA9119844BD95F3E6DE8FECFE15/q5p1j9cqca.svg" alt=""></p><h4 id="3-梯度消失"><a href="#3-梯度消失" class="headerlink" title="3.梯度消失"></a>3.梯度消失</h4><p><img src="https://cdn.kesci.com/rt_upload/FD4109A263F4455EAD8C67C5DC37C027/q5p1jlrkib.svg" alt="梯度消失"></p><h3 id="凸性"><a href="#凸性" class="headerlink" title="凸性"></a>凸性</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><ul><li>图2：凸集合的交集还是凸集合</li><li>图3：两个凸集合的并不一定是凸集合</li></ul><h4 id="凸函数"><a href="#凸函数" class="headerlink" title="凸函数"></a>凸函数</h4><p>定义：</p><script type="math/tex; mode=display">\lambda f(x)+(1-\lambda) f\left(x^{\prime}\right) \geq f\left(\lambda x+(1-\lambda) x^{\prime}\right)</script><p><img src="https://cdn.kesci.com/rt_upload/507C2126C2654EAC8A2C220434232A3F/q5p1tqgzh5.svg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;任务06：批量归一化和残差网络；凸优化；梯度下降（1天）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;批量归一化和残差网络&quot;&gt;&lt;a href=&quot;#批量归一化和残差网络&quot; class=&quot;headerlink&quot; title=&quot;批量归一化和残差网
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Pytorch" scheme="http://www.secret114.com/tags/Pytorch/"/>
+    
+      <category term="DataWhale" scheme="http://www.secret114.com/tags/DataWhale/"/>
+    
+      <category term="Deep Learning" scheme="http://www.secret114.com/tags/Deep-Learning/"/>
+    
+  </entry>
+  
+  <entry>
     <title>动手学深度学习-Task05</title>
     <link href="http://www.secret114.com/2020/02/18/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task05/"/>
     <id>http://www.secret114.com/2020/02/18/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task05/</id>
     <published>2020-02-18T10:12:15.000Z</published>
-    <updated>2020-02-18T10:16:43.334Z</updated>
+    <updated>2020-02-19T05:06:49.337Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>任务05：卷积神经网络基础；leNet；卷积神经网络进阶（1天）</p></blockquote><h2 id="卷积神经网络基础"><a href="#卷积神经网络基础" class="headerlink" title="卷积神经网络基础"></a>卷积神经网络基础</h2>]]></content>
     
     <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;任务05：卷积神经网络基础；leNet；卷积神经网络进阶（1天）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;卷积神经网络基础&quot;&gt;&lt;a href=&quot;#卷积神经网络基础&quot; class=&quot;headerlink&quot; title=&quot;卷积神经网络基础&quot;
+      
     
     </summary>
     
@@ -463,28 +504,6 @@
       
         &lt;p&gt;读研接近一年以来，自己逐渐需要开始写论文，并往人工智能NLP相关领域内进行深入挖掘，只是之前各方面原因，未能有效地监督自己好好读论文并形成自己的体系，所以现在想趁着写论文的这段时间内做个笔记，算作是边学边做吧。&lt;/p&gt;
 &lt;p&gt;对于经验之谈，现在的我还处于菜鸟阶段，没有深入了
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>论文的粗略想法</title>
-    <link href="http://www.secret114.com/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/"/>
-    <id>http://www.secret114.com/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/</id>
-    <published>2019-04-17T11:46:39.000Z</published>
-    <updated>2019-06-06T00:08:20.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h1><p>语言模型预训练在许多自然语言处理任务上表现得十分有效。这些任务包括句子水平任务类似于自然语言参考和模式匹配。</p><p>我们引入BERT和他的细节实施内容。</p><p>首先语言模型采用了Transformer Decoder的方法来进行训练，采用文本预测作为语言模型训练任务，训练完毕之后，加一层Linear Project来完成分类/相似度计算等NLP任务。因此总结来说，LM + Fine-Tuning的方法工作包括两步：</p><ol><li>构造语言模型，采用大的语料A来训练语言模型</li><li>在语言模型基础上增加少量神经网络层来完成specific task例如序列标注、分类等，然后采用有标记的语料B来有监督地训练模型，这个过程中语言模型的参数并不固定，依然是trainable variables.</li></ol><p>BERT论文采用了LM + fine-tuning的方法，同时也讨论了BERT + task-specific model的方法。</p><h1 id="2-attention机制"><a href="#2-attention机制" class="headerlink" title="2 attention机制"></a>2 attention机制</h1><p>为了解决这一由长序列到定长向量转化而造成的信息损失的瓶颈，Attention注意力机制被引入了</p><p>Attention机制跟人类翻译文章时候的思路有些类似，即将注意力关注于我们翻译部分对应的上下文。同样的，Attention模型中，当我们翻译当前词语时，我们会寻找源语句中相对应的几个词语，并结合之前的已经翻译的部分作出相应的翻译，如下图所示，当我们翻译“knowledge”时，只需将注意力放在源句中“知识”的部分，当翻译“power”时，只需将注意力集中在”力量“。这样，当我们decoder预测目标翻译的时候就可以看到encoder的所有信息，而不仅局限于原来模型中定长的隐藏向量，并且不会丧失长程的信息。</p><p>首先假设……【原文一段更新】</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;1-Introduction&quot;&gt;&lt;a href=&quot;#1-Introduction&quot; class=&quot;headerlink&quot; title=&quot;1 Introduction&quot;&gt;&lt;/a&gt;1 Introduction&lt;/h1&gt;&lt;p&gt;语言模型预训练在许多自然语言处理任务上表现得
       
     
     </summary>

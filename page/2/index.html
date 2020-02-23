@@ -360,6 +360,32 @@ height:100vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/05/Pandas-API-DataFrame-%E7%94%A8%E6%B3%95/" >
+            
+                <span>Pandas-API-DataFrame-用法</span>
+        </a>
+        <div class="abstract-content">
+            title: ‘[Pandas API]DataFrame()用法’date: 2019-07-02 11:58:14tags: [api]
+API地址：https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
+描述DataFrame是Python中Pandas库中的一种数据结构，它类似于Excel，是一种二维表。DataFrame可以存放多类型数据，例如数值、字符串等。
+语法1pd.DataFrame([data,index,columns,dtype,copy]) # pandas...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/05</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/07/13/Anaconda%E4%B8%8B%E9%85%8D%E7%BD%AE%E5%A4%9A%E7%89%88%E6%9C%AC%E7%8E%AF%E5%A2%83/" >
             
                 <span>Anaconda下配置多版本环境</span>
@@ -638,34 +664,6 @@ chars: 移除字符串头尾指定的字符序列
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/09</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/04/17/%E8%AE%BA%E6%96%87%E7%9A%84%E7%B2%97%E7%95%A5%E6%83%B3%E6%B3%95/" >
-            
-                <span>论文的粗略想法</span>
-        </a>
-        <div class="abstract-content">
-            1 Introduction语言模型预训练在许多自然语言处理任务上表现得十分有效。这些任务包括句子水平任务类似于自然语言参考和模式匹配。
-我们引入BERT和他的细节实施内容。
-首先语言模型采用了Transformer Decoder的方法来进行训练，采用文本预测作为语言模型训练任务，训练完毕之后，加一层Linear Project来完成分类/相似度计算等NLP任务。因此总结来说，LM + Fine-Tuning的方法工作包括两步：
-
-构造语言模型，采用大的语料A来训练语言模型
-在语言模型基础上增加少量神经网络层来完成specific task例如序列标注、分类等，然后采用有标记的语料B来...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/17</span>
             </div>
             <!-- tags  -->
             
@@ -2140,9 +2138,18 @@ chars: 移除字符串头尾指定的字符序列
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 84
+        Total : 85
         </div>
         <!-- search  -->
         
@@ -2155,6 +2162,11 @@ chars: 移除字符串头尾指定的字符序列
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2020/02/23/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task06/" >动手学深度学习-Task06</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2707,7 +2719,24 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
 </html>
 
 

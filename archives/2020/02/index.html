@@ -347,12 +347,65 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/02/23/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task06/" >
+            
+                <span>动手学深度学习-Task06</span>
+        </a>
+        <div class="abstract-content">
+            
+任务06：批量归一化和残差网络；凸优化；梯度下降（1天）
+
+批量归一化和残差网络批量归一化
+浅层模型
+处理后的任意一个特征在数据集中所有样本上的均值为0、标准差为1
+标准化处理输入数据使各个特征的分布相近
+
+
+深层模型
+利用小批量上的均值和标准差，不断调整神经网络中间输出，从而使整个神经网络在各层的中间输出的数值更稳定
+
+
+
+1.对全连接层做批量归一化位置：全连接层中的仿射变换和激活函数之间。全连接：  
+
+\boldsymbol{x} = \boldsymbol{W\boldsymbol{u} + \boldsymbol{b}} \\
+ output =\phi(\boldsymbo...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/02/23</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Pytorch">Pytorch</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "DataWhale">DataWhale</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Deep Learning">Deep Learning</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/02/18/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task05/" >
             
                 <span>动手学深度学习-Task05</span>
         </a>
         <div class="abstract-content">
             
+任务05：卷积神经网络基础；leNet；卷积神经网络进阶（1天）
+
+卷积神经网络基础
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1971,9 +2024,18 @@ encoder：输入到隐藏状态
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 84
+        Total : 85
         </div>
         <!-- search  -->
         
@@ -1986,6 +2048,11 @@ encoder：输入到隐藏状态
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2020/02/23/%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-Task06/" >动手学深度学习-Task06</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2538,7 +2605,24 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
 </html>
 
 
