@@ -347,6 +347,74 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/04/13/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F-%E4%B8%8A-3-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" >
+            
+                <span>[数据库系统(上)]3 关系模型之基本概念</span>
+        </a>
+        <div class="abstract-content">
+            本讲学习什么？基本内容
+关系模型概述
+什么是关系
+关系模型中的完整性约束
+
+重点与难点
+概念的区分（域、笛卡尔积、关系、关系模式、关键字/键/码、外码/外键、主码/主键、主属性与非主属性）
+三个完整性：实体完整性、参照完整性、用户自定义完整性
+
+关系模型简述关系模型的提出
+E.F.Codd在1970年提出“A Relational Model of Data for Shared Data Banks”
+是从表(Table)及表的处理方式中抽象出来的，是在引入集合理论与逻辑学理论的基础上提出的。
+是数据库三大经典数据模型之一
+标准的数据库语言（SQL语言）是建立在关系模型基础上的
+
+关系...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/13</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/04/13/Linux-Ubuntu%E9%95%BF%E6%9C%9F%E6%B1%87%E6%80%BB%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" >
+            
+                <span>[Linux]Ubuntu长期汇总问题及解决方案</span>
+        </a>
+        <div class="abstract-content">
+            2018.4.13“Could not apply the stored configuration for monitors”
+主要是由于VMware屏幕尺寸改变，导致与之前保存的显示器设置不一致，所以会被报错。解决办法就是将显示器设置文件删除，并重启电脑即可。
+1sudo rm -f ~&#x2F;.config&#x2F;monitors.xml
+PS:其实也可以不管的，毕竟虚拟机里……
+
+参考博文：https://blog.csdn.net/elloop/article/details/21738541
+
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/13</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/04/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84%E6%8A%BD%E8%B1%A1%E4%B8%8E%E6%BC%94%E5%8F%98/" >
             
                 <span>数据库系统的结构抽象与演变</span>
@@ -563,59 +631,6 @@ Situat...
         <div class="abstract-content">
             题目标记：⭐题目描述一个数恰好等于其因子之和，称为完数，例如6=1+2+3。找出1000以内所有完数。
 代码123456789101112#include &lt;stdio.h&gt;int main()&#123;    int i,j,sum;    for(i&#x3D;2;i&lt;1000;i++)&#123;    &#x2F;&#x2F;从2开始，1000以内循环        sum&#x3D;0;        for(j&#x3D;1;j&lt;i;j++)    &#x2F;&#x2F;循环找因子，并相加            if(i%j&#x3D;&#x3D;...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/09/08</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9403%E6%B0%B4%E4%BB%99%E8%8A%B1%E6%95%B0/" >
-            
-                <span>[考研]东大C语言编程题——03水仙花数</span>
-        </a>
-        <div class="abstract-content">
-            题目标记：⭐题目描述求水仙花数（三位数，满足153=1^3+5^3+3^3）。
-参考样例153=1^3+5^3+3^3
-代码12345678910111213141516171819#include &lt;stdio.h&gt;#include &lt;math.h&gt;int main()&#123;    int i,a,b,c,num&#x3D;0;    for(i&#x3D;100; i&lt;&#x3D;999; i++)    &#123;        a&#x3D;i%10;          &#x2F;&#x2F;取个位        b&#x3D;i%100&...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/09/08</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/09/08/%E8%80%83%E7%A0%94-%E4%B8%9C%E5%A4%A7C%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E9%A2%98%E2%80%94%E2%80%9402%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/" >
-            
-                <span>[考研]东大C语言编程题——02最大公约数和最小公倍数</span>
-        </a>
-        <div class="abstract-content">
-            题目标记：无题目描述输入m、n，求其最大公约数和最小公倍数。
-解题思路最常见的是碾转相除法，利用大数除以小数得到余数，当余数为零时，则被除数则为最大公约数。两数乘积除以最大公约数即为最小公倍数。形象的说法如下：
-
-设两整数a,b：① a%b=c；② 判断c==0?b为最大公约数:{a=b;b=c;}以上两步循环，最终得到最大公约数m其最小公倍数：a*b/m
-
-代码123456789101112131415161718#include &lt;stdio.h&gt;int main()&#123;    int m,n,p,temp;    scanf(&quot;%d%d&quot;,&...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -2029,9 +2044,39 @@ Situat...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 85
+        Total : 87
         </div>
         <!-- search  -->
         
@@ -2044,6 +2089,16 @@ Situat...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2020/03/21/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98-Task01/" >零基础入门数据挖掘-Task01</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2020/03/13/Leetcode-169-%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" >[Leetcode]169.多数元素</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2526,6 +2581,8 @@ Situat...
         <span class="sidebar-tag-name" data-tags="DataWhale"><span class="iconfont-archer">&#xe606;</span>DataWhale</span>
     
         <span class="sidebar-tag-name" data-tags="Deep Learning"><span class="iconfont-archer">&#xe606;</span>Deep Learning</span>
+    
+        <span class="sidebar-tag-name" data-tags="DM"><span class="iconfont-archer">&#xe606;</span>DM</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
