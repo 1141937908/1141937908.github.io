@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.secret114.com/"/>
-  <updated>2020-03-21T13:11:19.409Z</updated>
+  <updated>2020-05-15T14:03:04.724Z</updated>
   <id>http://www.secret114.com/</id>
   
   <author>
@@ -15,6 +15,132 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Keepass简易教程</title>
+    <link href="http://www.secret114.com/2020/05/15/Keepass%E7%AE%80%E6%98%93%E6%95%99%E7%A8%8B/"/>
+    <id>http://www.secret114.com/2020/05/15/Keepass%E7%AE%80%E6%98%93%E6%95%99%E7%A8%8B/</id>
+    <published>2020-05-15T13:14:24.000Z</published>
+    <updated>2020-05-15T14:03:04.724Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="为什么要使用密码管理器？"><a href="#为什么要使用密码管理器？" class="headerlink" title="为什么要使用密码管理器？"></a>为什么要使用密码管理器？</h2><p>现在，随着我接触到的媒体和平台越来越多，所需要记录的平台账号也随之增长，往往有时候用邮箱注册了一个账号，结果下次登陆忘记用哪种方式注册的，选择了手机号，结果平台又给我注册了一个新账号。</p><p>印象最深的一次是19年左右，我登陆京东时使用163邮箱登陆，结果进去发现是一个很早之前绑定的账号，想把手机号绑定到这个号上时发现手机也存在一个账号！而且我还不记得密码！不过还好，手机可以接收验证码，顺利登进去发现绑定的邮箱是另一个……最后我联系的客服帮我统一了最后的账号，但是由于当时账号ID是随机生成的，现在没法改了，于是每次登陆只能记得用邮箱登陆，很是麻烦。</p><p>可能现在各个系统都注意了这个密码管理的情况，例如Chrome、IOS、Microsoft账户和Firefox基本都内置了一个简单的密码管理，但是问题是它们互相不支持，每次我在Chrome里保存的账户密码，到了iPhone上就没法同步过去，时间长了我就忘记了。于是，我搜索了下有关密码管理器的软件，发现1Password、Keepass等几个软件管理器。考虑到安全性和多平台性，最后选择了Keepass。</p><blockquote><p>1Password算是最出名的密码管理器，我也在iPhone上也体验过，感觉确实不错，但是问题是出了1Password就不行了，而且1Password是采用订阅制，各类密码是1Password保管着，一旦一直使用下去，无法去换别的密码管理软件，那这将作为一种习惯性消费方式，对于用户来说是灾难的（1Password打的一手好算盘）。所以我选择了开源的Keepass。</p></blockquote><h2 id="Keepass有什么优缺点？"><a href="#Keepass有什么优缺点？" class="headerlink" title="Keepass有什么优缺点？"></a>Keepass有什么优缺点？</h2><p>我认为Keepass最大的优势有两点：</p><ol><li>本地保存密码，更具安全性</li><li>跨平台、开源，能在各类平台里使用</li></ol><p>有别于1Password，Keepass密码都是保存在本地的（不需要服务器存储），这种方式还是蛮安全的；另外，它在各大平台上都有相应的App，方便使用。</p><p>Keepass最大的缺点我觉得也有两个：</p><ol><li>UI太丑，操作逻辑略显繁琐</li><li>没有很好的中文教程，需要啃英文文章</li></ol><p>Keepass最大特点是自由度较高，能对一个账号信息的方方面面记录上，比如这个网站的登陆网址，备注信息，甚至是网站的图标都可以在Keepass中定制。这就造成了小白（例如我）使用Keepass时就显得有点笨拙，不知道从何下手，最开始只能记录个账号、密码，别的看情况填写，写完了之后不知道该怎么去查找。账号密码少的时候还行，万一多了之后就不好区分了。</p><p>另外，Keepass最大硬伤是中文文章少，有的基本都是从官网扒的内容（但官网教程也算是最全的了），很多时候遇到问题找不到对应解决办法，让我一度卸载了这个软件。但是卸载完又头疼起记密码，唉……</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;为什么要使用密码管理器？&quot;&gt;&lt;a href=&quot;#为什么要使用密码管理器？&quot; class=&quot;headerlink&quot; title=&quot;为什么要使用密码管理器？&quot;&gt;&lt;/a&gt;为什么要使用密码管理器？&lt;/h2&gt;&lt;p&gt;现在，随着我接触到的媒体和平台越来越多，所需要记录的平台账号
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Keepass" scheme="http://www.secret114.com/tags/Keepass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Leetcode]102. 二叉树的层序遍历</title>
+    <link href="http://www.secret114.com/2020/05/13/Leetcode-102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
+    <id>http://www.secret114.com/2020/05/13/Leetcode-102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/</id>
+    <published>2020-05-13T03:12:06.000Z</published>
+    <updated>2020-05-13T03:12:06.139Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Dropbox+Keepass同步账户密码</title>
+    <link href="http://www.secret114.com/2020/04/14/Dropbox-Keepass%E5%90%8C%E6%AD%A5%E8%B4%A6%E6%88%B7%E5%AF%86%E7%A0%81/"/>
+    <id>http://www.secret114.com/2020/04/14/Dropbox-Keepass%E5%90%8C%E6%AD%A5%E8%B4%A6%E6%88%B7%E5%AF%86%E7%A0%81/</id>
+    <published>2020-04-14T14:51:13.000Z</published>
+    <updated>2020-04-14T16:09:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>现在越发有点懒了，科技使人进步，也使人懒惰……</p><p><a href="https://www.appinn.com/how-to-use-dropbox-as-the-ultimate-password-syncer/" target="_blank" rel="noopener">https://www.appinn.com/how-to-use-dropbox-as-the-ultimate-password-syncer/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;现在越发有点懒了，科技使人进步，也使人懒惰……&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.appinn.com/how-to-use-dropbox-as-the-ultimate-password-syncer/&quot; target=&quot;_blank&quot; rel=&quot;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="keepass" scheme="http://www.secret114.com/tags/keepass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Leetcode]72.编辑距离</title>
+    <link href="http://www.secret114.com/2020/04/06/Leetcode-72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/"/>
+    <id>http://www.secret114.com/2020/04/06/Leetcode-72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/</id>
+    <published>2020-04-06T10:35:57.000Z</published>
+    <updated>2020-04-07T02:31:38.473Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>链接：<a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/edit-distance/</a></p></blockquote><p>遇到动态规划的题目总是不太会，希望能多做动态规划的题目，这样能归纳这类的题目并彻底理解动态规划的本质原理。</p><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><blockquote><p>这道题本质也是属于DP问题，官方推荐的方法是<strong>编辑距离算法</strong>，是用作<em>机器翻译</em>和<em>语音识别</em>评价标准的基本算法。</p></blockquote><p>最直观的方法是暴力检查所有可能的编辑方法，取最短的一个。所有可能的编辑方法达到指数级，但我们不需要进行这么多计算，因为我们只需要找到距离最短的序列而不是所有可能的序列。</p><h3 id="方法一：编辑距离算法（动态规划）"><a href="#方法一：编辑距离算法（动态规划）" class="headerlink" title="方法一：编辑距离算法（动态规划）"></a>方法一：编辑距离算法（动态规划）</h3><iframe src="https://pic.leetcode-cn.com/789c8780345198976ed5d00dc9ae6dc4d7081825d596c14a720b3e0d875a95cd-%E5%B9%BB%E7%81%AF%E7%89%871.PNG" height="400px" width="90%" align="center"></iframe>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;链接：&lt;a href=&quot;https://leetcode-cn.com/problems/edit-distance/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://leetcode-cn.com/problems
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Leetcode" scheme="http://www.secret114.com/tags/Leetcode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Leetcode]探索2020名企高频面试题</title>
+    <link href="http://www.secret114.com/2020/03/30/Leetcode-%E6%8E%A2%E7%B4%A22020%E5%90%8D%E4%BC%81%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    <id>http://www.secret114.com/2020/03/30/Leetcode-%E6%8E%A2%E7%B4%A22020%E5%90%8D%E4%BC%81%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
+    <published>2020-03-30T12:39:55.000Z</published>
+    <updated>2020-03-30T16:15:53.576Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="最大子序和"><a href="#最大子序和" class="headerlink" title="最大子序和"></a>最大子序和</h2>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;最大子序和&quot;&gt;&lt;a href=&quot;#最大子序和&quot; class=&quot;headerlink&quot; title=&quot;最大子序和&quot;&gt;&lt;/a&gt;最大子序和&lt;/h2&gt;
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>[面试]美团笔试&amp;面试信息汇总</title>
+    <link href="http://www.secret114.com/2020/03/26/%E9%9D%A2%E8%AF%95-%E7%BE%8E%E5%9B%A2%E7%AC%94%E8%AF%95-%E9%9D%A2%E8%AF%95%E4%BF%A1%E6%81%AF%E6%B1%87%E6%80%BB/"/>
+    <id>http://www.secret114.com/2020/03/26/%E9%9D%A2%E8%AF%95-%E7%BE%8E%E5%9B%A2%E7%AC%94%E8%AF%95-%E9%9D%A2%E8%AF%95%E4%BF%A1%E6%81%AF%E6%B1%87%E6%80%BB/</id>
+    <published>2020-03-26T06:54:11.000Z</published>
+    <updated>2020-03-26T06:54:11.290Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>零基础入门数据挖掘-Task01</title>
@@ -41,21 +167,6 @@
       <category term="DataWhale" scheme="http://www.secret114.com/tags/DataWhale/"/>
     
       <category term="DM" scheme="http://www.secret114.com/tags/DM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[Leetcode]169.多数元素</title>
-    <link href="http://www.secret114.com/2020/03/13/Leetcode-169-%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/"/>
-    <id>http://www.secret114.com/2020/03/13/Leetcode-169-%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/</id>
-    <published>2020-03-13T15:40:58.000Z</published>
-    <updated>2020-03-13T16:07:33.640Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
     
   </entry>
   
@@ -393,118 +504,6 @@
     
     
       <category term="Linux" scheme="http://www.secret114.com/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>理解NLP中的卷积神经网络(CNN)</title>
-    <link href="http://www.secret114.com/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/"/>
-    <id>http://www.secret114.com/2019/07/04/%E7%90%86%E8%A7%A3NLP%E4%B8%AD%E7%9A%84%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-CNN/</id>
-    <published>2019-07-04T10:02:25.000Z</published>
-    <updated>2019-07-04T10:02:25.000Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>[TensorFlow API]tf.placeholder()用法</title>
-    <link href="http://www.secret114.com/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/"/>
-    <id>http://www.secret114.com/2019/07/04/TensorFlow-API-tf-placeholder-%E7%94%A8%E6%B3%95/</id>
-    <published>2019-07-04T03:02:43.000Z</published>
-    <updated>2019-07-04T03:25:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>API地址：</p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p> TensorFlow的设计理念称之为计算流图，在编写程序时，首先构筑整个系统的graph，代码并不会直接生效，这一点和python的其他数值计算库（如Numpy等）不同，graph为静态的，类似于docker中的镜像。然后，在实际的运行时，启动一个session，程序才会真正的运行。这样做的好处就是：避免反复地切换底层程序实际运行的上下文，TensorFlow帮你优化整个系统的代码。我们知道，很多python程序的底层为C语言或者其他语言，执行一行脚本，就要切换一次，是有成本的，TensorFlow通过计算流图的方式，帮你优化整个session需要执行的代码，还是很有优势的。</p><p>所以<code>placeholder()</code>函数是在神经网络构建graph的时候在模型中的占位，此时并没有把要输入的数据传入模型，它只会分配必要的内存。等建立session，在会话中，运行模型的时候通过<code>feed_dict()</code>函数向占位符喂入数据。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tf.placeholder(</span><br><span class="line">    dtype,</span><br><span class="line">    shape=<span class="literal">None</span>,</span><br><span class="line">    name=<span class="literal">None</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure><ul><li><p>dtype: 数据类型，常用的是<code>float32</code>,<code>int64</code>等数值类型。</p></li><li><p>shape: 数据形状【默认None】</p></li><li><p>name：名字</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;API地址：&lt;/p&gt;
-&lt;h1 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;headerlink&quot; title=&quot;描述&quot;&gt;&lt;/a&gt;描述&lt;/h1&gt;&lt;p&gt; TensorFlow的设计理念称之为计算流图，在编写程序时，首先构筑整个系统的graph，代码并不会直接生效，
-      
-    
-    </summary>
-    
-    
-    
-      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[gensim API]word2vec用法</title>
-    <link href="http://www.secret114.com/2019/07/02/gensim-API-word2vec%E7%94%A8%E6%B3%95/"/>
-    <id>http://www.secret114.com/2019/07/02/gensim-API-word2vec%E7%94%A8%E6%B3%95/</id>
-    <published>2019-07-02T08:01:56.000Z</published>
-    <updated>2019-07-02T09:11:08.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>API地址：<a href="https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec" target="_blank" rel="noopener">https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec</a></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>gensim是用于NLP的Python包，它封装了好多有用的模型。其中<code>gensim.models</code>中最常用的就是封装了C版本的word2vec。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">gensim</span>.<span class="title">models</span>.<span class="title">word2vec</span>.<span class="title">Word2Vec</span><span class="params">(sentences=None, corpus_file=None, size=<span class="number">100</span>, alpha=<span class="number">0.025</span>, window=<span class="number">5</span>, min_count=<span class="number">5</span>, max_vocab_size=None, sample=<span class="number">0.001</span>, seed=<span class="number">1</span>, workers=<span class="number">3</span>, min_alpha=<span class="number">0.0001</span>, sg=<span class="number">0</span>, hs=<span class="number">0</span>, negative=<span class="number">5</span>, ns_exponent=<span class="number">0.75</span>, cbow_mean=<span class="number">1</span>, hashfxn=&lt;built-in function hash&gt;, iter=<span class="number">5</span>, null_word=<span class="number">0</span>, trim_rule=None, sorted_vocab=<span class="number">1</span>, batch_words=<span class="number">10000</span>, compute_loss=False, callbacks=<span class="params">()</span>, max_final_vocab=None)</span></span></span><br></pre></td></tr></table></figure><p>emm……参数有点多，这边做简单介绍：</p><ul><li>sentences: 需要分析的语料了，可以是一个列表，或者从文件中遍历读出（<code>word2vec.LineSentence(filename)</code>）</li><li>size: 词向量维度【默认100】</li><li>window: 词向量上下文最大距离，对于一般语料推荐[5;10]之间</li><li>sg: word2vec模型的选择，0为CBOW模型；1为Skip-Gram模型【默认0，CBOW模型】</li><li>hs: word2vec解法的选择，0为Negative Sampling；1为Hierarchical Softmax【默认0，Negative Sampling】</li><li>cbow_mean: 仅用作CBOW在做投影的时候，为0</li><li>min_count: 需要计算词向量的最小词频</li><li>iter: 随机梯度下降法中迭代的最大次数【默认5】</li><li>alpha: 随机梯度下降法中迭代的初始步长【默认0.025】</li><li>min_alpha: 在迭代过程中逐渐减小步长</li></ul><p><strong>训练好的词向量将会存储在<code>model.wv</code>的KeyedVectors实例中。</strong></p><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>参考：<a href="https://www.cnblogs.com/jiangxinyang/p/10207273.html" target="_blank" rel="noopener">https://www.cnblogs.com/jiangxinyang/p/10207273.html</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;API地址：&lt;a href=&quot;https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https
-      
-    
-    </summary>
-    
-    
-    
-      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[Pandas API]replace()用法</title>
-    <link href="http://www.secret114.com/2019/07/02/Pandas-API-replace-%E7%94%A8%E6%B3%95/"/>
-    <id>http://www.secret114.com/2019/07/02/Pandas-API-replace-%E7%94%A8%E6%B3%95/</id>
-    <published>2019-07-02T07:37:12.000Z</published>
-    <updated>2019-07-02T07:46:20.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>API地址：<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html?highlight=replace#pandas.DataFrame.replace" target="_blank" rel="noopener">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html?highlight=replace#pandas.DataFrame.replace</a></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p><code>replace()</code>函数是Pandas库中用来批量替换数据的函数。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataFrame.repalce(to_replace=<span class="literal">None</span>,value=<span class="literal">None</span>,inplace=<span class="literal">False</span>,limit=<span class="literal">None</span>,regex=<span class="literal">False</span>,method=<span class="string">'pad'</span>)</span><br></pre></td></tr></table></figure><ul><li>to_replace: 将要被替换的值，主要分为三类<ul><li>numeric, str, regex: 等于或匹配的值将会被替换</li><li>str, regex, numeric列表：替换的列表长度必须相同</li><li>字典</li></ul></li><li>value: 要替换的值</li><li>inplace: 若为True则就地修改</li><li>limit: 向前或向后填充的数量</li><li>regex: 正则表达式，与前面的to_replace连用</li><li>method: {‘pad’, ‘ffill’,’bfill’, None}，用前面或后面的值来替换</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;API地址：&lt;a href=&quot;https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html?highlight=replace#pandas.DataFram
-      
-    
-    </summary>
-    
-    
-    
-      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[Python API]split()用法</title>
-    <link href="http://www.secret114.com/2019/07/02/Python-API-split-%E7%94%A8%E6%B3%95/"/>
-    <id>http://www.secret114.com/2019/07/02/Python-API-split-%E7%94%A8%E6%B3%95/</id>
-    <published>2019-07-02T03:27:30.000Z</published>
-    <updated>2019-07-02T04:01:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>API地址：<a href="https://docs.python.org/3/library/stdtypes.html?highlight=split#str.split" target="_blank" rel="noopener">https://docs.python.org/3/library/stdtypes.html?highlight=split#str.split</a></p><p><img src="http://wx2.sinaimg.cn/mw690/83f4f5acly1g4lc2isn1vj20s60n2juv.jpg" alt="split()函数官方描述"></p><h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>通过指定分隔符对字符串进行切片，如果参数<code>num</code>有指定值，则分隔<code>num+1</code>个子字符串</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str.split(sep=<span class="literal">None</span>, maxsplit=<span class="number">-1</span>)</span><br></pre></td></tr></table></figure><ul><li>sep: 分隔符，默认为所有的空字符，包括空格、换行(<code>\n</code>)、制表符(<code>\t</code>)等。</li><li>maxsplit: 分割次数。默认为<code>-1</code>, 即分隔所有。</li></ul><h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; str = <span class="string">"a,b,c"</span></span><br><span class="line">&gt;&gt;&gt; str.split()     <span class="comment"># 默认分割所有空字符</span></span><br><span class="line">[<span class="string">'a,b,c'</span>]</span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>)  <span class="comment"># 也可以指定</span></span><br><span class="line">[<span class="string">'a,b,c'</span>]</span><br><span class="line">&gt;&gt;&gt; str = <span class="string">"www.baidu.com"</span></span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>)</span><br><span class="line">[<span class="string">'www'</span>, <span class="string">'baidu'</span>, <span class="string">'com'</span>]</span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>,1) <span class="comment"># 可以指定最大分割次数</span></span><br><span class="line">[<span class="string">'www'</span>, <span class="string">'baidu.com'</span>]</span><br><span class="line">&gt;&gt;&gt; str.split(<span class="string">'.'</span>,maxsplit=1) <span class="comment"># 参数名maxsplit可以忽略也可以写上</span></span><br><span class="line">[<span class="string">'www'</span>, <span class="string">'baidu.com'</span>]</span><br></pre></td></tr></table></figure><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p><code>split()</code>函数常与<code>strip()</code>连用，用于分割字符串，具体用法请参照<a href="https://1141937908.github.io/2019/07/02/Python-API-strip-%E7%94%A8%E6%B3%95/" target="_blank" rel="noopener">strip()用法</a>。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;API地址：&lt;a href=&quot;https://docs.python.org/3/library/stdtypes.html?highlight=split#str.split&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://docs.pyt
-      
-    
-    </summary>
-    
-    
-    
-      <category term="api" scheme="http://www.secret114.com/tags/api/"/>
     
   </entry>
   

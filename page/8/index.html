@@ -360,6 +360,159 @@ height:100vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2017/02/07/%E5%85%B3%E4%BA%8EGit%E8%AE%BE%E7%BD%AEssh-key%E7%9A%84%E6%AD%A5%E9%AA%A4/" >
+            
+                <span>关于Git设置ssh key的步骤</span>
+        </a>
+        <div class="abstract-content">
+            一共就三句话，老是忘记最后一句……没办法，只能自己记录下了。
+
+如果是Windows平台的话，注意要把C:\Program Files\Git\usr\bin加到PATH变量中，不然ssh-keygen命令会报错
+
+设置ssh信息12$ git config --global user.name &quot;[username]&quot;$ git config --global user.email &quot;[useremail]&quot;
+
+生成ssh密钥
+检查~/.ssh是否存在，存在表明已经生成密钥了，如果需要重新生成，那么删了文件目录即可
+生成ssh密钥1$ ssh-k...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/07</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/01/22/5%E3%80%81Javascript%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89-JS%E8%AF%AD%E6%B3%95%E3%80%81%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E3%80%81BOM%E6%A8%A1%E5%9E%8B%E3%80%81DOM%E6%A8%A1%E5%9E%8B%E3%80%81%E4%BA%8B%E4%BB%B6%E7%BC%96%E7%A8%8B/" >
+            
+                <span>5、Javascript（重点） JS语法、内置对象、BOM模型、DOM模型、事件编程</span>
+        </a>
+        <div class="abstract-content">
+            基本语法主要了解语法、语句块、注释，基本内容同C 没有太大分别，所以这部分略去不讲。
+数据类型和变量所有语言基本都一样，只是表述方面不太一样而已，Javascript 这里只分为Number、字符串、布尔值、比较运算符、null和undefined几类，这里的Number则包括了一切数字类型，比如整型和浮点型。
+
+现代语言都在渐渐弱化数字类型，并不需要过多去考虑数字具体的类型。
+
+另外，除了以上几种，常见的概念还有数组、对象和变量。由于上面的几种类型较为简单，所以这里重点讲数组、对象和变量。
+数组数组是一组按顺序排列的集合，集合的每个值称为元素。JavaScript 的数组可以包括任意数...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/22</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/01/12/ThinkPHP-ThinkPHP-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" >
+            
+                <span>[ThinkPHP]ThinkPHP 学习笔记（一）</span>
+        </a>
+        <div class="abstract-content">
+            下载从官网下载即可，下载地址：http://www.thinkphp.cn/down.html最新版为5.0，但是目前由于网上对其的教程不多，基本只能靠官方文档摸索，所以暂时不考虑这个版本（不过可以用这个版本做些试验，毕竟是最新的思想，跟3有很大不同）。
+我所使用的是Thinkphp 3.2.3 完整版。
+
+了解关于软件版本
+
+Alpha 版本：内测版本，用于内部测试
+Beta 版本：公测版本，面向用户测试
+RC 版本：候选版本，基本趋于稳定
+R 版本：发行版本
+
+
+目录结构WEB目录结构123456www WEB部署目录（或者子目录）├─index.php 入口文件├─README.m...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/12</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/01/11/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-%E4%BD%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E4%BA%9BVagrant%E5%91%BD%E4%BB%A4/" >
+            
+                <span>[毕设项目]你所需要知道的一些Vagrant命令</span>
+        </a>
+        <div class="abstract-content">
+            之前已经写过一篇关于安装及配置 Homestead 的文章了（[毕设项目]Windows上Laravel Homestead的安装与配置），里面涉及到一些关于 Vagrant 的操作，在这里我汇总下。
+添加 Box1vagrant box add xxx
+这是最简单的操作，如果xxx不存在，那么 Vagrant 会搜索网络库帮你下载到，只是由于国内GFW的问题，不架个梯子翻墙的话基本没可能成功完成下载，因为 Vagrant 下载不支持断点续传……所以如果下在线资源，一般都用迅雷等作为转接下载，这部分参照上面我提到的那篇文章。
+另外，如果要用本地下载好的离线盒子，那么执行
+1vagrant...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/01/11/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE-Windows%E4%B8%8ALaravel-Homestead%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" >
+            
+                <span>[毕设项目]Windows上Laravel Homestead的安装与配置</span>
+        </a>
+        <div class="abstract-content">
+            参考资料由于目前我也处于学习阶段，暂时对这方面的理解也不太深，有些地方也不是很了解，所以只能记录以上内容，如果有新内容我会及时更新和修改，更多内容见下参考：
+
+Homestead(Windows)安装
+在 Windows 上进行 Laravel Homestead 安装、配置及测试
+Laravel 的 Homestead 开发环境部署
+手把手教你Homestead安装，并填坑！！
+Laravel 的 Homestead 开发环境部署
+路径（七）：用 Vagrant 管理虚拟机
+
+1、准备需要下载 VirtualBox 和 Vagrant ，直接上官网下载即可。安装完后可能需要将 Vagr...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/01/11</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2017/01/09/1%E3%80%81HTML%EF%BC%88%E6%8E%8C%E6%8F%A1%EF%BC%89web%E7%AE%80%E4%BB%8B%E3%80%81HTML%E6%A0%87%E7%AD%BE%E8%AF%A6%E8%A7%A3/" >
             
                 <span>1、HTML（掌握）web简介、HTML标签详解</span>
@@ -493,140 +646,10 @@ s...
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/12/PAT%E7%94%B2%E7%BA%A7-1008-Elevator-20-%E9%A2%98%E8%A7%A3/" >
-            
-                <span>[PAT甲级]1008. Elevator (20)题解</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a href="https://www.patest.cn/contests/pat-a-practise/1008" target="_blank" rel="noopener">https://www.patest.cn/contests/pat-a-practise/1008</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/12</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/11/PAT%E7%94%B2%E7%BA%A7-1006-Sign-In-and-Sign-Out-25-%E9%A2%98%E8%A7%A3/" >
-            
-                <span>[PAT甲级]1006. Sign In and Sign Out (25)题解</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a href="https://www.patest.cn/contests/pat-a-practise/1006" target="_blank" rel="noopener">https://www.patest.cn/contests/pat-a-practise/1006</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/11/PAT%E7%94%B2%E7%BA%A7-1005-Spell-It-Right-20-%E9%A2%98%E8%A7%A3/" >
-            
-                <span>[PAT甲级]1005. Spell It Right (20)题解</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a href="https://www.patest.cn/contests/pat-a-practise/1005" target="_blank" rel="noopener">https://www.patest.cn/contests/pat-a-practise/1005</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/09/PAT%E7%94%B2%E7%BA%A7-1001-A-B-Format-20-%E9%A2%98%E8%A7%A3/" >
-            
-                <span>[PAT甲级]1001. A+B Format (20)题解</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a href="https://www.patest.cn/contests/pat-a-practise/1001" target="_blank" rel="noopener">https://www.patest.cn/contests/pat-a-practise/1001</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/09</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2016/07/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%AB%98%E5%88%86%E7%AC%94%E8%AE%B0-%E7%AC%AC2%E7%AB%A0-%E7%BA%BF%E6%80%A7%E8%A1%A8/" >
-            
-                <span>[数据结构高分笔记]第2章 线性表</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="大纲要求"><a href="#大纲要求" class="headerlink" title="大纲要求"></a>大纲要求</h2><ul>
-<li>线性表的定义和基本操作</li>
-<li>线性表的实现<ul>
-<li>顺序存储结构</li>
-<li>链式存储结构</li>
-<li>线性表的应用</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>本章大纲要求过于简略，有些知识大纲没有明文写出，但是 掌握了这些知识点对本章以及其他章中很多知识点的理解都有帮助，因此本章会添加一些必要的知识点，以便更好地理解，虽然大纲中没有设计这些知识。</p>
-</blockquote>
-<h2 id="核心考点"><a href="#核心考点" class="headerlink" title="核心考点"></a>核心考点</h2><ul>
-<li>线性表的定义和基本操作（★★）</li>
-<li>线性表的存储结构（★★★）</li>
-<li>线性表的应用（★）
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2016/07/06</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/7/">&amp;#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">NEXT &amp;#62;</a>
+        <a class="extend prev" rel="prev" href="/page/7/">&amp;#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/">NEXT &amp;#62;</a>
     </nav>
     
 </main>
@@ -2130,9 +2153,92 @@ s...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 87
+        Total : 92
         </div>
         <!-- search  -->
         
@@ -2148,12 +2254,37 @@ s...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2020/03/21/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98-Task01/" >零基础入门数据挖掘-Task01</a>
+            <span class="archive-post-date">05/15</span><a class="archive-post-title" href= "/2020/05/15/Keepass%E7%AE%80%E6%98%93%E6%95%99%E7%A8%8B/" >Keepass简易教程</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2020/03/13/Leetcode-169-%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" >[Leetcode]169.多数元素</a>
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2020/05/13/Leetcode-102-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/" >[Leetcode]102. 二叉树的层序遍历</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/14</span><a class="archive-post-title" href= "/2020/04/14/Dropbox-Keepass%E5%90%8C%E6%AD%A5%E8%B4%A6%E6%88%B7%E5%AF%86%E7%A0%81/" >Dropbox+Keepass同步账户密码</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2020/04/06/Leetcode-72-%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB/" >[Leetcode]72.编辑距离</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span><a class="archive-post-title" href= "/2020/03/30/Leetcode-%E6%8E%A2%E7%B4%A22020%E5%90%8D%E4%BC%81%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/" >[Leetcode]探索2020名企高频面试题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2020/03/26/%E9%9D%A2%E8%AF%95-%E7%BE%8E%E5%9B%A2%E7%AC%94%E8%AF%95-%E9%9D%A2%E8%AF%95%E4%BF%A1%E6%81%AF%E6%B1%87%E6%80%BB/" >[面试]美团笔试&面试信息汇总</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2020/03/21/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98-Task01/" >零基础入门数据挖掘-Task01</a>
         </li>
     
     
@@ -2640,6 +2771,10 @@ s...
     
         <span class="sidebar-tag-name" data-tags="DM"><span class="iconfont-archer">&#xe606;</span>DM</span>
     
+        <span class="sidebar-tag-name" data-tags="keepass"><span class="iconfont-archer">&#xe606;</span>keepass</span>
+    
+        <span class="sidebar-tag-name" data-tags="Keepass"><span class="iconfont-archer">&#xe606;</span>Keepass</span>
+    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -2714,24 +2849,7 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-</body>
+    </body>
 </html>
 
 
